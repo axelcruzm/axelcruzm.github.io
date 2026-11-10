@@ -1,0 +1,21 @@
+:root{
+  --navy:#0D233D;
+  --navy-2:#173A56;
+  --teal:#386F76;
+  --teal-soft:#7E9EB5;
+  --mist:#D7E2E8;
+  --ivory:#F3EEE5;
+  --champagne:#D5B37D;
+  --champagne-soft:#E8D3AF;
+  --gold:#B69359;
+  --ink:#091625;
+  --shadow:0 30px 90px rgba(5,18,31,.24);
+  --serif:'Cormorant Garamond', Georgia, serif;
+  --sans:'Manrope', Arial, sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;height:100%}
+body{font-family:var(--sans);background:var(--navy);color:#fff;overflow:hidden}
+img{max-width:100%;display:block}
+button{font:inherit}

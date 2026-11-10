@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+<title id="title">SIRMEF · sistema de enlace institucional</title>
+<desc id="desc">Cinco nodos de servicio articulados alrededor de un centro geométrico de representación.</desc>
+<defs><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8D3AF"/><stop offset="1" stop-color="#B69359"/></linearGradient><linearGradient id="tint" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7E9EB5"/><stop offset="1" stop-color="#0D233D"/></linearGradient></defs>
+<circle cx="300" cy="300" r="229" fill="none" stroke="#0D233D" stroke-width="2" opacity=".5"/>
+<circle cx="300" cy="300" r="179" fill="none" stroke="url(#metal)" stroke-width="4" opacity=".7"/>
+<path d="M300 93 475 194 475 403 300 505 125 403 125 194Z" fill="none" stroke="url(#tint)" stroke-width="11" stroke-linejoin="round"/>
+<path d="M300 143 425 215 425 382 300 455 175 382 175 215Z" fill="none" stroke="#386F76" stroke-width="2" opacity=".7"/>
+<g stroke="#7E9EB5" stroke-width="8" stroke-linecap="round"><path d="M300 188v81M412 241l-77 47M411 366l-75-45M300 421v-84M189 365l77-45M188 242l77 46"/></g>
+<circle cx="300" cy="302" r="59" fill="#F2EDE4" stroke="#0D233D" stroke-width="10"/>
+<path d="M300 274 325 288v29l-25 14-25-14v-29Z" fill="#0D233D"/>
+<g fill="url(#metal)" stroke="#F2EDE4" stroke-width="8"><circle cx="300" cy="188" r="19"/><circle cx="412" cy="241" r="19"/><circle cx="411" cy="366" r="19"/><circle cx="300" cy="421" r="19"/><circle cx="189" cy="365" r="19"/></g>
+<circle cx="188" cy="242" r="19" fill="#386F76" stroke="#F2EDE4" stroke-width="8"/>
+</svg>
