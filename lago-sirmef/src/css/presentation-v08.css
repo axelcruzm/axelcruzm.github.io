@@ -310,5 +310,9 @@ html[data-effects="lite"] .scene--3 .closing-depth{
 }
 /* System accessibility setting always wins over quality auto-detection. */
 @media(prefers-reduced-motion:reduce){
-  html[data-effects] .scene *{animation:none!important;transition:none!important}
+  html[data-effects] .scene *,
+  html[data-effects] .scene--1 .reveal-emblem{
+    animation:none!important;
+    transition:none!important
+  }
 }
