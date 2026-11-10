@@ -69,48 +69,66 @@
     el.full.addEventListener('click',toggleFullscreen);
   }
 
-  function setupOrbit(){
-    const shell=document.querySelector('.scene--0 .orbit-shell');
-    if(!shell)return;
-    const nodes=[...shell.querySelectorAll('.orbit-node')];
-    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-    const duration=78000;
-    const offset=-Math.PI/2;
-    const place=(time)=>{
-      const rect=shell.getBoundingClientRect();
-      const rx=Math.max(0,(rect.width-150)/2);
-      const ry=Math.max(0,(rect.height-155)/2);
-      const phase=reduced.matches?0:(time % duration)/duration*Math.PI*2;
-      nodes.forEach((node,i)=>{
-        const angle=offset+2*Math.PI*i/nodes.length+phase;
-        const x=rect.width/2+Math.cos(angle)*rx;
-        const y=rect.height/2+Math.sin(angle)*ry;
-        node.style.left=x+'px';
-        node.style.top=y+'px';
-      });
-    };
-    let last=0;
-    const animate=(time)=>{
-      if(current===0 && time-last>28){place(time);last=time;}
-      requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-    window.addEventListener('resize',()=>place(performance.now()),{passive:true});
-    const canvas=document.querySelector('.scene--0');
-    canvas?.addEventListener('pointermove',event=>{
-      if(current!==0)return;
-      nodes.forEach(node=>{
-        const r=node.getBoundingClientRect();
-        const distance=Math.hypot((r.left+r.width/2)-event.clientX,(r.top+r.height/2)-event.clientY);
-        node.classList.toggle('is-near',distance<110);
-      });
+  // Native swipes: gestures are passive and never block scrolling or pinch-to-zoom.
+  function bindTouchNavigation(){
+    const stage=document.getElementById('presentation');
+    if(!stage)return;
+    let start=null;
+    const ignore='button,a,input,textarea,select,[role="button"],.bottom-ui';
+    stage.addEventListener('touchstart',event=>{
+      start=null;
+      if(event.touches.length!==1)return;
+      if(event.target instanceof Element && event.target.closest(ignore))return;
+      const t=event.touches[0];
+      if(t.clientX<24||t.clientX>window.innerWidth-24)return; // browser back gesture
+      start={id:t.identifier,x:t.clientX,y:t.clientY,at:performance.now(),scene:current};
     },{passive:true});
+    stage.addEventListener('touchend',event=>{
+      if(!start)return;
+      const from=start;
+      start=null;
+      if(current!==from.scene)return;
+      const t=Array.from(event.changedTouches).find(x=>x.identifier===from.id);
+      if(!t)return;
+      const dx=t.clientX-from.x,dy=t.clientY-from.y;
+      const threshold=Math.max(48,Math.min(84,window.innerWidth*.13));
+      if(performance.now()-from.at>1100||Math.abs(dx)<threshold||Math.abs(dx)<Math.abs(dy)*1.3)return;
+      go(current+(dx<0?1:-1));
+    },{passive:true});
+    stage.addEventListener('touchcancel',()=>{start=null;},{passive:true});
   }
+
+  // The orbit itself is a CSS compositor animation; JS only handles occasional
+  // desktop pointer proximity. No permanent animation frame loop and no
+  // per-frame updates to top/left.
+  function setupOrbitHover(){
+    const canvas=document.querySelector('.scene--0');
+    const nodes=[...document.querySelectorAll('.scene--0 .orbit-node')];
+    if(!canvas||!nodes.length||!window.matchMedia('(pointer:fine)').matches)return;
+    let last=0;
+    const clear=()=>nodes.forEach(n=>n.classList.remove('is-near'));
+    canvas.addEventListener('pointermove',event=>{
+      if(current!==0)return;
+      const now=performance.now();
+      if(now-last<100)return;
+      last=now;
+      for(const node of nodes){
+        const rect=node.getBoundingClientRect();
+        const d=Math.hypot(rect.left+rect.width/2-event.clientX,rect.top+rect.height/2-event.clientY);
+        node.classList.toggle('is-near',d<108);
+      }
+    },{passive:true});
+    canvas.addEventListener('pointerleave',clear,{passive:true});
+  }
+  document.addEventListener('visibilitychange',()=>{
+    document.documentElement.classList.toggle('page-hidden',document.hidden);
+  });
 
   buildDots();
   bindKeys();
   bindUi();
+  bindTouchNavigation();
   const requested=Number(new URLSearchParams(location.search).get('scene'));
   go(Number.isInteger(requested) && requested>=0 && requested<scenes.length?requested:0);
-  setupOrbit();
+  setupOrbitHover();
 })();
