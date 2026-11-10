@@ -11,7 +11,7 @@ body{background:#071d39;color:white;overflow:hidden}
 .nav-button:disabled{opacity:.45;cursor:default}
 .nav-button svg{height:18px;width:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .fullscreen-top{pointer-events:auto;width:clamp(40px,3.4vw,52px);height:clamp(40px,3.4vw,52px)}
-.scene{position:absolute;inset:0;opacity:0;visibility:hidden;transform:translateZ(0);transition:opacity .75s var(--ease),visibility .75s;overflow:hidden;pointer-events:none}
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .75s var(--ease),visibility .75s;overflow:hidden;pointer-events:none}
 .scene.is-active{opacity:1;visibility:visible;pointer-events:auto}
 .bottom-ui{position:absolute;bottom:0;left:0;right:0;z-index:90;height:84px;padding:0 clamp(34px,4vw,74px) 22px;display:flex;align-items:end;justify-content:space-between;pointer-events:none}
 .scene-meta{display:flex;align-items:center;gap:15px;color:#ebf3f8;font:650 12px/1.3 var(--sans);letter-spacing:.2em;text-transform:uppercase}
@@ -31,7 +31,7 @@ body{background:#071d39;color:white;overflow:hidden}
 .scene--0 .visual-card--map{position:relative;width:100%;height:100%;background:none;border:0;box-shadow:none;overflow:visible;padding:0;display:grid;place-items:center}
 .scene--0 .scene0-map{width:100%;height:100%;object-fit:contain;max-width:100%;max-height:100%;filter:drop-shadow(0 25px 45px rgba(3,23,42,.28))}
 .scene--0.is-active .scene0-map{animation:mapEntry 1.3s .2s var(--ease) both}
-@keyframes mapEntry{from{opacity:0;filter:blur(9px);transform:translateX(26px) scale(.97)}to{opacity:1;filter:drop-shadow(0 25px 45px rgba(3,23,42,.28));transform:translateX(0) scale(1)}}
+@keyframes mapEntry{from{opacity:0;transform:translate3d(26px,0,0) scale(.97)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
 .scene--0 .orbit-shell{position:absolute;z-index:16;right:clamp(42px,5vw,90px);top:50%;transform:translateY(-50%);width:min(39vw,650px);height:min(64vh,560px);pointer-events:none}
 .scene--0 .orbit-rings{position:absolute;inset:0;width:100%;height:100%;opacity:.62}
 .scene--0 .orbit-rings ellipse{fill:none;stroke:rgba(172,205,222,.35);stroke-width:.95}
@@ -233,4 +233,82 @@ html,body{overscroll-behavior-x:contain}
   .scene--1 .reveal-halo,.scene--1 .reveal-emblem{animation:none!important}
   .scene--2 .rich-icon img{transition:none}
   .scene--0 .visual-card--map{backdrop-filter:none}
+}
+
+
+/* V10 HYBRID / quality-adaptive effects.
+   All tiers retain the orbital movement and approved compositions. No GIF,
+   WebGL, persistent JS animation loop or moving blur filters. */
+.scene--0.is-active .orbit-track,
+.scene--0.is-active .orbit-card{will-change:transform}
+.scene--0:not(.is-active) .orbit-track,
+.scene--0:not(.is-active) .orbit-card{will-change:auto}
+/* Stop all decorative animations offscreen, not just the opening orbit. */
+.scene:not(.is-active) *,
+.page-hidden .scene *{animation-play-state:paused!important}
+
+/* On desktop, let the orbit react directly to pointerenter/leave; skip continuous
+   DOM geometry reads. On touch devices, gestures pass through the orbit. */
+@media(pointer:fine){
+  .scene--0 .orbit-node{pointer-events:auto}
+}
+@media(pointer:coarse){
+  .scene--0 .orbit-node{pointer-events:none}
+}
+
+/* Balanced mode: preserve moving SIRMEF emblem + orbital animation, while
+   replacing repeated translucent blurs with similarly colored opaque layers. */
+html[data-effects="balanced"] .scene--1 .benefit{
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+  background:linear-gradient(90deg,rgba(4,29,58,.94),rgba(7,39,75,.87))
+}
+html[data-effects="balanced"] .scene--2 .services-visual-label,
+html[data-effects="balanced"] .nav-button{
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none
+}
+@media(pointer:coarse){
+  html[data-effects="balanced"] .scene--1 .reveal-emblem{
+    animation:emblemFloat 9s ease-in-out infinite!important
+  }
+}
+
+/* Lite: the large orbit still moves, but nonessential ambient effects are
+   simplified so lower-memory phones do not accumulate blur layers. */
+html[data-effects="lite"] .scene--0 .orbit-track,
+html[data-effects="lite"] .scene--0 .orbit-card{animation-duration:96s}
+html[data-effects="lite"] .scene--0 .orbit-icon{
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+  box-shadow:none
+}
+html[data-effects="lite"] .scene--0 .scene0-map{
+  filter:drop-shadow(0 12px 20px rgba(3,23,42,.22))
+}
+html[data-effects="lite"] .scene--1 .reveal-halo,
+html[data-effects="lite"] .scene--1 .reveal-emblem{
+  animation:none!important
+}
+html[data-effects="lite"] .scene--1 .benefit,
+html[data-effects="lite"] .scene--2 .services-visual-label,
+html[data-effects="lite"] .nav-button{
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important
+}
+html[data-effects="lite"] .scene--1 .benefit{
+  background:linear-gradient(90deg,rgba(4,29,58,.96),rgba(7,39,75,.9))
+}
+html[data-effects="lite"] .scene--3 .closing-photo.right{display:none}
+html[data-effects="lite"] .scene--3 .closing-photo.left{
+  width:100%;
+  -webkit-mask-image:none;
+  mask-image:none
+}
+html[data-effects="lite"] .scene--3 .closing-depth{
+  background:linear-gradient(90deg,rgba(7,32,64,.71),rgba(7,32,64,.82),rgba(7,32,64,.68))
+}
+/* System accessibility setting always wins over quality auto-detection. */
+@media(prefers-reduced-motion:reduce){
+  html[data-effects] .scene *{animation:none!important;transition:none!important}
 }

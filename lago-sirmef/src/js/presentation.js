@@ -43,6 +43,7 @@
     el.label.textContent=labels[index]||'';
     el.num.textContent=String(index).padStart(2,'0')+' / '+String(total).padStart(2,'0');
     el.progress.style.width=((index+1)/scenes.length*100)+'%';
+    if(typeof prepareNextScene==='function')prepareNextScene(index);
   }
 
   function bindKeys(){
@@ -85,6 +86,7 @@
     },{passive:true});
     stage.addEventListener('touchend',event=>{
       if(!start)return;
+      if(event.touches.length>0){start=null;return;} // Ignore pinch/multitouch.
       const from=start;
       start=null;
       if(current!==from.scene)return;
@@ -96,33 +98,74 @@
       go(current+(dx<0?1:-1));
     },{passive:true});
     stage.addEventListener('touchcancel',()=>{start=null;},{passive:true});
+    stage.addEventListener('touchmove',event=>{if(event.touches.length>1)start=null;},{passive:true});
   }
 
-  // The orbit itself is a CSS compositor animation; JS only handles occasional
-  // desktop pointer proximity. No permanent animation frame loop and no
-  // per-frame updates to top/left.
+  // Pointer events on the five individual nodes. No repeated geometry reads.
   function setupOrbitHover(){
-    const canvas=document.querySelector('.scene--0');
-    const nodes=[...document.querySelectorAll('.scene--0 .orbit-node')];
-    if(!canvas||!nodes.length||!window.matchMedia('(pointer:fine)').matches)return;
-    let last=0;
-    const clear=()=>nodes.forEach(n=>n.classList.remove('is-near'));
-    canvas.addEventListener('pointermove',event=>{
-      if(current!==0)return;
-      const now=performance.now();
-      if(now-last<100)return;
-      last=now;
-      for(const node of nodes){
-        const rect=node.getBoundingClientRect();
-        const d=Math.hypot(rect.left+rect.width/2-event.clientX,rect.top+rect.height/2-event.clientY);
-        node.classList.toggle('is-near',d<108);
-      }
-    },{passive:true});
-    canvas.addEventListener('pointerleave',clear,{passive:true});
+    const scene=scenes[0];
+    const nodes=[...scene.querySelectorAll('.orbit-node')];
+    const clear=()=>nodes.forEach(node=>node.classList.remove('is-near'));
+    nodes.forEach(node=>{
+      node.addEventListener('pointerenter',()=>{
+        if(current===0 && window.matchMedia('(pointer:fine)').matches)node.classList.add('is-near');
+      },{passive:true});
+      node.addEventListener('pointerleave',()=>node.classList.remove('is-near'),{passive:true});
+    });
+    scene.addEventListener('pointerleave',clear,{passive:true});
   }
   document.addEventListener('visibilitychange',()=>{
     document.documentElement.classList.toggle('page-hidden',document.hidden);
   });
+
+
+  // Progressive quality tiers. Device hints are optional; no tracking or telemetry.
+  function setupAdaptiveEffects(){
+    const root=document.documentElement;
+    const coarse=window.matchMedia('(pointer: coarse)');
+    const setQuality=()=>{
+      const saveData=navigator.connection?.saveData===true;
+      const ram=Number(navigator.deviceMemory)||0;
+      const cores=Number(navigator.hardwareConcurrency)||0;
+      const lite=saveData||(ram>0&&ram<=2)||(coarse.matches&&cores>0&&cores<=4);
+      root.dataset.effects=lite?'lite':coarse.matches?'balanced':'full';
+    };
+    setQuality();
+    coarse.addEventListener?.('change',setQuality);
+  }
+
+  // Warm only the following scene's images during idle time, not the entire deck.
+  function setupImagePreparation(){
+    let scheduled=null;
+    const prepared=new WeakSet();
+    const prepare=index=>{
+      const scene=scenes[index];
+      if(!scene)return;
+      for(const img of scene.querySelectorAll('img')){
+        if(prepared.has(img))continue;
+        prepared.add(img);
+        if(img.loading==='lazy')img.loading='eager';
+        if(typeof img.decode==='function')img.decode().catch(()=>{});
+      }
+    };
+    const request=fn=>window.requestIdleCallback
+      ?window.requestIdleCallback(fn,{timeout:1200})
+      :window.setTimeout(fn,220);
+    const cancel=id=>{
+      if(id===null)return;
+      if(window.cancelIdleCallback)window.cancelIdleCallback(id);
+      else window.clearTimeout(id);
+    };
+    return index=>{
+      cancel(scheduled);
+      scheduled=request(()=>{
+        scheduled=null;
+        prepare(index+1);
+      });
+    };
+  }
+  setupAdaptiveEffects();
+  const prepareNextScene=setupImagePreparation();
 
   buildDots();
   bindKeys();
