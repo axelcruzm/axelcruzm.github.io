@@ -1,0 +1,126 @@
+/* DURANGO · V07 | Grand central wordmark, restrained charcoal radiance.
+   This file ONLY modifies the visual backdrop and center. Orbital geometry,
+   motion timing, the four champagne intervention nodes, and white TOM capsules
+   remain unchanged from V06. */
+
+@media (min-width:941px){
+  /* The center is graphite, but the outer ~1/3 remains clean ivory-white.
+     A layered radial treatment avoids an abrupt dark-to-white cut. */
+  .v04-shell{
+    background:
+      radial-gradient(ellipse 49% 63% at 55% 53%,
+        #07090c 0%, #0c0f14 30%, #181d23 49%,
+        rgba(41,48,56,.91) 61%, rgba(94,104,113,.60) 75%,
+        rgba(201,206,211,.31) 88%,rgba(255,255,255,0) 100%),
+      radial-gradient(ellipse 53% 68% at 55% 53%,
+        rgba(37,46,55,.28), rgba(255,255,255,0) 97%),
+      #fff;
+  }
+  .v04-main .command-noise{
+    /* The radial gradient supplies the depth; don't veil the letterforms. */
+    opacity:0;
+  }
+  .v04-main .command .rings-markings{opacity:.08}
+  /* Big luminous title is behind BOTH orbital tracks and their controls. */
+  .v04-main .durango-core{
+    width:min(90vw,1460px)!important;
+    height:min(35vh,270px)!important;
+    z-index:2;
+    border-radius:0;
+    overflow:visible;
+    background:none;
+    box-shadow:none;
+  }
+  .v04-main .core-silver-ring{display:none}
+  .v04-main .core-dark{
+    position:relative;
+    background:none;
+    border-radius:0;
+    box-shadow:none;
+    overflow:visible;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .v04-main .core-dark::before{display:none}
+  .v04-main .core-dark img{display:none}
+  .v04-main .core-hero-lettering{
+    position:relative;
+    z-index:1;
+    display:block;
+    width:max-content;
+    max-width:none;
+    white-space:nowrap;
+    font-family:'Manrope','Arial Black',sans-serif;
+    font-weight:800;
+    font-style:italic;
+    font-size:clamp(112px,13.9vw,254px);
+    line-height:1;
+    letter-spacing:-.082em;
+    transform:scaleX(1.06) translateX(-.6%);
+    color:#f7f8fa;
+    background:linear-gradient(180deg,#fff 4%,#f2f5f7 35%,#b6c0c7 71%,#f7f9fb 100%);
+    background-clip:text;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.3)) drop-shadow(0 0 19px rgba(255,255,255,.17));
+    user-select:none;
+  }
+  .v04-main .core-claim{
+    top:calc(50% + clamp(47px,5.15vw,95px));
+    left:0;right:0;
+    font-size:clamp(12px,1.25vw,20px);
+    font-weight:480;
+    letter-spacing:-.025em;
+    line-height:1.2;
+    text-shadow:0 1px 14px rgba(0,0,0,.7);
+  }
+  .v04-main .core-claim em{
+    display:inline;
+    font-style:italic;
+    color:#dfc18b;
+    font-size:inherit;
+    font-weight:800;
+  }
+  /* Understated rails legible against charcoal and bright edges alike. */
+  .v04-main .orbit-border{border-color:rgba(189,197,205,.52)}
+  .v04-main .orbit-border.inner-border{border-color:rgba(195,163,110,.61)}
+  /* The captions stay aligned on their rails and sit above the orbit items. */
+  .v04-main .orbit-title{
+    z-index:18;
+    background:rgba(255,255,255,.96);
+    color:#29333d;
+    border-color:rgba(224,228,233,.91);
+    text-shadow:none;
+    box-shadow:0 5px 24px rgba(9,13,19,.15);
+  }
+  .v04-main .orbit-title-inner{
+    color:#886b3c;
+    background:rgba(255,250,240,.96);
+    border-color:rgba(209,179,124,.72);
+  }
+  /* Preserve the approved TOM capsules as light instruments. */
+  .v04-main .service-pill{
+    background:linear-gradient(150deg,#fff,#f7f8fa);
+    border-color:rgba(230,234,237,.96);
+    box-shadow:0 8px 24px rgba(0,0,0,.13),inset 0 1px 0 #fff;
+  }
+  /* Four intervention spheres keep precisely their V06 warm palette. */
+  .v04-main .theme-node{
+    box-shadow:0 9px 22px rgba(3,6,10,.20),inset 0 0 0 1px rgba(255,255,255,.86);
+  }
+  /* Guide remains on the clean portion, away from the luminous wordmark. */
+  .v04-main .command-guidance p{text-shadow:0 0 14px rgba(255,255,255,.9)}
+  .tom-ribbon,.v04-shell .control-bar.control-bar-sales{background:rgba(255,255,255,.97)}
+}
+
+/* Keep the tactile/mobile V06 information layout; no giant desktop lettering. */
+@media (max-width:940px){
+  .v04-main .core-hero-lettering{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .v04-main .core-hero-lettering{filter:none}
+}
+
+@media (max-width:940px){.v04-main .core-claim-first{display:block}}

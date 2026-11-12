@@ -1,0 +1,260 @@
+import {services,themes,photos} from './content.js';
+import {experiences} from './experiences.js';
+
+const $=selector=>document.querySelector(selector);
+const outerTrack=$('#serviceTrack'),innerTrack=$('#themeTrack');
+const mobileServices=$('#mobileServices'),mobileThemes=$('#mobileThemes');
+const dialog=$('#detailDialog'),command=$('.command');
+const connection=$('#orbitConnection'),connectionLine=$('#connectionLine');
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
+let selectedAxis=0,selectedStep=0,hovered=null,stageVisible=true;
+const outerNodes=[],innerNodes=[];
+
+const iconPaths={
+ chess:`<path d="M10 3.3 13 6l-1.5 3 3.8 2.8-2.6 3.1H5.6l-.8-2.6 3.5-3.1-1.2-3 1-2.8"/><path d="M5 17h11M4 20h13"/>`,
+ camera:`<rect x="3" y="6" width="12" height="12" rx="2"/><path d="m15 10 6-3v10l-6-3"/>`,
+ database:`<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3 3 8 3s8-1.3 8-3v-7"/>`,
+ ai:`<rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 1v4m6-4v4M9 19v4m6-4v4M1 9h4m-4 6h4m14-6h4m-4 6h4"/><path d="m9 15 2.7-6 2.7 6m-4.5-2h3.6M16 9v6"/>`,
+ nodes:`<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 6h10M5 8v3l7 5m7-8v3l-7 5"/>`,
+ document:`<path d="M7 2h7l5 5v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h1z"/><path d="M14 2v6h5M8 12h8M8 16h8"/>`,
+ layers:`<path d="m12 2 10 5-10 5L2 7l10-5zM2 12l10 5 10-5M2 17l10 5 10-5"/>`,
+ bridge:`<path d="M3 20h18M6 20V5m12 15V5M6 7h12M3 16c4-10 14-10 18 0M9 9v11m6-11v11"/>`,
+ chart:`<path d="M4 20h17M5 15l5-5 4 2 6-8M16 4h4v4"/>`,
+ spark:`<path d="M12 2 9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/>`,
+ people:`<circle cx="12" cy="7" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2M4 9a2.5 2.5 0 1 0 0 5M20 9a2.5 2.5 0 1 1 0 5"/>`
+};
+const icon=(name,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${iconPaths[name]||iconPaths.layers}</svg>`;
+
+function renderNavigation(){
+  services.forEach((s,i)=>{
+    const button=document.createElement('button');
+    button.type='button';button.className='orbital-anchor';button.setAttribute('aria-label',`Abrir ${s.title}. Servicio ${s.number} de siete`);
+    button.innerHTML=`<span class="service-pill"><span class="service-icon">${icon(s.icon)}</span><span class="service-copy"><span class="service-number">${s.number} / TOM</span><strong class="service-label">${s.title}</strong></span><span class="service-open">↗</span></span>`;
+    button.addEventListener('click',()=>openService(i,button));
+    button.addEventListener('pointerenter',()=>{hovered={kind:'outer',i};button.classList.add('is-near');connection.classList.add('is-visible');});
+    button.addEventListener('pointerleave',()=>{if(hovered?.kind==='outer'&&hovered.i===i)hovered=null;button.classList.remove('is-near');connection.classList.remove('is-visible');});
+    outerTrack.append(button);outerNodes.push(button);
+    const mobile=document.createElement('button');mobile.type='button';mobile.className='mobile-service';
+    mobile.innerHTML=`<span class="mobile-icon">${icon(s.icon)}</span><span class="mobile-service-copy"><small>${s.number} / CAPACIDAD TOM</small><strong>${s.title}</strong></span><span class="mobile-forward">↗</span>`;
+    mobile.addEventListener('click',()=>openService(i,mobile));mobileServices.append(mobile);
+  });
+  themes.forEach((t,i)=>{
+    const button=document.createElement('button');button.type='button';button.className='thematic-anchor';
+    button.setAttribute('aria-label',`Explorar eje de Durango: ${t.name}`);
+    button.innerHTML=`<span class="theme-node">${icon(t.icon,'theme-icon')}<strong>${t.short}</strong></span>`;
+    button.addEventListener('click',()=>openTheme(i,button));
+    button.addEventListener('pointerenter',()=>{hovered={kind:'inner',i};button.classList.add('is-near');connection.classList.add('is-visible');});
+    button.addEventListener('pointerleave',()=>{if(hovered?.kind==='inner'&&hovered.i===i)hovered=null;button.classList.remove('is-near');connection.classList.remove('is-visible');});
+    innerTrack.append(button);innerNodes.push(button);
+    const mobile=document.createElement('button');mobile.type='button';mobile.className='mobile-theme';
+    mobile.innerHTML=`${icon(t.icon)}<span>${t.name}</span><span class="mobile-theme-arrow">↗</span>`;
+    mobile.addEventListener('click',()=>openTheme(i,mobile));mobileThemes.append(mobile);
+  });
+}
+
+// A single, capped animation clock positions 11 nodes using compositor-friendly transforms.
+// No per-frame DOM measurements; a ResizeObserver updates geometry only when the stage resizes.
+const geometry={w:1200,h:620,outerX:470,outerY:240,innerX:280,innerY:148};
+let elapsed=0,last=0,renderTime=0,frame=0,running=false;
+const angleAt=(kind,index,time)=>{
+  const outer=kind==='outer';
+  return -Math.PI/2+(outer?Math.PI/7:Math.PI/4)+index*2*Math.PI/(outer?7:4)+(outer?1:-1)*time/(outer?174000:232000)*2*Math.PI;
+};
+function recalcGeometry(){
+  const w=command.clientWidth,h=command.clientHeight;
+  if(!w||!h)return;
+  geometry.w=w;geometry.h=h;
+  const mobile=window.matchMedia('(max-width: 1100px)').matches;
+  const card=w>=1500?246:w<1000?192:w<1100?210:224;
+  // The wide ellipse uses the empty horizontal space while reserving a fixed
+  // lane between the inner and outer orbit capsules at 720p/768p/900p.
+  geometry.outerX=Math.max(0,Math.min(720,(w-card-44)/2));
+  geometry.outerY=Math.max(0,Math.min(300,(h-120)/2));
+  // Smaller screens use a narrower inner ellipse rather than overlapping nodes.
+  geometry.innerX=mobile?Math.min(w*.36,153):Math.min(265,geometry.outerX*(w<1100?.37:w<1200?.4:.48));
+  geometry.innerY=mobile?Math.min(h*.38,138):h>=720?156:h>=650?140:131;
+  command.style.setProperty('--outer-rx',`${geometry.outerX}px`);
+  command.style.setProperty('--outer-ry',`${geometry.outerY}px`);
+  command.style.setProperty('--inner-rx',`${geometry.innerX}px`);
+  command.style.setProperty('--inner-ry',`${geometry.innerY}px`);
+  connection.setAttribute('viewBox',`0 0 ${w} ${h}`);
+  paint();
+}
+function position(kind,node,i,time){
+  const a=angleAt(kind,i,time);
+  const rx=kind==='outer'?geometry.outerX:geometry.innerX;
+  const ry=kind==='outer'?geometry.outerY:geometry.innerY;
+  const x=geometry.w/2+Math.cos(a)*rx;
+  const y=geometry.h/2+Math.sin(a)*ry;
+  node.style.transform=`translate3d(${(x-geometry.w/2).toFixed(2)}px,${(y-geometry.h/2).toFixed(2)}px,0) translate(-50%,-50%)`;
+  return {x,y};
+}
+function paint(){
+  const outerPoints=outerNodes.map((n,i)=>position('outer',n,i,elapsed));
+  const innerPoints=innerNodes.map((n,i)=>position('inner',n,i,elapsed));
+  if(hovered){
+    const p=(hovered.kind==='outer'?outerPoints:innerPoints)[hovered.i];
+    if(p){connectionLine.setAttribute('x1',geometry.w/2);connectionLine.setAttribute('y1',geometry.h/2);connectionLine.setAttribute('x2',p.x);connectionLine.setAttribute('y2',p.y);}
+  }
+}
+function animationPaused(){return manualPause||dialog.open||document.hidden||reducedMotion.matches||!stageVisible;}
+function stopClock(){
+  if(frame)cancelAnimationFrame(frame);
+  frame=0;running=false;last=0;
+}
+function startClock(){
+  if(running||animationPaused())return;
+  running=true;last=performance.now();frame=requestAnimationFrame(tick);
+}
+function tick(now){
+  if(animationPaused()){stopClock();return;}
+  const dt=Math.min(250,now-last);last=now;
+  elapsed+=dt;
+  const interval=matchMedia('(pointer:coarse)').matches?1000/30:1000/45;
+  if(now-renderTime>=interval){renderTime=now;paint();}
+  frame=requestAnimationFrame(tick);
+}
+
+function setPhoto(key){
+  const p=photos[key]||photos.canyon;
+  const image=$('#detailPhoto'),pane=$('#dialogImage');
+  pane.style.backgroundImage=`url("${p.fallback}")`;
+  pane.classList.remove('is-loaded');
+  image.onload=null;image.onerror=null;
+  image.removeAttribute('src');
+  $('#detailLocation').textContent='VISUAL CONCEPTUAL · DURANGO';
+  $('#photoCredit').textContent='Referencia visual conceptual. Pendiente de fotografía documental autorizada.';
+  image.onload=()=>{
+    pane.classList.add('is-loaded');$('#detailLocation').textContent=p.place;
+    $('#photoCredit').innerHTML=`Fotografía: <a href="${p.source}" target="_blank" rel="noopener">${p.by}</a> · <a href="${p.licenseUrl}" target="_blank" rel="noopener">${p.license}</a> · Wikimedia Commons`;
+  };
+  image.onerror=()=>{pane.classList.remove('is-loaded');image.removeAttribute('src');};
+  image.alt=p.title;image.src=p.src;
+}
+
+function stageButtons(s){
+  const e=experiences[s.id];
+  return e.steps.map((x,i)=>`<button type="button" data-step="${i}" class="viz-step ${selectedStep===i?'is-active':''}" aria-pressed="${selectedStep===i}"><span class="viz-index">${String(i+1).padStart(2,'0')}</span>${x.label}</button>`).join('');
+}
+function coreGraphic(s){
+  const e=experiences[s.id];
+  const steps=e.steps;
+  const kind=e.kind;
+  if(kind==='compare')return `<div class="compare-board" id="compareBoard" style="--compare:52%"><div class="compare-before"><small>ANTES · DOCUMENTO</small><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="compare-after"><small>DESPUÉS · SISTEMA VISUAL</small><div class="after-circle"></div><div class="after-bars"><i></i><i></i><i></i></div><div class="after-labels"><b>IDEA</b><b>ORDEN</b><b>CLARIDAD</b></div></div><div class="compare-divider"><span>↔</span></div></div><label class="compare-control">DESLIZA PARA COMPARAR <input id="compareSlider" type="range" min="0" max="100" value="52" aria-label="Comparar documento original y diseño visual"></label>`;
+  if(kind==='ai')return `<div class="visual-ai" aria-label="Esquema conceptual de plataformas e IA"><div class="ai-flowline" aria-hidden="true"></div><span class="ai-hub"><span>HUMAN</span><strong>VERIFIED</strong><small>DEMO</small></span>${steps.map((st,i)=>`<button type="button" class="ai-satellite ${i===selectedStep?'is-active':''}" data-step="${i}"><small>0${i+1}</small><strong>${st.label}</strong></button>`).join('')}</div>`;
+  if(kind==='formats')return `<div class="visual-formats"><div class="format-device format-${selectedStep}"><div class="format-display"><span class="format-play">${selectedStep===2?'≡':'▶'}</span><span class="format-cover">UNA HISTORIA<br>CUATRO FORMAS</span></div></div><div class="format-side">MASTER<br><strong>01 → 04</strong><span>ADAPTACIONES</span></div></div>`;
+  if(kind==='film')return `<div class="visual-film"><div class="film-tape">${steps.map((st,i)=>`<button type="button" data-step="${i}" class="film-cell ${i===selectedStep?'is-active':''}"><span>0${i+1}</span><strong>${st.label}</strong><div class="film-image"><span></span></div></button>`).join('')}</div><span class="film-track">◁ ━━━ ● ━━━ ▷</span></div>`;
+  if(kind==='pipeline')return `<div class="visual-pipeline"><div class="pipeline-header"><span>FUENTE / DEMO</span><span>CONTROL EDITORIAL</span></div><div class="pipeline-modules">${steps.map((st,i)=>`<button type="button" data-step="${i}" class="pipeline-module ${i===selectedStep?'is-active':''}"><span>0${i+1}</span><strong>${st.label}</strong><i></i></button>`).join('')}</div><div class="pipeline-check"><span>✓</span> NINGUNA CIFRA REAL · FLUJO ILUSTRATIVO</div></div>`;
+  if(kind==='rail')return `<div class="visual-rail"><div class="rail-line"></div>${steps.map((st,i)=>`<button type="button" data-step="${i}" class="rail-stop ${i===selectedStep?'is-active':''}"><span class="rail-pin">${i+1}</span><strong>${st.label}</strong></button>`).join('')}</div>`;
+  return `<div class="visual-strategy"><div class="strategy-connector"></div>${steps.map((st,i)=>`<button type="button" data-step="${i}" class="strategy-panel ${i===selectedStep?'is-active':''}"><span>0${i+1}</span><strong>${st.label}</strong><div class="strategy-mark"><i></i><i></i><i></i></div></button>`).join('')}</div>`;
+}
+function renderExperience(service){
+  const exp=experiences[service.id];
+  $('#detailVisual').innerHTML=`<div class="viz-shell viz-${exp.kind}"><div class="viz-kicker"><span>DEMO INTERACTIVA · ${service.number}</span><span>↗ SELECCIONA UNA ETAPA</span></div><div class="viz-graphic">${coreGraphic(service)}</div><div class="viz-caption" aria-live="polite"><span class="caption-index">${service.number} / DEMOSTRACIÓN</span><strong id="vizCaption">${exp.steps[selectedStep].caption}</strong><small id="vizDetail">${exp.steps[selectedStep].detail}</small></div><div class="viz-stepper" role="group" aria-label="Etapas de la demostración">${stageButtons(service)}</div></div>`;
+  const visual=$('#detailVisual');
+  visual.querySelectorAll('[data-step]').forEach(button=>button.addEventListener('click',()=>updateStep(service,Number(button.dataset.step))));
+  const slider=visual.querySelector('#compareSlider');
+  slider?.addEventListener('input',event=>{$('#compareBoard').style.setProperty('--compare',`${event.target.value}%`);});
+}
+function updateStep(service,index){
+  const exp=experiences[service.id];selectedStep=Math.max(0,Math.min(exp.steps.length-1,index));
+  const visual=$('#detailVisual');
+  visual.querySelectorAll('[data-step]').forEach(b=>{const isActive=Number(b.dataset.step)===selectedStep;b.classList.toggle('is-active',isActive);b.setAttribute('aria-pressed',String(isActive));});
+  const step=exp.steps[selectedStep];
+  $('#vizCaption').textContent=step.caption;$('#vizDetail').textContent=step.detail;
+  const format=visual.querySelector('.format-device');if(format)format.className=`format-device format-${selectedStep}`;
+  const formatPlay=visual.querySelector('.format-play');if(formatPlay)formatPlay.textContent=selectedStep===2?'≡':'▶';
+}
+function renderAxisSelector(impact,initial=0){
+  selectedAxis=initial;
+  $('#impactTabs').innerHTML=themes.map((t,i)=>`<button type="button" class="axis-tab ${i===selectedAxis?'is-active':''}" data-axis="${i}" aria-pressed="${i===selectedAxis}">${icon(t.icon)}<span>${t.short}</span></button>`).join('');
+  $('#impactTabs').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>changeAxis(impact,Number(button.dataset.axis))));
+  changeAxis(impact,selectedAxis);
+}
+function changeAxis(impact,index){
+  selectedAxis=index;const theme=themes[index];
+  $('#impactTabs').querySelectorAll('button').forEach(b=>{const on=Number(b.dataset.axis)===index;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on));});
+  $('#impactResult').innerHTML=`<span class="impact-code">0${index+1} / ${theme.name}</span><p>${impact[theme.id]||'Aplicación por definir.'}</p><span class="impact-arrow" aria-hidden="true">↗</span>`;
+}
+function showDialog(){
+  if(!dialog.open)dialog.showModal();
+  document.body.classList.add('modal-open');
+  stopClock();
+  connection.classList.remove('is-visible');
+  $('.dialog-content-scroll').scrollTop=0;
+}
+function openService(index,trigger,themeIndex=0){
+  activeType='service';activeIndex=(index+services.length)%services.length;
+  if(trigger)lastTrigger=trigger;
+  const s=services[activeIndex],e=experiences[s.id];
+  selectedStep=0;
+  dialog.classList.remove('is-ai');
+  $('#detailKicker').textContent=`TOM / CAPACIDAD ${s.number} DE 07`;
+  $('#detailNumber').textContent=`${s.number} / UNA CAPACIDAD TOM`;
+  $('#detailServiceName').textContent=s.title;
+  $('#detailTitle').textContent=e.headline;
+  $('#detailLead').textContent=e.subline;
+  renderExperience(s);renderAxisSelector(s.impact,themeIndex);
+  $('#deliveryChips').innerHTML=e.outputs.map(d=>`<span class="delivery-chip">${d}</span>`).join('');
+  $('#pagerText').textContent=`${s.number} / 07`;
+  setPhoto(s.image);showDialog();
+}
+function openTheme(index,trigger){
+  activeType='theme';activeIndex=(index+themes.length)%themes.length;
+  if(trigger)lastTrigger=trigger;
+  const theme=themes[activeIndex];dialog.classList.remove('is-ai');
+  $('#detailKicker').textContent=`DURANGO / PRIORIDAD 0${activeIndex+1} DE 04`;
+  $('#detailNumber').textContent=`0${activeIndex+1} / EJE TERRITORIAL`;
+  $('#detailServiceName').textContent='UNA PRIORIDAD · SIETE CAPACIDADES';
+  $('#detailTitle').textContent=theme.name;
+  $('#detailLead').textContent=theme.description;
+  $('#detailVisual').innerHTML=`<div class="theme-directory"><div class="viz-kicker">EXPLORA CÓMO TOM PUEDE ACTUAR SOBRE ESTE EJE</div><div class="theme-directory-grid">${services.map((s,i)=>`<button class="theme-service-button" data-service="${i}" type="button"><span>${s.number}</span><strong>${s.title}</strong><em>↗</em></button>`).join('')}</div></div>`;
+  $('#detailVisual').querySelectorAll('[data-service]').forEach(b=>b.addEventListener('click',()=>openService(Number(b.dataset.service),null,index)));
+  $('#impactTabs').innerHTML='';
+  $('#impactResult').innerHTML=`<span class="impact-code">DURANGO / EJE SELECCIONADO</span><p>${theme.tag}</p>`;
+  $('#deliveryChips').innerHTML='<span class="delivery-chip">Estrategia y contenidos</span><span class="delivery-chip">Producción y tecnología</span>';
+  $('#pagerText').textContent=`0${activeIndex+1} / 04`;
+  setPhoto(['ojuela','canyon','catedral','waterfall'][activeIndex]);showDialog();
+}
+function navigate(step){
+  if(activeType==='service')openService(activeIndex+step,null,selectedAxis);
+  else openTheme(activeIndex+step,null);
+}
+function close(){if(dialog.open)dialog.close();}
+function setPaused(next){
+  manualPause=next;document.body.classList.toggle('is-paused',next);
+  if(next)stopClock();else startClock();
+  const button=$('#motionToggle');button.setAttribute('aria-pressed',String(next));
+  button.setAttribute('aria-label',next?'Reanudar movimiento orbital':'Pausar movimiento orbital');
+  button.title=next?'Reanudar órbitas':'Pausar órbitas';
+  button.innerHTML=next?'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>':'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+}
+renderNavigation();
+new ResizeObserver(recalcGeometry).observe(command);
+new IntersectionObserver(entries=>{stageVisible=entries[0]?.isIntersecting??true;if(stageVisible)startClock();else stopClock();},{threshold:.02}).observe(command);
+reducedMotion.addEventListener?.('change',()=>{if(reducedMotion.matches)stopClock();else startClock();paint();});
+window.addEventListener('resize',recalcGeometry,{passive:true});
+recalcGeometry();startClock();
+$('#closeDialog').addEventListener('click',close);
+$('#prevDetail').addEventListener('click',()=>navigate(-1));
+$('#nextDetail').addEventListener('click',()=>navigate(1));
+dialog.addEventListener('click',event=>{if(event.target===dialog)close();});
+dialog.addEventListener('close',()=>{
+  document.body.classList.remove('modal-open');
+  if(lastTrigger?.isConnected)lastTrigger.focus({preventScroll:true});
+  lastTrigger=null;startClock();
+});
+document.addEventListener('keydown',event=>{
+  if(!dialog.open)return;
+  if(event.key==='ArrowRight'){event.preventDefault();navigate(1);}
+  if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1);}
+});
+$('#motionToggle').addEventListener('click',()=>setPaused(!manualPause));
+$('#fullscreenToggle').addEventListener('click',()=>{
+  if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});
+  else document.exitFullscreen?.().catch(()=>{});
+});
+document.addEventListener('fullscreenchange',()=>$('#fullscreenToggle').setAttribute('aria-label',document.fullscreenElement?'Salir de pantalla completa':'Ver en pantalla completa'));
+
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopClock();else startClock();});

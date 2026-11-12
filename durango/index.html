@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f7f6">
+  <meta name="description" content="Centro de Mando Durango. Una propuesta conceptual de TOM para articular comunicación, producción, datos, tecnología e inteligencia artificial.">
+  <meta property="og:title" content="DURANGO · Centro de Mando | TOM">
+  <meta property="og:description" content="Siete capacidades. Cuatro ejes. Una visión integrada.">
+  <title>Durango · Centro de Mando — TOM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css">
+  <link rel="stylesheet" href="./src/v02.css">
+  <link rel="stylesheet" href="./src/v04.css">
+  <link rel="stylesheet" href="./src/v06.css">
+  <link rel="stylesheet" href="./src/v07.css">
+  <link rel="stylesheet" href="./src/v08.css">
+</head>
+<body>
+  <div class="app-shell v04-shell">
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <header class="tom-ribbon" aria-label="Identidad TOM">
+      <a class="tom-ribbon-logo" href="#inicio" aria-label="Top of Mind Communication, Centro de Mando">
+        <img src="./assets/tom-logo-book.png" alt="TOM · Top of Mind Communication" width="135" height="73" fetchpriority="high" decoding="async">
+      </a>
+      <span class="tom-ribbon-rule" aria-hidden="true"></span>
+      <span class="tom-ribbon-label">SOLUCIONES DE COMUNICACIÓN, TECNOLOGÍA Y CONTENIDO</span>
+      <span class="tom-ribbon-end" aria-hidden="true"><i></i><i></i><i></i></span>
+    </header>
+
+    <main id="inicio" class="main-view single-screen v04-main">
+      <section class="command" aria-label="Mapa interactivo de los servicios de TOM y las prioridades de Durango">
+        <div class="command-noise" aria-hidden="true"></div>
+        <div class="command-guidance" aria-label="Instrucción de interacción">
+          <span class="guidance-mark" aria-hidden="true"></span>
+          <p>Selecciona un área de <strong>TOM</strong> para explorar cómo podemos ayudar a <strong>Durango</strong>.</p>
+        </div>
+        <svg class="orbit-connection" id="orbitConnection" aria-hidden="true" preserveAspectRatio="none"><line id="connectionLine" x1="0" y1="0" x2="0" y2="0" /></svg>
+        <div class="rings-markings" aria-hidden="true"></div>
+        <div class="orbit-title orbit-title-outer">TOM CUSTOM PRODUCTS</div>
+        <div class="orbit-title orbit-title-inner">ÁREAS DE INTERVENCIÓN</div>
+        <div class="command-orbit outer" id="outerOrbit" aria-label="Siete servicios TOM">
+          <div class="orbit-border" aria-hidden="true"></div>
+          <div class="orbit-track outer-track" id="serviceTrack"></div>
+        </div>
+        <div class="command-orbit inner" id="innerOrbit" aria-label="Cuatro temas de Durango">
+          <div class="orbit-border inner-border" aria-hidden="true"></div>
+          <div class="orbit-track inner-track" id="themeTrack"></div>
+        </div>
+        <div class="durango-core" id="durangoCore">
+          <div class="core-silver-ring" aria-hidden="true"></div>
+          <div class="core-dark">
+            <img src="./assets/durango-logo-referencia.png" alt="Durango Gobierno del Estado, identidad institucional de referencia" width="368" height="101" fetchpriority="high" decoding="async">
+            <img class="core-hero-wordmark" src="./assets/durango-wordmark-exact.svg" alt="DURANGO" width="1320" height="150" decoding="async">
+            <p class="core-claim"><span class="core-claim-first">Territorio de</span> <em>grandes historias.</em></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mobile-command" aria-label="Explorador táctil de capacidades">
+        <p class="mobile-section-caption">LOS CUATRO EJES DE DURANGO</p>
+        <div class="mobile-themes" id="mobileThemes"></div>
+        <div class="mobile-service-head"><span>CAPACIDADES TOM</span><span>07 / 07</span></div>
+        <div class="mobile-services" id="mobileServices"></div>
+      </section>
+    </main>
+
+    <footer class="control-bar control-bar-sales">
+      <div class="control-index"><span class="control-dot"></span> TOM <span class="control-slash">/</span> DURANGO</div>
+      <div class="powered-pill">POWERED WITH AI · TECH EXPERTS · HUMAN DEVELOPERS</div>
+      <div class="control-actions">
+        <button id="motionToggle" class="icon-action" aria-label="Pausar movimiento orbital" aria-pressed="false" title="Pausar / reanudar órbitas">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button id="fullscreenToggle" class="icon-action" aria-label="Ver en pantalla completa" title="Pantalla completa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="government-seal" aria-label="Emblema institucional de Durango animado en rotación 3D, en escala de grises">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="./assets/durango-emblema-referencia.png" type="image/png">
+          <source srcset="./assets/durango-emblema-giro.webp" type="image/webp">
+          <img src="./assets/durango-emblema-giro.gif" alt="Emblema de Durango con un movimiento de estudio suave, centrado e iluminación plateada" width="240" height="240" loading="eager" decoding="async">
+        </picture>
+      </div>
+    </footer>
+  </div>
+
+  <dialog id="detailDialog" class="detail-dialog" aria-labelledby="detailTitle">
+    <div class="dialog-frame">
+      <section class="dialog-image-pane">
+        <div class="dialog-image" id="dialogImage">
+          <img id="detailPhoto" alt="Fotografía documental de Durango" loading="lazy" decoding="async">
+          <div class="photo-atmosphere" aria-hidden="true"></div>
+          <div class="photo-place"><span class="photo-marker"></span><span id="detailLocation">DURANGO · MÉXICO</span></div>
+        </div>
+        <div class="photo-credit" id="photoCredit"></div>
+      </section>
+      <section class="dialog-copy-pane">
+        <div class="dialog-topline">
+          <div id="detailKicker" class="modal-kicker">TOM / CAPACIDAD 01 DE 07</div>
+          <button id="closeDialog" class="close-action" aria-label="Cerrar detalle" title="Cerrar detalle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+        </div>
+        <div class="dialog-content-scroll">
+          <div id="detailNumber" class="detail-number">01 — CAPACIDAD</div>
+          <div id="detailServiceName" class="detail-service-name">Consultoría estratégica</div>
+          <h2 id="detailTitle">Primero, claridad.</h2>
+          <p id="detailLead" class="dialog-lead"></p>
+          <div id="detailVisual" class="detail-visual" aria-label="Demostración interactiva de la capacidad"></div>
+          <section class="impact-section" aria-label="Aplicación a los ejes de Durango">
+            <div class="impact-title"><span>UNA CAPACIDAD · CUATRO APLICACIONES</span><span class="impact-rule"></span></div>
+            <div id="impactTabs" class="impact-tabs" role="group" aria-label="Seleccionar eje de Durango"></div>
+            <div id="impactResult" class="impact-result" aria-live="polite"></div>
+          </section>
+          <div class="delivery-block"><div class="delivery-label">ENTREGABLES ILUSTRATIVOS</div><div id="deliveryChips" class="delivery-chips"></div></div>
+        </div>
+        <div class="dialog-footer"><span>PROTOTIPO CONCEPTUAL TOM · NO ES UN SISTEMA EN OPERACIÓN</span><div class="dialog-pager"><button id="prevDetail" aria-label="Servicio anterior" title="Anterior">←</button><span id="pagerText">01 / 07</span><button id="nextDetail" aria-label="Servicio siguiente" title="Siguiente">→</button></div></div>
+      </section>
+    </div>
+  </dialog>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

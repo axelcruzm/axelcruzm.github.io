@@ -1,0 +1,106 @@
+/* DURANGO V06 — refined orbit / champagne area markers / executive interaction cue.
+   Overrides are additive to preserve V05 orbital positioning, motion and modal UX.
+*/
+:root{
+  --durango-gold-deep: #8c744d;
+  --durango-gold-mid: #b19a72;
+  --durango-gold-light: #e4d4b9;
+  --durango-ivory: #faf7f0;
+}
+/* The intervention layer is the warm counterpart to TOM's cool silver controls. */
+.v04-main .theme-node{
+  width:82px;
+  min-height:82px;
+  padding:9px 7px;
+  gap:5px;
+  color:var(--durango-gold-deep);
+  background:linear-gradient(148deg, #fffdf8 0%, #f5ebd7 50%, #e9d9bb 100%);
+  border:1px solid rgba(179,150,99,.64);
+  box-shadow:0 7px 19px rgba(133,112,75,.085), inset 0 0 0 1px rgba(255,255,255,.85);
+  transition:transform .42s var(--ease),box-shadow .42s var(--ease),background .42s var(--ease),border-color .42s;
+}
+.v04-main .theme-icon{color:#9c8258;width:24px;height:24px;stroke-width:1.65}
+.v04-main .theme-node strong{color:#6b573d;font-weight:760;font-size:9px;line-height:1.16}
+.v04-main .thematic-anchor:hover .theme-node,
+.v04-main .thematic-anchor.is-near .theme-node,
+.v04-main .thematic-anchor:focus-visible .theme-node{
+  transform:scale(1.045);
+  background:linear-gradient(148deg,#fffdf8,#eddcb9);
+  border-color:rgba(169,136,79,.84);
+  box-shadow:0 11px 25px rgba(136,111,66,.16),0 0 0 3px rgba(212,189,144,.13);
+}
+/* Lighter service architecture. Orbital dynamics remain unchanged. */
+.v04-main .orbital-anchor{width:208px}
+.v04-main .service-pill{
+  height:64px;
+  border:1px solid rgba(214,220,225,.85);
+  background:linear-gradient(150deg,rgba(255,255,255,.985),rgba(247,249,250,.985));
+  box-shadow:0 5px 15px rgba(56,69,82,.055),0 1px 3px rgba(56,69,82,.04),inset 0 1px 0 rgba(255,255,255,.95);
+}
+.v04-main .service-pill::before{border:0}
+.v04-main .service-icon{
+  width:50px;height:50px;flex-basis:50px;margin-left:5px;
+  background:linear-gradient(135deg,#fff,#f6f8f9);
+  border-color:rgba(214,221,227,.64);
+  color:#81909a;
+  box-shadow:none;
+}
+.v04-main .service-icon svg{width:25px;height:25px;stroke-width:1.5}
+.v04-main .service-copy{padding-left:9px;gap:3px}
+.v04-main .service-label{font-size:11.3px;font-weight:775;line-height:1.15;letter-spacing:-.03em}
+.v04-main .service-number{font-size:8px;font-weight:790;letter-spacing:.12em;color:#b29d79}
+.v04-main .service-open{margin-right:11px;color:#a2adb6}
+.v04-main .service-pill:hover,
+.v04-main .orbital-anchor.is-near .service-pill,
+.v04-main .orbital-anchor:focus-visible .service-pill{
+  transform:scale(1.035);
+  border-color:#c9b491;
+  box-shadow:0 12px 24px rgba(55,69,84,.11),0 0 0 2px rgba(196,170,125,.09);
+}
+/* Quiet instrument rails: visible, but not heavy. */
+.v04-main .orbit-border{border-color:rgba(158,170,182,.20);box-shadow:0 0 0 12px rgba(206,214,221,.015)}
+.v04-main .orbit-border.inner-border{border-color:rgba(174,150,110,.3);box-shadow:0 0 0 9px rgba(218,202,170,.025)}
+.v04-main .orbit-title{
+  box-shadow:0 6px 14px rgba(60,75,89,.045),inset 0 0 0 1px rgba(255,255,255,.92);
+  border-color:rgba(217,224,230,.86);
+}
+/* The instruction is a curated left-side anchor, centered within its own column. */
+@media (min-width:941px){
+  .v04-main .command-guidance{
+    left:clamp(98px,10.3vw,182px);
+    top:clamp(11px,1.65vh,22px);
+    width:clamp(285px,26vw,375px);
+    max-width:375px;
+    justify-items:center;
+    gap:9px;
+  }
+  .v04-main .guidance-mark{width:36px;height:2px;background:linear-gradient(90deg,transparent,#b69d73 30%,#b69d73 70%,transparent)}
+  .v04-main .command-guidance p{
+    font-size:clamp(15px,1.15vw,18px);
+    line-height:1.26;
+    font-weight:650;
+    text-align:center;
+    letter-spacing:-.035em;
+    color:#34404b;
+    text-shadow:0 0 11px #fff;
+  }
+  .v04-main .command-guidance strong{color:#9d7e4e;font-weight:840}
+}
+@media (min-width:941px) and (max-height:730px){
+  .v04-main .command-guidance{top:7px;gap:5px}
+  .v04-main .command-guidance p{font-size:15px;line-height:1.2}
+}
+@media (min-width:941px) and (max-width:1100px){
+  .v04-main .orbital-anchor{width:192px}
+  .v04-main .service-pill{height:60px}
+  .v04-main .service-icon{width:47px;height:47px;flex-basis:47px}
+  .v04-main .service-label{font-size:10.8px}
+  .v04-main .command-guidance{left:50px;width:290px}
+}
+/* On small screens leave the main gesture-first layout intact, while retaining
+   the warmer intervention markers and lighter system shells. */
+@media(max-width:940px){
+  .v04-main .theme-node{background:linear-gradient(145deg,#fffdf7,#efdfc1);border-color:#c4ab82;box-shadow:0 5px 14px rgba(138,112,73,.09)}
+  .v04-main .theme-node strong{color:#6b573d}
+  .v04-main .theme-icon{color:#9c8258}
+}

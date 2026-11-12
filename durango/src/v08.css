@@ -1,0 +1,88 @@
+/* DURANGO / V08 — Official lettering and institutional seal animation.
+   The 7 services, 4 golden areas, orbit geometries, interactions and speeds
+   are inherited unchanged from V07. */
+
+@media (min-width:941px){
+  /* Monumental letterforms are traced from the supplied government identity;
+     never enlarge substituted italic font glyphs that can clip at the O. */
+  .v04-main .durango-core{
+    width:min(80.4vw,1400px)!important;
+    max-width:calc(100vw - 90px)!important;
+    height:min(35vh,250px)!important;
+    left:50%!important;
+    transform:translate(-50%,-50%)!important;
+    overflow:visible!important;
+  }
+  .v04-main .core-dark{width:100%;overflow:visible!important;display:flex;align-items:center;justify-content:center}
+  .v04-main .core-dark img.core-hero-wordmark{
+    display:block!important;
+    position:relative!important;
+    left:auto!important;top:auto!important;
+    width:100%!important;max-width:100%!important;
+    height:auto!important;
+    object-fit:contain;
+    transform:none!important;
+    mask-image:none!important;
+    -webkit-mask-image:none!important;
+    filter:drop-shadow(0 4px 4px rgba(0,0,0,.28)) drop-shadow(0 0 12px rgba(255,255,255,.13));
+    user-select:none;
+    pointer-events:none;
+  }
+  .v04-main .core-hero-lettering{display:none!important}
+  .v04-main .core-claim{
+    top:calc(50% + clamp(50px,5.2vw,88px))!important;
+    left:0!important;right:0!important;
+    white-space:nowrap;
+  }
+  /* The footer is a deliberately thin instrument strip. */
+  .v04-shell .control-bar.control-bar-sales{
+    height:48px!important;min-height:48px!important;flex-basis:48px!important;
+    grid-template-columns:minmax(120px,1fr) auto auto!important;
+    padding:4px clamp(21px,3vw,46px)!important;
+    padding-right:clamp(111px,10vw,154px)!important;
+    gap:clamp(12px,1.8vw,24px)!important;
+    background:rgba(255,255,255,.965)!important;
+    border-top:1px solid rgba(175,184,194,.28);
+    box-shadow:none!important;
+    backdrop-filter:blur(9px);
+  }
+  .v04-shell .control-bar::before{height:7px!important;opacity:.13!important}
+  .v04-shell .powered-pill{font-size:clamp(8px,.61vw,9px)!important;padding:7px 11px!important;letter-spacing:.08em!important}
+  .v04-shell .control-index{letter-spacing:.15em!important;font-size:9px!important}
+  .v04-shell .icon-action{width:31px!important;height:31px!important}
+  .v04-shell .control-actions{gap:4px!important}
+}
+
+/* The seal sits at the lower-right without occupying the orbital diagram. */
+.government-seal{
+  position:absolute;
+  bottom:3px;right:clamp(16px,2.2vw,34px);
+  width:clamp(64px,5.6vw,84px);height:clamp(64px,5.6vw,84px);
+  z-index:22;isolation:isolate;pointer-events:none;
+  border:1px solid rgba(191,202,214,.36);
+  border-radius:50%;overflow:hidden;
+  background:radial-gradient(circle at 35% 25%,#333942 0%,#15191f 54%,#080b0e 100%);
+  box-shadow:0 5px 21px rgba(34,46,61,.16),0 0 0 4px rgba(255,255,255,.65);
+}
+.government-seal::after{
+  content:'';inset:0;position:absolute;border-radius:50%;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 39%,rgba(255,255,255,.035) 70%,transparent);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.18),inset 0 -6px 10px rgba(0,0,0,.3);
+}
+.government-seal img,.government-seal picture{width:100%;height:100%;display:block;object-fit:cover;filter:contrast(1.08)}
+
+/* Preserve the V07 mobile compact core and controls, avoid footer overlap. */
+@media(max-width:940px){
+  .v04-main .core-dark img.core-hero-wordmark{display:none!important}
+  .government-seal{width:58px;height:58px;right:15px;bottom:9px}
+  .v04-shell .control-bar.control-bar-sales{padding-right:80px!important;position:relative}
+  .v04-shell .control-actions{margin-right:0}
+}
+@media(max-width:620px){
+  .government-seal{width:48px;height:48px;bottom:11px;right:12px}
+  .v04-shell .control-bar.control-bar-sales{padding-right:68px!important}
+  .v04-shell .powered-pill{max-width:100%;white-space:normal;font-size:8px;line-height:1.35}
+}
+@media(prefers-reduced-motion:reduce){
+  .government-seal img{animation:none}
+}
