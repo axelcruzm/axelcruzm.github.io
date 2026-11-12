@@ -1,0 +1,86 @@
+/* DURANGO / V09 — clean high-resolution typography and white-ground seal.
+   Keep V08 orbital geometry, interactions and animation timings unchanged. */
+
+/* The previous enlarged tracing introduced visibly uneven letter geometry.
+   Render the logotype as native vector text with the loaded Manrope family. */
+.v04-main .core-dark .core-hero-wordmark-text{display:none}
+
+@media (min-width:941px){
+  .v04-main .core-dark .core-hero-wordmark-text{
+    display:block;
+    position:relative;
+    z-index:3;
+    flex:none;
+    max-width:100%;
+    white-space:nowrap;
+    font-family:'Manrope','Arial Black',sans-serif;
+    font-style:normal;
+    font-weight:800;
+    font-synthesis:none;
+    font-size:clamp(100px,11.2vw,196px);
+    line-height:.95;
+    letter-spacing:.14em;
+    text-rendering:geometricPrecision;
+    -webkit-font-smoothing:antialiased;
+    background:linear-gradient(180deg,#ffffff 0%,#f9fbfc 27%,#ccd5dd 70%,#f9fbfd 100%);
+    background-clip:text;
+    -webkit-background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+    transform:scaleX(1.12);
+    transform-origin:center;
+    filter:drop-shadow(0 3px 4px rgba(0,0,0,.26)) drop-shadow(0 0 13px rgba(255,255,255,.1));
+    pointer-events:none;
+    user-select:none;
+  }
+  .v04-main .core-claim{
+    top:calc(50% + clamp(67px,5.7vw,103px))!important;
+  }
+}
+
+/* Remove the circular charcoal container entirely: the spinning emblem
+   floats over the same white instrument surface as the rest of the footer. */
+.government-seal{
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:visible!important;
+  box-shadow:none!important;
+}
+.government-seal::before{
+  content:'';
+  position:absolute;
+  z-index:0;
+  left:19%;right:19%;bottom:9%;height:21%;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(39,49,60,.16),rgba(39,49,60,0) 72%);
+  filter:blur(7px);
+  pointer-events:none;
+}
+.government-seal::after{content:none!important}
+.government-seal picture{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  filter:none!important;
+  /* Dissolve the raster frame corners without cropping the metal shield. */
+  -webkit-mask-image:radial-gradient(circle at center,#000 59%,rgba(0,0,0,.94) 71%,transparent 98%);
+  mask-image:radial-gradient(circle at center,#000 59%,rgba(0,0,0,.94) 71%,transparent 98%);
+}
+.government-seal picture img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  /* The V09 animation has charcoal pixels baked into each frame.
+     On white, invert + contrast maps those pixels to ivory while keeping
+     the crest in graphite and preserving all animated 3D frames. */
+  filter:grayscale(1) invert(1) contrast(1.5) brightness(1.04)!important;
+  mix-blend-mode:multiply;
+}
