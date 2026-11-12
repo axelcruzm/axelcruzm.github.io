@@ -84,3 +84,12 @@
   filter:grayscale(1) invert(1) contrast(1.5) brightness(1.04)!important;
   mix-blend-mode:multiply;
 }
+
+/* V09.1 — The monumental DURANGO wordmark is the foreground layer.
+   Keep the seven services interactive even when the lettering overlaps them. */
+@media (min-width:941px){
+  .v04-main .command .durango-core{
+    z-index:30!important;
+    pointer-events:none;
+  }
+}
