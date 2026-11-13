@@ -11,7 +11,7 @@ const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
 let selectedStep=0,hovered=null,stageVisible=true;
 const outerNodes=[],innerNodes=[];
-const accents=['#ce1747','#e66b16','#207caa','#255caa','#aa2366','#40845b','#80532f'];
+const accents=['#ce1747','#e66b16','#207caa','#255caa','#aa2366','#aa2366','#80532f'];
 const displayTitle=s=>s.id==='ia'?'Inteligencia artificial y plataformas':s.title;
 
 const iconPaths={
@@ -228,10 +228,24 @@ function showDialog(){
   connection.classList.remove('is-visible');
   $('.dialog-content-scroll').scrollTop=0;
 }
+const serviceArtwork=[
+ ['lagartija-bolson','dashboard'],['culebra-fox','cine-edicion'],
+ ['culebra-agua','comunicacion'],['cachorrito','robot-ia'],
+ ['tortuga-bolson','animacion'],['tortuga-lodo','documento'],['loro','delivery']
+];
+function setServiceArtwork(index){
+ const [animal,service]=serviceArtwork[index];
+ dialog.dataset.art=String(index+1);
+ $('#animalArt').src=`./assets/illustrations/${animal}.webp`;
+ $('#serviceArt').src=`./assets/illustrations/${service}.webp`;
+ const next=serviceArtwork[index+1];
+ if(next)next.forEach(name=>{const img=new Image();img.src=`./assets/illustrations/${name}.webp`;});
+}
 function openService(index,trigger){
   activeType='service';activeIndex=Math.max(0,Math.min(services.length-1,index));
   if(trigger)lastTrigger=trigger;
   const s=services[activeIndex],e=experiences[s.id];selectedStep=0;
+  setServiceArtwork(activeIndex);
   dialog.classList.remove('is-theme','is-ai');
   $('#detailKicker').textContent=`TOM / ${s.number}`;
   dialog.style.setProperty('--service-accent',accents[activeIndex]);
