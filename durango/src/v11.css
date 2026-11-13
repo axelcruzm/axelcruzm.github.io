@@ -84,3 +84,25 @@
  .detail-dialog:not(.is-theme) .dialog-copy-pane{flex:1;min-height:0}
  .brand-flourish{top:calc(20dvh - 90px);height:95px;width:115px;right:16px}
 }
+/* V12 — monumental illustration breaking the photographic frame. */
+@media(min-width:941px){
+ .detail-dialog:not(.is-theme){overflow:visible}
+ .detail-dialog:not(.is-theme) .dialog-frame{border-radius:26px}
+ .detail-dialog:not(.is-theme) .dialog-copy-pane{border-radius:26px 0 0 26px;overflow:hidden}
+ .detail-dialog:not(.is-theme) .dialog-image-pane{border-radius:0 26px 26px 0;overflow:hidden}
+ .detail-dialog:not(.is-theme) .brand-flourish{
+  width:clamp(480px,46vw,880px);height:auto;max-width:none;
+  right:clamp(-240px,calc((1380px - 100vw)/2 + 20px),-12px);
+  bottom:-22px;top:auto;object-fit:contain;object-position:center;
+  filter:drop-shadow(0 18px 24px #10203030);z-index:6;
+ }
+ .detail-dialog:not(.is-theme) .dialog-footer{position:relative;z-index:7}
+ .detail-dialog:not(.is-theme) .photo-credit{position:relative;z-index:7;background:#122337ed}
+}
+@media(min-width:641px) and (max-width:940px){
+ .detail-dialog:not(.is-theme) .brand-flourish{width:42vw;height:auto;right:-10px;bottom:78px;top:auto}
+}
+@media(max-width:640px){
+ .detail-dialog:not(.is-theme) .brand-flourish{width:220px;height:auto;right:-12px;top:calc(20dvh - 115px);bottom:auto}
+ .detail-dialog:not(.is-theme) .dialog-topline{z-index:7}
+}
