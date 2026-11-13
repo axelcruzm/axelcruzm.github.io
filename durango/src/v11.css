@@ -1,5 +1,5 @@
 /* V11 — Durango identity: sequence, craft and vivid territorial color. */
-.v04-main .command-noise{inset:0!important;opacity:.17!important;background:url('../assets/brand/patron-durango.png') repeat!important;background-size:460px auto!important;mix-blend-mode:multiply;mask-image:radial-gradient(ellipse at center,#000 20%,#0009 62%,transparent 95%);pointer-events:none}
+.v04-main .command-noise{inset:0!important;opacity:.17!important;background:url('../assets/brand/patron-durango.png') repeat!important;background-size:460px auto!important;mix-blend-mode:multiply;-webkit-mask-image:radial-gradient(ellipse closest-side at center,#000 20%,#0009 62%,transparent 96%);mask-image:radial-gradient(ellipse closest-side at center,#000 20%,#0009 62%,transparent 96%);pointer-events:none}
 .tom-ribbon:after{content:'';position:absolute;bottom:0;left:3%;right:3%;height:4px;background:url('../assets/brand/linea-color.svg') center/100% 100% no-repeat;opacity:.8}
 .v04-main .orbital-anchor{width:264px}
 .v04-main .service-pill{height:90px;padding:0 14px 0 13px;gap:10px;border-radius:25px;background:linear-gradient(135deg,#fff,#f8f9fa);border:1px solid #fff;box-shadow:0 12px 28px #101a2926,inset 0 0 0 1px #24344110}
