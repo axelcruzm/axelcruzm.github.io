@@ -229,9 +229,9 @@ function showDialog(){
   $('.dialog-content-scroll').scrollTop=0;
 }
 const serviceArtwork=[
- ['lagartija-bolson','dashboard'],['culebra-fox','cine-edicion'],
- ['culebra-agua','comunicacion'],['cachorrito','robot-ia'],
- ['tortuga-bolson','animacion'],['tortuga-lodo','documento'],['loro','delivery']
+ ['culebra-agua','dashboard'],['tortuga-lodo','cine-edicion'],
+ ['lagartija-bolson','comunicacion'],['culebra-fox','robot-ia'],
+ ['cachorrito','animacion'],['loro','documento'],['tortuga-bolson','delivery']
 ];
 function setServiceArtwork(index){
  const [animal,service]=serviceArtwork[index];

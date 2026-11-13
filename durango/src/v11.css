@@ -220,3 +220,21 @@
  .detail-dialog:not(.is-theme) #heroNumber{font-size:78px}
  .detail-dialog:not(.is-theme) #detailTitle{font-size:26px}
 }
+
+/* V15 — TOM leads; contrasting fauna bridges copy and photograph. */
+@media(min-width:941px){
+ .detail-dialog .service-art-composition .service-art{width:46%;max-width:660px;left:auto;right:clamp(-220px,calc((1380px - 100vw)/2 + 25px),-10px);bottom:-38px;z-index:4;transform:rotate(-5deg)}
+ .detail-dialog .service-art-composition .animal-art{width:24%;max-width:340px;left:49%;right:auto;bottom:105px;z-index:5;transform:rotate(-7deg)}
+ .detail-dialog[data-art="4"] .service-art-composition .service-art,.detail-dialog[data-art="6"] .service-art-composition .service-art{width:43%;bottom:-30px}
+ .detail-dialog[data-art="5"] .service-art-composition .service-art{width:47%;bottom:-15px}
+ .detail-dialog[data-art="5"] .service-art-composition .animal-art{transform:rotate(8deg)}
+ .detail-dialog[data-art="6"] .service-art-composition .animal-art{bottom:110px;transform:rotate(-10deg)}
+}
+@media(min-width:641px) and (max-width:940px){
+ .detail-dialog .service-art-composition .service-art{width:44%;left:auto;right:-16px;bottom:15px;transform:rotate(-5deg)}
+ .detail-dialog .service-art-composition .animal-art{width:23%;left:52%;right:auto;bottom:220px;transform:rotate(-7deg)}
+}
+@media(max-width:640px){
+ .detail-dialog .service-art-composition .service-art{width:47%;left:auto;right:0;bottom:10px;transform:rotate(-5deg)}
+ .detail-dialog .service-art-composition .animal-art{width:27%;left:28%;right:auto;bottom:12px;transform:rotate(-7deg)}
+}
