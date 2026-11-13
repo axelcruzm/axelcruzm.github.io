@@ -243,3 +243,13 @@
  .v04-main .command::after{content:'';position:absolute;left:50%;top:50%;width:58%;height:35%;transform:translate(-50%,-50%);z-index:29;pointer-events:none;mix-blend-mode:multiply;background:radial-gradient(ellipse closest-side at center,rgba(5,9,15,.455) 0%,rgba(5,9,15,.425) 22%,rgba(5,9,15,.33) 42%,rgba(5,9,15,.17) 60%,rgba(5,9,15,.05) 76%,transparent 92%)}
  .v04-main .core-dark .core-hero-wordmark-text{filter:drop-shadow(0 0 3.5px #0006) drop-shadow(0 0 12px #0005) drop-shadow(0 0 25px #0004)}
 }
+
+/* V18 — clear areas above both veils; services receive only the softer veil. */
+.service-soft-halo{display:none}
+@media(min-width:941px){
+ .v04-main .command::after{z-index:3}
+ .v04-main .command-orbit.outer{z-index:4}
+ .v04-main .service-soft-halo{display:block;position:absolute;left:50%;top:50%;width:32%;height:18%;transform:translate(-50%,-50%);z-index:6;pointer-events:none;mix-blend-mode:multiply;background:radial-gradient(ellipse closest-side at center,#05090f26 0%,#05090f18 35%,#05090f08 65%,transparent 95%)}
+ .v04-main .command-orbit.inner{z-index:7}
+ .v04-main .orbit-title-inner{z-index:8}
+}
