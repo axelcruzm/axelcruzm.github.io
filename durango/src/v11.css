@@ -238,3 +238,8 @@
  .detail-dialog[data-art] .service-art-composition .service-art{width:47%;left:auto;right:0;bottom:10px;transform:rotate(-5deg)}
  .detail-dialog[data-art] .service-art-composition .animal-art{width:27%;left:28%;right:auto;bottom:12px;transform:rotate(-7deg)}
 }
+/* V16 — omnidirectional contrast veil immediately below DURANGO. */
+@media(min-width:941px){
+ .v04-main .command::after{content:'';position:absolute;left:50%;top:50%;width:116%;height:70%;transform:translate(-50%,-50%);z-index:29;pointer-events:none;mix-blend-mode:multiply;background:radial-gradient(ellipse closest-side at center,rgba(5,9,15,.91) 0%,rgba(5,9,15,.85) 22%,rgba(5,9,15,.66) 42%,rgba(5,9,15,.34) 60%,rgba(5,9,15,.10) 76%,transparent 92%)}
+ .v04-main .core-dark .core-hero-wordmark-text{filter:drop-shadow(0 0 7px #000c) drop-shadow(0 0 24px #000a) drop-shadow(0 0 50px #0008)}
+}
