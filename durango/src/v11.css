@@ -215,3 +215,8 @@
  .detail-dialog .service-art-composition .animal-art{width:42%;right:2%;bottom:15px}
  .detail-dialog .service-art-composition .service-art{width:32%;left:30%;bottom:16px}
 }
+@media(max-width:640px){
+ .detail-dialog:not(.is-theme) .dialog-content-scroll{grid-template-columns:92px minmax(0,1fr);column-gap:16px}
+ .detail-dialog:not(.is-theme) #heroNumber{font-size:78px}
+ .detail-dialog:not(.is-theme) #detailTitle{font-size:26px}
+}
