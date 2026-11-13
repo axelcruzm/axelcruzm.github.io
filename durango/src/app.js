@@ -1,5 +1,6 @@
 import {services,themes,photos} from './content.js';
 import {experiences} from './experiences.js';
+import {themeStories,serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
 const outerTrack=$('#serviceTrack'),innerTrack=$('#themeTrack');
@@ -8,7 +9,7 @@ const dialog=$('#detailDialog'),command=$('.command');
 const connection=$('#orbitConnection'),connectionLine=$('#connectionLine');
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
-let selectedAxis=0,selectedStep=0,hovered=null,stageVisible=true;
+let selectedStep=0,hovered=null,stageVisible=true;
 const outerNodes=[],innerNodes=[];
 
 const iconPaths={
@@ -126,17 +127,13 @@ function setPhoto(key){
   $('#detailLocation').textContent='VISUAL CONCEPTUAL · DURANGO';
   $('#photoCredit').textContent='Referencia visual conceptual. Pendiente de fotografía documental autorizada.';
   image.onload=()=>{
-    pane.classList.add('is-loaded');$('#detailLocation').textContent=p.place;
+    pane.classList.add('is-loaded');if(!video.hidden)return;$('#detailLocation').textContent=p.place;
     $('#photoCredit').innerHTML=`Fotografía: <a href="${p.source}" target="_blank" rel="noopener">${p.by}</a> · <a href="${p.licenseUrl}" target="_blank" rel="noopener">${p.license}</a> · Wikimedia Commons`;
   };
   image.onerror=()=>{pane.classList.remove('is-loaded');image.removeAttribute('src');};
   image.alt=p.title;image.src=p.src;
 }
 
-function stageButtons(s){
-  const e=experiences[s.id];
-  return e.steps.map((x,i)=>`<button type="button" data-step="${i}" class="viz-step ${selectedStep===i?'is-active':''}" aria-pressed="${selectedStep===i}"><span class="viz-index">${String(i+1).padStart(2,'0')}</span>${x.label}</button>`).join('');
-}
 function coreGraphic(s){
   const e=experiences[s.id];
   const steps=e.steps;
@@ -151,11 +148,15 @@ function coreGraphic(s){
 }
 function renderExperience(service){
   const exp=experiences[service.id];
-  $('#detailVisual').innerHTML=`<div class="viz-shell viz-${exp.kind}"><div class="viz-kicker"><span>DEMO INTERACTIVA · ${service.number}</span><span>↗ SELECCIONA UNA ETAPA</span></div><div class="viz-graphic">${coreGraphic(service)}</div><div class="viz-caption" aria-live="polite"><span class="caption-index">${service.number} / DEMOSTRACIÓN</span><strong id="vizCaption">${exp.steps[selectedStep].caption}</strong><small id="vizDetail">${exp.steps[selectedStep].detail}</small></div><div class="viz-stepper" role="group" aria-label="Etapas de la demostración">${stageButtons(service)}</div></div>`;
+  const control=exp.kind==='compare'?'DESLIZA PARA COMPARAR':'EXPLORA EL PROCESO';
+  const formats=exp.kind==='formats'?`<div class="viz-stepper" role="group" aria-label="Seleccionar formato">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" class="viz-step ${i===0?'is-active':''}" aria-pressed="${i===0}">${st.label}</button>`).join('')}</div>`:'';
+  $('#detailVisual').innerHTML=`<div class="viz-shell viz-${exp.kind}"><div class="viz-kicker"><span>${control}</span><span>DEMO</span></div><div class="viz-graphic">${coreGraphic(service)}</div>${formats}<div class="viz-caption" aria-live="polite"><strong id="vizCaption">${exp.steps[0].caption}</strong><small id="vizDetail">${exp.steps[0].detail}</small></div></div>`;
   const visual=$('#detailVisual');
-  visual.querySelectorAll('[data-step]').forEach(button=>button.addEventListener('click',()=>updateStep(service,Number(button.dataset.step))));
-  const slider=visual.querySelector('#compareSlider');
-  slider?.addEventListener('input',event=>{$('#compareBoard').style.setProperty('--compare',`${event.target.value}%`);});
+  visual.querySelectorAll('[data-step]').forEach(button=>{
+    button.setAttribute('aria-pressed',String(Number(button.dataset.step)===0));
+    button.addEventListener('click',()=>updateStep(service,Number(button.dataset.step)));
+  });
+  visual.querySelector('#compareSlider')?.addEventListener('input',event=>$('#compareBoard').style.setProperty('--compare',`${event.target.value}%`));
 }
 function updateStep(service,index){
   const exp=experiences[service.id];selectedStep=Math.max(0,Math.min(exp.steps.length-1,index));
@@ -166,16 +167,57 @@ function updateStep(service,index){
   const format=visual.querySelector('.format-device');if(format)format.className=`format-device format-${selectedStep}`;
   const formatPlay=visual.querySelector('.format-play');if(formatPlay)formatPlay.textContent=selectedStep===2?'≡':'▶';
 }
-function renderAxisSelector(impact,initial=0){
-  selectedAxis=initial;
-  $('#impactTabs').innerHTML=themes.map((t,i)=>`<button type="button" class="axis-tab ${i===selectedAxis?'is-active':''}" data-axis="${i}" aria-pressed="${i===selectedAxis}">${icon(t.icon)}<span>${t.short}</span></button>`).join('');
-  $('#impactTabs').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>changeAxis(impact,Number(button.dataset.axis))));
-  changeAxis(impact,selectedAxis);
+// Video slots stay empty until approved TOM masters arrive. Only the active clip loads.
+const video=$('#detailVideo'),videoToggle=$('#videoToggle');
+let mediaGeneration=0;
+function clearVideo(){
+  mediaGeneration++;
+  video.onloadeddata=null;video.onerror=null;
+  video.pause();video.removeAttribute('src');video.load();
+  video.hidden=true;videoToggle.hidden=true;
 }
-function changeAxis(impact,index){
-  selectedAxis=index;const theme=themes[index];
-  $('#impactTabs').querySelectorAll('button').forEach(b=>{const on=Number(b.dataset.axis)===index;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on));});
-  $('#impactResult').innerHTML=`<span class="impact-code">0${index+1} / ${theme.name}</span><p>${impact[theme.id]||'Aplicación por definir.'}</p><span class="impact-arrow" aria-hidden="true">↗</span>`;
+function syncVideoControl(){
+  videoToggle.textContent=video.paused?'▶':'Ⅱ';
+  videoToggle.setAttribute('aria-label',video.paused?'Reproducir video':'Pausar video');
+}
+function setMedia(service){
+  clearVideo();
+  const media=serviceMedia[service.id];
+  if(!media?.src)return;
+  const generation=mediaGeneration;
+  video.poster=media.poster||photos[service.image].fallback;
+  video.setAttribute('aria-label',media.label||service.title);
+  video.src=media.src;
+  video.onloadeddata=()=>{
+    if(generation!==mediaGeneration)return;
+    video.hidden=false;videoToggle.hidden=false;
+    $('#detailLocation').textContent=media.label||'TOM · PRODUCCIÓN';
+    $('#photoCredit').textContent=media.credit||'Producción TOM';
+    if(!reducedMotion.matches&&dialog.open)video.play().catch(()=>{});
+    syncVideoControl();
+  };
+  video.onerror=()=>{if(generation===mediaGeneration)clearVideo();};
+  video.load();
+}
+videoToggle.addEventListener('click',()=>{if(video.paused)video.play().catch(()=>{});else video.pause();});
+video.addEventListener('play',syncVideoControl);video.addEventListener('pause',syncVideoControl);
+function renderFacts(id){
+  const facts=(serviceFacts[id]||[]).filter(f=>f.verified&&f.value&&f.label&&f.source);
+  const container=$('#serviceFacts');container.replaceChildren();container.hidden=!facts.length;
+  facts.slice(0,3).forEach(f=>{
+    const item=document.createElement('div'),value=document.createElement('strong'),label=document.createElement('span');
+    value.textContent=f.value;label.textContent=f.label;item.title=f.source;item.append(value,label);container.append(item);
+  });
+}
+function updatePager(){
+  const isService=activeType==='service',total=isService?services.length:themes.length;
+  $('#journeyLabel').textContent=isService?'SERVICIOS TOM':'ÁREAS DE DURANGO';
+  $('#pagerText').textContent=`${String(activeIndex+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
+  $('#prevDetail').disabled=activeIndex===0;
+  $('#prevDetail').setAttribute('aria-label',isService?'Servicio anterior':'Área anterior');
+  $('#nextDetail').setAttribute('aria-label',activeIndex===total-1?'Terminar recorrido y volver al mapa':isService?'Servicio siguiente':'Área siguiente');
+  $('#nextDetail').title=$('#nextDetail').getAttribute('aria-label');
+  $('#nextDetail').textContent=activeIndex===total-1?'✓':'→';
 }
 function showDialog(){
   if(!dialog.open)dialog.showModal();
@@ -184,41 +226,38 @@ function showDialog(){
   connection.classList.remove('is-visible');
   $('.dialog-content-scroll').scrollTop=0;
 }
-function openService(index,trigger,themeIndex=0){
-  activeType='service';activeIndex=(index+services.length)%services.length;
+function openService(index,trigger){
+  activeType='service';activeIndex=Math.max(0,Math.min(services.length-1,index));
   if(trigger)lastTrigger=trigger;
-  const s=services[activeIndex],e=experiences[s.id];
-  selectedStep=0;
-  dialog.classList.remove('is-ai');
-  $('#detailKicker').textContent=`TOM / CAPACIDAD ${s.number} DE 07`;
-  $('#detailNumber').textContent=`${s.number} / UNA CAPACIDAD TOM`;
+  const s=services[activeIndex],e=experiences[s.id];selectedStep=0;
+  dialog.classList.remove('is-theme','is-ai');
+  $('#detailKicker').textContent=`TOM / ${s.number}`;
   $('#detailServiceName').textContent=s.title;
   $('#detailTitle').textContent=e.headline;
   $('#detailLead').textContent=e.subline;
-  renderExperience(s);renderAxisSelector(s.impact,themeIndex);
-  $('#deliveryChips').innerHTML=e.outputs.map(d=>`<span class="delivery-chip">${d}</span>`).join('');
-  $('#pagerText').textContent=`${s.number} / 07`;
-  setPhoto(s.image);showDialog();
+  $('#detailVisual').hidden=false;$('#themeSupport').hidden=true;
+  renderExperience(s);renderFacts(s.id);updatePager();
+  setPhoto(s.image);showDialog();setMedia(s);
 }
 function openTheme(index,trigger){
-  activeType='theme';activeIndex=(index+themes.length)%themes.length;
+  activeType='theme';activeIndex=Math.max(0,Math.min(themes.length-1,index));
   if(trigger)lastTrigger=trigger;
-  const theme=themes[activeIndex];dialog.classList.remove('is-ai');
-  $('#detailKicker').textContent=`DURANGO / PRIORIDAD 0${activeIndex+1} DE 04`;
-  $('#detailNumber').textContent=`0${activeIndex+1} / EJE TERRITORIAL`;
-  $('#detailServiceName').textContent='UNA PRIORIDAD · SIETE CAPACIDADES';
-  $('#detailTitle').textContent=theme.name;
-  $('#detailLead').textContent=theme.description;
-  $('#detailVisual').innerHTML=`<div class="theme-directory"><div class="viz-kicker">EXPLORA CÓMO TOM PUEDE ACTUAR SOBRE ESTE EJE</div><div class="theme-directory-grid">${services.map((s,i)=>`<button class="theme-service-button" data-service="${i}" type="button"><span>${s.number}</span><strong>${s.title}</strong><em>↗</em></button>`).join('')}</div></div>`;
-  $('#detailVisual').querySelectorAll('[data-service]').forEach(b=>b.addEventListener('click',()=>openService(Number(b.dataset.service),null,index)));
-  $('#impactTabs').innerHTML='';
-  $('#impactResult').innerHTML=`<span class="impact-code">DURANGO / EJE SELECCIONADO</span><p>${theme.tag}</p>`;
-  $('#deliveryChips').innerHTML='<span class="delivery-chip">Estrategia y contenidos</span><span class="delivery-chip">Producción y tecnología</span>';
-  $('#pagerText').textContent=`0${activeIndex+1} / 04`;
-  setPhoto(['ojuela','canyon','catedral','waterfall'][activeIndex]);showDialog();
+  clearVideo();
+  const theme=themes[activeIndex],story=themeStories[theme.id];
+  dialog.classList.remove('is-ai');dialog.classList.add('is-theme');
+  $('#detailKicker').textContent=`DURANGO / ${theme.name}`;
+  $('#detailServiceName').textContent=theme.name;
+  $('#detailTitle').textContent=story.headline;
+  $('#detailLead').textContent=story.intro;
+  $('#themeSupport').textContent=story.support;$('#themeSupport').hidden=false;
+  $('#detailVisual').hidden=true;$('#detailVisual').replaceChildren();$('#serviceFacts').hidden=true;
+  updatePager();setPhoto(story.image);showDialog();
 }
 function navigate(step){
-  if(activeType==='service')openService(activeIndex+step,null,selectedAxis);
+  const total=activeType==='service'?services.length:themes.length;
+  if(activeIndex+step<0)return;
+  if(activeIndex+step>=total){close();return;}
+  if(activeType==='service')openService(activeIndex+step,null);
   else openTheme(activeIndex+step,null);
 }
 function close(){if(dialog.open)dialog.close();}
@@ -233,20 +272,23 @@ function setPaused(next){
 renderNavigation();
 new ResizeObserver(recalcGeometry).observe(command);
 new IntersectionObserver(entries=>{stageVisible=entries[0]?.isIntersecting??true;if(stageVisible)startClock();else stopClock();},{threshold:.02}).observe(command);
-reducedMotion.addEventListener?.('change',()=>{if(reducedMotion.matches)stopClock();else startClock();paint();});
+reducedMotion.addEventListener?.('change',()=>{if(reducedMotion.matches){stopClock();video.pause();}else startClock();paint();});
 window.addEventListener('resize',recalcGeometry,{passive:true});
 recalcGeometry();startClock();
+$('#startJourney').addEventListener('click',event=>openService(0,event.currentTarget));
+$('#startJourneyMobile').addEventListener('click',event=>openService(0,event.currentTarget));
 $('#closeDialog').addEventListener('click',close);
 $('#prevDetail').addEventListener('click',()=>navigate(-1));
 $('#nextDetail').addEventListener('click',()=>navigate(1));
 dialog.addEventListener('click',event=>{if(event.target===dialog)close();});
 dialog.addEventListener('close',()=>{
+  clearVideo();
   document.body.classList.remove('modal-open');
   if(lastTrigger?.isConnected)lastTrigger.focus({preventScroll:true});
   lastTrigger=null;startClock();
 });
 document.addEventListener('keydown',event=>{
-  if(!dialog.open)return;
+  if(!dialog.open||event.target.closest('input,textarea,select,[contenteditable]'))return;
   if(event.key==='ArrowRight'){event.preventDefault();navigate(1);}
   if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1);}
 });
@@ -257,4 +299,4 @@ $('#fullscreenToggle').addEventListener('click',()=>{
 });
 document.addEventListener('fullscreenchange',()=>$('#fullscreenToggle').setAttribute('aria-label',document.fullscreenElement?'Salir de pantalla completa':'Ver en pantalla completa'));
 
-document.addEventListener('visibilitychange',()=>{if(document.hidden)stopClock();else startClock();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopClock();video.pause();}else startClock();});

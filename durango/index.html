@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="./src/v07.css">
   <link rel="stylesheet" href="./src/v08.css">
   <link rel="stylesheet" href="./src/v09.css">
+  <link rel="stylesheet" href="./src/v10.css">
 </head>
 <body>
   <div class="app-shell v04-shell">
@@ -36,7 +37,7 @@
         <div class="command-noise" aria-hidden="true"></div>
         <div class="command-guidance" aria-label="Instrucción de interacción">
           <span class="guidance-mark" aria-hidden="true"></span>
-          <p>Selecciona un área de <strong>TOM</strong> para explorar cómo podemos ayudar a <strong>Durango</strong>.</p>
+          <button id="startJourney" type="button" class="journey-start">Explorar los 7 servicios <span aria-hidden="true">→</span></button>
         </div>
         <svg class="orbit-connection" id="orbitConnection" aria-hidden="true" preserveAspectRatio="none"><line id="connectionLine" x1="0" y1="0" x2="0" y2="0" /></svg>
         <div class="rings-markings" aria-hidden="true"></div>
@@ -63,7 +64,7 @@
       <section class="mobile-command" aria-label="Explorador táctil de capacidades">
         <p class="mobile-section-caption">LOS CUATRO EJES DE DURANGO</p>
         <div class="mobile-themes" id="mobileThemes"></div>
-        <div class="mobile-service-head"><span>CAPACIDADES TOM</span><span>07 / 07</span></div>
+        <div class="mobile-service-head"><button id="startJourneyMobile" type="button" class="journey-start">Explorar los 7 servicios <span aria-hidden="true">→</span></button></div>
         <div class="mobile-services" id="mobileServices"></div>
       </section>
     </main>
@@ -94,6 +95,8 @@
       <section class="dialog-image-pane">
         <div class="dialog-image" id="dialogImage">
           <img id="detailPhoto" alt="Fotografía documental de Durango" loading="lazy" decoding="async">
+          <video id="detailVideo" muted loop playsinline preload="none" hidden></video>
+          <button id="videoToggle" type="button" class="video-toggle" hidden aria-label="Reproducir video">▶</button>
           <div class="photo-atmosphere" aria-hidden="true"></div>
           <div class="photo-place"><span class="photo-marker"></span><span id="detailLocation">DURANGO · MÉXICO</span></div>
         </div>
@@ -105,19 +108,15 @@
           <button id="closeDialog" class="close-action" aria-label="Cerrar detalle" title="Cerrar detalle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
         </div>
         <div class="dialog-content-scroll">
-          <div id="detailNumber" class="detail-number">01 — CAPACIDAD</div>
+
           <div id="detailServiceName" class="detail-service-name">Consultoría estratégica</div>
           <h2 id="detailTitle">Primero, claridad.</h2>
           <p id="detailLead" class="dialog-lead"></p>
           <div id="detailVisual" class="detail-visual" aria-label="Demostración interactiva de la capacidad"></div>
-          <section class="impact-section" aria-label="Aplicación a los ejes de Durango">
-            <div class="impact-title"><span>UNA CAPACIDAD · CUATRO APLICACIONES</span><span class="impact-rule"></span></div>
-            <div id="impactTabs" class="impact-tabs" role="group" aria-label="Seleccionar eje de Durango"></div>
-            <div id="impactResult" class="impact-result" aria-live="polite"></div>
-          </section>
-          <div class="delivery-block"><div class="delivery-label">ENTREGABLES ILUSTRATIVOS</div><div id="deliveryChips" class="delivery-chips"></div></div>
+          <div id="serviceFacts" class="service-facts" hidden></div>
+          <p id="themeSupport" class="theme-support" hidden></p>
         </div>
-        <div class="dialog-footer"><span>PROTOTIPO CONCEPTUAL TOM · NO ES UN SISTEMA EN OPERACIÓN</span><div class="dialog-pager"><button id="prevDetail" aria-label="Servicio anterior" title="Anterior">←</button><span id="pagerText">01 / 07</span><button id="nextDetail" aria-label="Servicio siguiente" title="Siguiente">→</button></div></div>
+        <div class="dialog-footer"><span id="journeyLabel">SERVICIOS TOM</span><div class="dialog-pager"><button id="prevDetail" aria-label="Servicio anterior" title="Anterior">←</button><span id="pagerText" aria-live="polite">01 / 07</span><button id="nextDetail" aria-label="Servicio siguiente" title="Siguiente">→</button></div></div>
       </section>
     </div>
   </dialog>

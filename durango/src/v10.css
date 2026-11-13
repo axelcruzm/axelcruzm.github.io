@@ -1,0 +1,84 @@
+/* V10: a single service journey; photographic, minimal territory stories. */
+.journey-start{border:0;background:none;color:inherit;font:inherit;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:18px;padding:10px 14px;pointer-events:auto}
+.journey-start span{font-size:24px;color:#947443}
+.journey-start:hover{background:#fff;border-radius:30px}
+.detail-dialog [hidden]{display:none!important}
+.detail-dialog{width:min(1380px,calc(100vw - 48px));height:min(810px,calc(100dvh - 40px))}
+.dialog-frame{grid-template-columns:56% 44%}
+.dialog-copy-pane{grid-template-rows:58px minmax(0,1fr) 76px}
+.dialog-content-scroll{padding:28px clamp(24px,3.5vw,52px)}
+.detail-service-name{font-size:12px;letter-spacing:.07em;margin:0 0 16px}
+#detailTitle{font-size:clamp(36px,4vw,61px);max-width:660px;margin-bottom:14px}
+.dialog-lead{max-width:500px;font-size:15px;line-height:1.5}
+.detail-visual{margin:25px 0 0}
+.detail-visual .viz-shell{padding:16px;border-radius:16px;background:#f6f7f7}
+.viz-caption{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;min-height:66px;padding:12px 0 0}
+.viz-caption strong{font-size:14px}
+.viz-caption small{font-size:11px}
+.pipeline-check,.film-track{display:none}
+.viz-graphic{min-height:180px;margin:8px 0}
+.dialog-footer{padding:10px 26px;gap:12px}
+.dialog-footer>span{font-size:10px;letter-spacing:.12em}
+.dialog-pager{gap:18px}
+.dialog-pager button{width:46px;height:46px;border-radius:50%;font-size:26px;cursor:pointer}
+.dialog-pager button:last-child{background:#243441;color:white;border-color:#243441}
+.dialog-pager button:disabled{opacity:.25;cursor:default}
+#pagerText{font-size:16px;min-width:62px;text-align:center;font-variant-numeric:tabular-nums}
+.service-facts{display:flex;gap:24px;margin-top:24px;border-top:1px solid #e4e6e7;padding-top:16px}
+.service-facts>div{flex:1}.service-facts strong{display:block;font-size:clamp(34px,4vw,58px);line-height:1;letter-spacing:-.06em}
+.service-facts span{display:block;font-size:11px;margin-top:7px}
+#detailVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.video-toggle{position:absolute;right:20px;top:20px;width:44px;height:44px;border-radius:50%;border:1px solid #ffffff80;background:#172633b8;color:#fff;z-index:5;cursor:pointer}
+.photo-place{z-index:3}
+.photo-credit{font-size:9px}
+.is-theme .dialog-frame{display:block;position:relative}
+.is-theme .dialog-image-pane{position:absolute;inset:0}
+.is-theme .dialog-image:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,15,22,.82),rgba(4,15,22,.36) 66%,rgba(4,15,22,.12));z-index:1}
+.is-theme .dialog-copy-pane{position:relative;z-index:4;height:100%;background:none;color:#fff;grid-template-rows:64px minmax(0,1fr) 80px;pointer-events:none}
+.is-theme .dialog-topline,.is-theme .dialog-footer{background:none;border-color:#ffffff30}
+.is-theme .dialog-content-scroll{display:flex;flex-direction:column;justify-content:center;padding:30px clamp(30px,5vw,76px);pointer-events:auto;max-width:780px}
+.is-theme .detail-service-name{display:none}
+.is-theme #detailTitle{font-size:clamp(42px,5vw,74px);line-height:1.05;color:#fff;text-shadow:0 2px 24px #0004}
+.is-theme .dialog-lead,.theme-support{color:#f1f3f4;font-size:16px;line-height:1.65;max-width:510px}
+.theme-support{margin:15px 0 0}
+.is-theme .modal-kicker,.is-theme .dialog-footer>span{color:#fff}
+.is-theme .close-action,.is-theme .dialog-pager button{color:#fff;background:#17263380;border-color:#ffffff70;pointer-events:auto}
+.is-theme .dialog-pager{pointer-events:auto}
+.is-theme .photo-place{left:auto;right:28px;bottom:110px;max-width:220px;text-align:right;font-size:9px}
+.is-theme .photo-credit{position:absolute;bottom:85px;right:0;background:none;max-width:350px;z-index:5;min-height:0;text-align:right}
+.detail-dialog button:focus-visible,.journey-start:focus-visible{outline:3px solid #b89657;outline-offset:4px}
+@media(max-width:940px){
+ .detail-dialog{width:calc(100vw - 24px);height:calc(100dvh - 24px)}
+ .dialog-frame{grid-template-columns:60% 40%}
+ .dialog-content-scroll{padding:22px}
+ #detailTitle{font-size:39px}
+ .is-theme .photo-place{display:none}
+ .is-theme .photo-credit{max-width:100%;font-size:8px;bottom:80px}
+ .is-theme .dialog-content-scroll{padding-bottom:55px}
+}
+@media(max-width:640px){
+ .detail-dialog{width:100vw;height:100dvh;max-height:100dvh}
+ .dialog-frame{display:flex;flex-direction:column}
+ .dialog-image-pane{flex:0 0 20dvh}
+ .dialog-copy-pane{grid-template-rows:46px minmax(0,1fr) 76px}
+ .dialog-topline{padding:0 20px}.dialog-content-scroll{padding:20px}
+ #detailTitle{font-size:36px}.detail-service-name{font-size:10px;margin-bottom:10px}
+ .dialog-lead{font-size:13px}.detail-visual{margin-top:20px}
+ .dialog-footer{padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px))}
+ .dialog-footer>span{max-width:100px;font-size:9px}.dialog-pager{gap:12px}
+ .is-theme .dialog-frame{display:block;height:100%}
+ .is-theme .dialog-content-scroll{justify-content:flex-end;padding:30px 24px 50px;max-width:none}
+ .is-theme #detailTitle{font-size:43px}
+ .is-theme .dialog-lead,.theme-support{font-size:14px;line-height:1.5}
+ .is-theme .dialog-image:after{background:linear-gradient(180deg,#04101930,#041019a8 35%,#041019ed)}
+ .is-theme .photo-credit{display:block;font-size:7px;line-height:1.3;padding:8px 24px;bottom:81px;text-align:left;pointer-events:auto}
+}
+@media(prefers-reduced-motion:reduce){.detail-dialog *{animation:none!important;transition:none!important}}
+
+.is-theme #pagerText{color:#fff}
+.viz-kicker span:last-child{display:block}
+@media(max-width:640px){
+ .photo-credit{display:block;padding:5px 12px;min-height:0;font-size:7px;line-height:1.3}
+ .dialog-image-pane{flex-basis:22dvh}
+ .mobile-service-head .journey-start{padding-left:0;font-size:13px}
+}
