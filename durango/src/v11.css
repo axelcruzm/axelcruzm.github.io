@@ -106,3 +106,62 @@
  .detail-dialog:not(.is-theme) .brand-flourish{width:220px;height:auto;right:-12px;top:calc(20dvh - 115px);bottom:auto}
  .detail-dialog:not(.is-theme) .dialog-topline{z-index:7}
 }
+
+/* V13 — oversized DGO masthead, paired ordinal/title and signature icon. */
+.dgo-masthead{position:absolute;z-index:8;pointer-events:none;width:51%;height:auto;left:0;top:-72px}
+.is-theme .dgo-masthead,.is-theme .hero-service-icon{display:none}
+.detail-dialog:not(.is-theme) .dgo-signature{display:none}
+.detail-dialog:not(.is-theme) .dialog-content-scroll{display:grid;grid-template-columns:140px minmax(0,1fr);grid-auto-rows:min-content;column-gap:20px;align-content:start;padding-top:140px}
+.detail-dialog:not(.is-theme) .service-identity{grid-column:1;grid-row:1;margin:0;align-self:start}
+.detail-dialog:not(.is-theme) .service-ordinal{position:relative;display:block;padding-bottom:19px}
+.detail-dialog:not(.is-theme) .service-ordinal small{position:absolute;bottom:0;right:0;font-size:12px}
+.detail-dialog:not(.is-theme) #detailTitle{grid-column:2;grid-row:1;align-self:center;font-size:clamp(30px,2.8vw,46px);margin:0;overflow-wrap:normal}
+.detail-dialog:not(.is-theme) #heroNumber{font-size:142px}
+.detail-dialog:not(.is-theme) .detail-promise{display:none}
+.detail-dialog:not(.is-theme) .dialog-lead{grid-column:1/-1;margin:16px 0 0}
+.detail-dialog:not(.is-theme) .detail-visual{grid-column:1/-1;margin-top:20px}
+.detail-dialog:not(.is-theme) .hero-service-icon{grid-column:1/-1;justify-self:center;width:128px;height:128px;border-radius:36px;margin:18px 0 0}
+.detail-dialog:not(.is-theme) .hero-service-icon svg{width:72px;height:72px}
+.detail-dialog:not(.is-theme) .service-facts{grid-column:1/-1}
+@media(min-width:941px){
+ .detail-dialog:not(.is-theme) .dialog-topline{z-index:9}
+ .detail-dialog:not(.is-theme) .modal-kicker{visibility:hidden}
+}
+@media(max-height:820px) and (min-width:941px){
+ .dgo-masthead{width:43%;top:-55px}
+ .detail-dialog:not(.is-theme) .dialog-content-scroll{padding-top:100px;grid-template-columns:110px minmax(0,1fr)}
+ .detail-dialog:not(.is-theme) #heroNumber{font-size:112px}
+ .detail-dialog:not(.is-theme) #detailTitle{font-size:32px}
+ .detail-dialog:not(.is-theme) .hero-service-icon{width:90px;height:90px;border-radius:26px;margin-top:12px}
+ .detail-dialog:not(.is-theme) .hero-service-icon svg{width:54px;height:54px}
+}
+@media(max-width:940px){
+ .dgo-masthead{width:55%;top:0}
+ .detail-dialog:not(.is-theme) .dialog-content-scroll{padding-top:110px;grid-template-columns:90px minmax(0,1fr);column-gap:14px}
+ .detail-dialog:not(.is-theme) #heroNumber{font-size:94px}
+ .detail-dialog:not(.is-theme) #detailTitle{font-size:29px}
+ .detail-dialog:not(.is-theme) .hero-service-icon{width:90px;height:90px;border-radius:26px}
+}
+@media(max-width:640px){
+ .dgo-masthead{width:64%;top:0;left:8px}
+ .detail-dialog:not(.is-theme) .dialog-content-scroll{padding-top:14px;grid-template-columns:84px minmax(0,1fr);column-gap:14px}
+ .detail-dialog:not(.is-theme) #heroNumber{font-size:88px}
+ .detail-dialog:not(.is-theme) #detailTitle{font-size:28px}
+ .detail-dialog:not(.is-theme) .hero-service-icon{width:86px;height:86px;margin-top:16px}
+ .detail-dialog:not(.is-theme) .hero-service-icon svg{width:50px;height:50px}
+}
+@media(min-width:941px){
+ .detail-dialog:not(.is-theme) .dialog-content-scroll{padding-top:120px;padding-bottom:120px}
+ .detail-dialog:not(.is-theme) #heroNumber{font-size:126px}
+ .detail-dialog:not(.is-theme) .hero-service-icon{position:absolute;bottom:48px;right:24%;z-index:8;margin:0;pointer-events:none}
+ .detail-dialog:not(.is-theme) .viz-graphic{min-height:110px}
+ .detail-dialog:not(.is-theme) .strategy-panel{height:105px}
+ .detail-dialog:not(.is-theme) .visual-strategy{min-height:115px}
+ .detail-dialog:not(.is-theme) .viz-caption{min-height:42px}
+}
+@media(max-height:820px) and (min-width:941px){
+ .detail-dialog:not(.is-theme) .dialog-content-scroll{padding-top:80px;padding-bottom:90px}
+ .detail-dialog:not(.is-theme) #heroNumber{font-size:104px}
+ .detail-dialog:not(.is-theme) .hero-service-icon{bottom:54px}
+}
+@media(min-width:941px){.detail-dialog:not(.is-theme) .dialog-content-scroll{padding-bottom:20px}}
