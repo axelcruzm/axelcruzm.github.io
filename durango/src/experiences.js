@@ -41,10 +41,10 @@ export const experiences = {
     kind:'ai',
     steps:[
       {label:'Conocimiento',caption:'Preparar información autorizada y trazable.',detail:'Fuentes verificadas · acceso controlado'},
-      {label:'RAG y Agents',caption:'Responder y ejecutar tareas dentro de límites definidos.',detail:'RAG · agentes · orquestación'},
-      {label:'Human Developers',caption:'Ingeniería senior y revisión humana en cada decisión sensible.',detail:'Arquitectura · seguridad · QA'},
-      {label:'APIs y MCP',caption:'Conectar modelos, herramientas y procesos institucionales.',detail:'Integración · interoperabilidad'},
-      {label:'Plataformas',caption:'Construir experiencias digitales útiles y mantenibles.',detail:'Software Factory · Skills · Automations'}
+      {label:'Asistentes',caption:'Responder y ejecutar tareas dentro de límites definidos.',detail:'Respuestas y tareas supervisadas'},
+      {label:'Desarrollo',caption:'Ingeniería senior y revisión humana en cada decisión sensible.',detail:'Arquitectura · seguridad · QA'},
+      {label:'Conexiones',caption:'Conectar modelos, herramientas y procesos institucionales.',detail:'Integración · interoperabilidad'},
+      {label:'Plataformas',caption:'Construir experiencias digitales útiles y mantenibles.',detail:'Software a medida · automatización'}
     ],
     outputs:['Asistente institucional (demo)','Plataforma a medida']
   },

@@ -11,6 +11,8 @@ const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
 let selectedStep=0,hovered=null,stageVisible=true;
 const outerNodes=[],innerNodes=[];
+const accents=['#ce1747','#e66b16','#207caa','#255caa','#aa2366','#40845b','#80532f'];
+const displayTitle=s=>s.id==='ia'?'Inteligencia artificial y plataformas':s.title;
 
 const iconPaths={
  chess:`<path d="M10 3.3 13 6l-1.5 3 3.8 2.8-2.6 3.1H5.6l-.8-2.6 3.5-3.1-1.2-3 1-2.8"/><path d="M5 17h11M4 20h13"/>`,
@@ -30,14 +32,14 @@ const icon=(name,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" s
 function renderNavigation(){
   services.forEach((s,i)=>{
     const button=document.createElement('button');
-    button.type='button';button.className='orbital-anchor';button.setAttribute('aria-label',`Abrir ${s.title}. Servicio ${s.number} de siete`);
-    button.innerHTML=`<span class="service-pill"><span class="service-icon">${icon(s.icon)}</span><span class="service-copy"><span class="service-number">${s.number} / TOM</span><strong class="service-label">${s.title}</strong></span><span class="service-open">↗</span></span>`;
+    button.type='button';button.className='orbital-anchor';button.style.setProperty('--service-accent',accents[i]);button.setAttribute('aria-label',`Abrir ${s.title}. Servicio ${s.number} de siete`);
+    button.innerHTML=`<span class="service-pill"><span class="service-number">${s.number}</span><span class="service-icon">${icon(s.icon)}</span><span class="service-copy"><strong class="service-label">${displayTitle(s)}</strong></span><span class="service-open">↗</span></span>`;
     button.addEventListener('click',()=>openService(i,button));
     button.addEventListener('pointerenter',()=>{hovered={kind:'outer',i};button.classList.add('is-near');connection.classList.add('is-visible');});
     button.addEventListener('pointerleave',()=>{if(hovered?.kind==='outer'&&hovered.i===i)hovered=null;button.classList.remove('is-near');connection.classList.remove('is-visible');});
     outerTrack.append(button);outerNodes.push(button);
-    const mobile=document.createElement('button');mobile.type='button';mobile.className='mobile-service';
-    mobile.innerHTML=`<span class="mobile-icon">${icon(s.icon)}</span><span class="mobile-service-copy"><small>${s.number} / CAPACIDAD TOM</small><strong>${s.title}</strong></span><span class="mobile-forward">↗</span>`;
+    const mobile=document.createElement('button');mobile.type='button';mobile.className='mobile-service';mobile.style.setProperty('--service-accent',accents[i]);
+    mobile.innerHTML=`<span class="mobile-service-number">${s.number}</span><span class="mobile-icon">${icon(s.icon)}</span><span class="mobile-service-copy"><strong>${displayTitle(s)}</strong></span><span class="mobile-forward">↗</span>`;
     mobile.addEventListener('click',()=>openService(i,mobile));mobileServices.append(mobile);
   });
   themes.forEach((t,i)=>{
@@ -67,7 +69,7 @@ function recalcGeometry(){
   if(!w||!h)return;
   geometry.w=w;geometry.h=h;
   const mobile=window.matchMedia('(max-width: 1100px)').matches;
-  const card=w>=1500?246:w<1000?192:w<1100?210:224;
+  const card=w>=1500?286:264;
   // The wide ellipse uses the empty horizontal space while reserving a fixed
   // lane between the inner and outer orbit capsules at 720p/768p/900p.
   geometry.outerX=Math.max(0,Math.min(720,(w-card-44)/2));
@@ -139,7 +141,7 @@ function coreGraphic(s){
   const steps=e.steps;
   const kind=e.kind;
   if(kind==='compare')return `<div class="compare-board" id="compareBoard" style="--compare:52%"><div class="compare-before"><small>ANTES · DOCUMENTO</small><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="compare-after"><small>DESPUÉS · SISTEMA VISUAL</small><div class="after-circle"></div><div class="after-bars"><i></i><i></i><i></i></div><div class="after-labels"><b>IDEA</b><b>ORDEN</b><b>CLARIDAD</b></div></div><div class="compare-divider"><span>↔</span></div></div><label class="compare-control">DESLIZA PARA COMPARAR <input id="compareSlider" type="range" min="0" max="100" value="52" aria-label="Comparar documento original y diseño visual"></label>`;
-  if(kind==='ai')return `<div class="visual-ai" aria-label="Esquema conceptual de plataformas e IA"><div class="ai-flowline" aria-hidden="true"></div><span class="ai-hub"><span>HUMAN</span><strong>VERIFIED</strong><small>DEMO</small></span>${steps.map((st,i)=>`<button type="button" class="ai-satellite ${i===selectedStep?'is-active':''}" data-step="${i}"><small>0${i+1}</small><strong>${st.label}</strong></button>`).join('')}</div>`;
+  if(kind==='ai')return `<div class="visual-ai" aria-label="Esquema conceptual de plataformas e IA"><div class="ai-flowline" aria-hidden="true"></div><span class="ai-hub"><span>REVISIÓN</span><strong>HUMANA</strong><small>DEMO</small></span>${steps.map((st,i)=>`<button type="button" class="ai-satellite ${i===selectedStep?'is-active':''}" data-step="${i}"><small>0${i+1}</small><strong>${st.label}</strong></button>`).join('')}</div>`;
   if(kind==='formats')return `<div class="visual-formats"><div class="format-device format-${selectedStep}"><div class="format-display"><span class="format-play">${selectedStep===2?'≡':'▶'}</span><span class="format-cover">UNA HISTORIA<br>CUATRO FORMAS</span></div></div><div class="format-side">MASTER<br><strong>01 → 04</strong><span>ADAPTACIONES</span></div></div>`;
   if(kind==='film')return `<div class="visual-film"><div class="film-tape">${steps.map((st,i)=>`<button type="button" data-step="${i}" class="film-cell ${i===selectedStep?'is-active':''}"><span>0${i+1}</span><strong>${st.label}</strong><div class="film-image"><span></span></div></button>`).join('')}</div><span class="film-track">◁ ━━━ ● ━━━ ▷</span></div>`;
   if(kind==='pipeline')return `<div class="visual-pipeline"><div class="pipeline-header"><span>FUENTE / DEMO</span><span>CONTROL EDITORIAL</span></div><div class="pipeline-modules">${steps.map((st,i)=>`<button type="button" data-step="${i}" class="pipeline-module ${i===selectedStep?'is-active':''}"><span>0${i+1}</span><strong>${st.label}</strong><i></i></button>`).join('')}</div><div class="pipeline-check"><span>✓</span> NINGUNA CIFRA REAL · FLUJO ILUSTRATIVO</div></div>`;
@@ -232,8 +234,13 @@ function openService(index,trigger){
   const s=services[activeIndex],e=experiences[s.id];selectedStep=0;
   dialog.classList.remove('is-theme','is-ai');
   $('#detailKicker').textContent=`TOM / ${s.number}`;
-  $('#detailServiceName').textContent=s.title;
-  $('#detailTitle').textContent=e.headline;
+  dialog.style.setProperty('--service-accent',accents[activeIndex]);
+  $('#serviceIdentity').hidden=false;
+  $('#heroNumber').textContent=s.number;
+  $('#heroServiceIcon').innerHTML=icon(s.icon);
+  $('#detailServiceName').textContent='';
+  $('#detailTitle').textContent=displayTitle(s);
+  $('#detailPromise').textContent=e.headline;$('#detailPromise').hidden=false;
   $('#detailLead').textContent=e.subline;
   $('#detailVisual').hidden=false;$('#themeSupport').hidden=true;
   renderExperience(s);renderFacts(s.id);updatePager();
@@ -246,6 +253,7 @@ function openTheme(index,trigger){
   const theme=themes[activeIndex],story=themeStories[theme.id];
   dialog.classList.remove('is-ai');dialog.classList.add('is-theme');
   $('#detailKicker').textContent=`DURANGO / ${theme.name}`;
+  $('#serviceIdentity').hidden=true;$('#detailPromise').hidden=true;
   $('#detailServiceName').textContent=theme.name;
   $('#detailTitle').textContent=story.headline;
   $('#detailLead').textContent=story.intro;

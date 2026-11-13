@@ -1,0 +1,86 @@
+/* V11 — Durango identity: sequence, craft and vivid territorial color. */
+.v04-main .command-noise{inset:0!important;opacity:.17!important;background:url('../assets/brand/patron-durango.png') repeat!important;background-size:460px auto!important;mix-blend-mode:multiply;mask-image:radial-gradient(ellipse at center,#000 20%,#0009 62%,transparent 95%);pointer-events:none}
+.tom-ribbon:after{content:'';position:absolute;bottom:0;left:3%;right:3%;height:4px;background:url('../assets/brand/linea-color.svg') center/100% 100% no-repeat;opacity:.8}
+.v04-main .orbital-anchor{width:264px}
+.v04-main .service-pill{height:90px;padding:0 14px 0 13px;gap:10px;border-radius:25px;background:linear-gradient(135deg,#fff,#f8f9fa);border:1px solid #fff;box-shadow:0 12px 28px #101a2926,inset 0 0 0 1px #24344110}
+.v04-main .service-number{font-family:Manrope,sans-serif;font-size:43px;line-height:1;letter-spacing:-.085em;font-weight:800;color:var(--service-accent);flex:none;min-width:49px}
+.v04-main .service-icon{width:43px;height:48px;flex:0 0 43px;margin:0;border:0;border-radius:12px;background:color-mix(in srgb,var(--service-accent) 8%,white);color:var(--service-accent);box-shadow:none}
+.v04-main .service-icon svg{width:31px;height:31px;stroke-width:1.7}
+.v04-main .service-copy{padding:0;flex:1;min-width:0}
+.v04-main .service-label{font-size:12px;line-height:1.22;letter-spacing:-.025em;font-weight:800}
+.v04-main .service-open{display:none}
+.v04-main .service-pill:hover,.v04-main .orbital-anchor.is-near .service-pill{border-color:var(--service-accent);box-shadow:0 15px 35px #101a2933}
+.detail-dialog{--service-accent:#ce1747}
+.detail-dialog .dialog-frame{position:relative;isolation:isolate;grid-template-columns:57% 43%}
+.detail-dialog .dialog-topline{position:relative}
+.detail-dialog .dialog-topline:after{content:'';position:absolute;bottom:0;left:22px;right:22px;height:4px;background:url('../assets/brand/linea-color.svg') center/100% 100% no-repeat}
+.detail-dialog:not(.is-theme) .dialog-copy-pane{background:linear-gradient(135deg,#fff 58%,#faf9f5);position:relative;z-index:2}
+.detail-dialog:not(.is-theme) .dialog-content-scroll{padding:14px clamp(24px,3vw,44px) 25px}
+.service-identity{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 10px;max-width:610px}
+.service-ordinal{display:flex;align-items:baseline;gap:18px}
+#heroNumber{font-family:Manrope,sans-serif;font-size:clamp(110px,11vw,156px);font-weight:800;line-height:1;letter-spacing:-.095em;color:var(--service-accent)}
+.service-ordinal small{font-size:14px;font-weight:700;letter-spacing:.08em;color:#6b747b}
+.hero-service-icon{display:grid;place-items:center;width:78px;height:78px;border-radius:23px;color:var(--service-accent);background:color-mix(in srgb,var(--service-accent) 7%,white);border:1px solid color-mix(in srgb,var(--service-accent) 18%,white);transform:rotate(-5deg);margin-right:12px}
+.hero-service-icon svg{width:46px;height:46px;stroke-width:1.6;transform:rotate(5deg)}
+.detail-dialog:not(.is-theme) .detail-service-name{display:none}
+.detail-dialog:not(.is-theme) #detailTitle{font-size:clamp(33px,3.3vw,50px);line-height:1.05;letter-spacing:-.055em;margin:0 0 18px;max-width:650px}
+.detail-promise{font-size:19px;line-height:1.3;font-weight:800;letter-spacing:-.025em;margin:0 0 6px;color:#243441}
+.detail-dialog:not(.is-theme) .dialog-lead{font-size:14px;line-height:1.45;color:#64707a;max-width:520px}
+.detail-dialog:not(.is-theme) .detail-visual{margin-top:20px}
+.detail-dialog:not(.is-theme) .viz-graphic{min-height:140px}
+.detail-dialog:not(.is-theme) .viz-shell{padding:12px 15px;background:#ffffffc9;border-color:#dfe4e7;border-radius:16px}
+.detail-dialog:not(.is-theme) .viz-caption{min-height:50px;padding-top:9px}
+.detail-dialog:not(.is-theme) .viz-caption strong{font-size:13px}
+.detail-dialog:not(.is-theme) .viz-caption small{font-size:10px}
+.detail-dialog:not(.is-theme) .strategy-panel{height:125px}
+.detail-dialog:not(.is-theme) .visual-strategy{min-height:135px}
+.detail-dialog:not(.is-theme) .dialog-pager button:last-child{background:var(--service-accent);border-color:var(--service-accent)}
+.brand-flourish{position:absolute;z-index:6;pointer-events:none;right:28%;bottom:78px;width:clamp(160px,20vw,270px);height:210px;object-fit:contain;object-position:right bottom;filter:drop-shadow(0 12px 12px #16283c20)}
+.is-theme .brand-flourish{display:none}
+.brand-corner-filter{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at 100% 0%,#fbb724b8 0%,#ed622a80 15%,#d4134e40 30%,transparent 56%),radial-gradient(ellipse at 0% 100%,#2072c6c9 0%,#24a6c18c 17%,#91be3b40 33%,transparent 60%);mix-blend-mode:color}
+.dialog-image:after{pointer-events:none}
+.dialog-image .photo-place{z-index:4}
+.is-theme .brand-corner-filter{opacity:.75;z-index:2}
+.is-theme .dialog-copy-pane{z-index:4}
+.mobile-service-number{font-family:Manrope,sans-serif;font-size:38px;letter-spacing:-.075em;font-weight:800;color:var(--service-accent);min-width:46px}
+.v04-main .mobile-service .mobile-icon{color:var(--service-accent);background:color-mix(in srgb,var(--service-accent) 7%,white);width:45px;height:45px;flex-basis:45px;border:0}
+.v04-main .mobile-service .mobile-icon svg{width:29px;height:29px;stroke-width:1.7}
+.v04-main .mobile-service .mobile-service-copy strong{font-size:13px;line-height:1.2}
+@media(min-width:1500px){.v04-main .orbital-anchor{width:286px}.v04-main .service-label{font-size:13px}.v04-main .service-number{font-size:48px}}
+@media(max-height:780px) and (min-width:941px){
+ #heroNumber{font-size:105px}.hero-service-icon{width:62px;height:62px}.hero-service-icon svg{width:38px;height:38px}
+ .detail-dialog:not(.is-theme) #detailTitle{font-size:36px;margin-bottom:12px}
+ .detail-dialog:not(.is-theme) .detail-visual{margin-top:14px}
+ .brand-flourish{width:180px;height:170px}
+}
+@media(max-width:940px){
+ .detail-dialog .dialog-frame{grid-template-columns:60% 40%}
+ #heroNumber{font-size:110px}.hero-service-icon{width:60px;height:60px}.hero-service-icon svg{width:36px;height:36px}
+ .brand-flourish{right:24%;width:170px;height:160px;bottom:80px}
+}
+@media(max-width:640px){
+ .detail-dialog .dialog-frame{display:flex}
+ .detail-dialog.is-theme .dialog-frame{display:block}
+ .detail-dialog:not(.is-theme) .dialog-image-pane{flex-basis:20dvh}
+ .detail-dialog:not(.is-theme) .dialog-content-scroll{padding:14px 22px 25px}
+ .service-identity{margin:0 0 12px}
+ #heroNumber{font-size:100px}
+ .hero-service-icon{width:58px;height:58px;border-radius:18px;margin-right:0}
+ .hero-service-icon svg{width:34px;height:34px}
+ .detail-dialog:not(.is-theme) #detailTitle{font-size:34px;margin-bottom:14px}
+ .detail-promise{font-size:17px}.detail-dialog:not(.is-theme) .dialog-lead{font-size:13px}
+ .brand-flourish{right:12px;bottom:auto;top:calc(20dvh - 78px);width:125px;height:110px;z-index:6}
+ .v04-main .mobile-service{min-height:78px;gap:12px;padding:12px 14px}
+}
+
+.dgo-signature{position:absolute;top:24px;left:24px;z-index:4;width:116px;height:50px;pointer-events:none;filter:drop-shadow(0 2px 3px #ffffffa0)}
+.dialog-image .dgo-signature img{position:static;width:100%;height:100%;object-fit:contain;opacity:1;transform:none}
+.is-theme .dgo-signature{display:none}
+@media(max-width:640px){.dgo-signature{top:12px;left:18px;width:86px;height:38px}}
+.detail-dialog{overflow:hidden}
+.detail-dialog .dialog-content-scroll{min-height:0;overflow-y:auto}
+@media(max-width:640px){
+ .detail-dialog .dialog-frame{height:100%;min-height:0}
+ .detail-dialog:not(.is-theme) .dialog-copy-pane{flex:1;min-height:0}
+ .brand-flourish{top:calc(20dvh - 90px);height:95px;width:115px;right:16px}
+}

@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="./src/v08.css">
   <link rel="stylesheet" href="./src/v09.css">
   <link rel="stylesheet" href="./src/v10.css">
+  <link rel="stylesheet" href="./src/v11.css">
 </head>
 <body>
   <div class="app-shell v04-shell">
@@ -92,11 +93,14 @@
 
   <dialog id="detailDialog" class="detail-dialog" aria-labelledby="detailTitle">
     <div class="dialog-frame">
+      <img class="brand-flourish" src="./assets/brand/durango-flourish.png" alt="" aria-hidden="true">
       <section class="dialog-image-pane">
         <div class="dialog-image" id="dialogImage">
           <img id="detailPhoto" alt="Fotografía documental de Durango" loading="lazy" decoding="async">
           <video id="detailVideo" muted loop playsinline preload="none" hidden></video>
           <button id="videoToggle" type="button" class="video-toggle" hidden aria-label="Reproducir video">▶</button>
+          <div class="dgo-signature" aria-hidden="true"><img src="./assets/brand/dgo-arte.png" alt=""></div>
+          <div class="brand-corner-filter" aria-hidden="true"></div>
           <div class="photo-atmosphere" aria-hidden="true"></div>
           <div class="photo-place"><span class="photo-marker"></span><span id="detailLocation">DURANGO · MÉXICO</span></div>
         </div>
@@ -109,8 +113,10 @@
         </div>
         <div class="dialog-content-scroll">
 
+          <div class="service-identity" id="serviceIdentity"><div class="service-ordinal"><span id="heroNumber">01</span><small>/ 07</small></div><div id="heroServiceIcon" class="hero-service-icon" aria-hidden="true"></div></div>
           <div id="detailServiceName" class="detail-service-name">Consultoría estratégica</div>
           <h2 id="detailTitle">Primero, claridad.</h2>
+          <p id="detailPromise" class="detail-promise"></p>
           <p id="detailLead" class="dialog-lead"></p>
           <div id="detailVisual" class="detail-visual" aria-label="Demostración interactiva de la capacidad"></div>
           <div id="serviceFacts" class="service-facts" hidden></div>
