@@ -3,7 +3,7 @@
 .tom-ribbon:after{content:'';position:absolute;bottom:0;left:3%;right:3%;height:4px;background:url('../assets/brand/linea-color.svg') center/100% 100% no-repeat;opacity:.8}
 .v04-main .orbital-anchor{width:264px}
 .v04-main .service-pill{height:90px;padding:0 14px 0 13px;gap:10px;border-radius:25px;background:linear-gradient(135deg,#fff,#f8f9fa);border:1px solid #fff;box-shadow:0 12px 28px #101a2926,inset 0 0 0 1px #24344110}
-.v04-main .service-number{font-family:Manrope,sans-serif;font-size:43px;line-height:1;letter-spacing:-.085em;font-weight:800;color:var(--service-accent);flex:none;min-width:49px}
+.v04-main .service-number{font-family:Manrope,sans-serif;font-size:43px;line-height:1;letter-spacing:-.085em;font-weight:800;color:#252e35;flex:none;min-width:49px}
 .v04-main .service-icon{width:43px;height:48px;flex:0 0 43px;margin:0;border:0;border-radius:12px;background:color-mix(in srgb,var(--service-accent) 8%,white);color:var(--service-accent);box-shadow:none}
 .v04-main .service-icon svg{width:31px;height:31px;stroke-width:1.7}
 .v04-main .service-copy{padding:0;flex:1;min-width:0}
@@ -42,7 +42,7 @@
 .dialog-image .photo-place{z-index:4}
 .is-theme .brand-corner-filter{opacity:.75;z-index:2}
 .is-theme .dialog-copy-pane{z-index:4}
-.mobile-service-number{font-family:Manrope,sans-serif;font-size:38px;letter-spacing:-.075em;font-weight:800;color:var(--service-accent);min-width:46px}
+.mobile-service-number{font-family:Manrope,sans-serif;font-size:38px;letter-spacing:-.075em;font-weight:800;color:#252e35;min-width:46px}
 .v04-main .mobile-service .mobile-icon{color:var(--service-accent);background:color-mix(in srgb,var(--service-accent) 7%,white);width:45px;height:45px;flex-basis:45px;border:0}
 .v04-main .mobile-service .mobile-icon svg{width:29px;height:29px;stroke-width:1.7}
 .v04-main .mobile-service .mobile-service-copy strong{font-size:13px;line-height:1.2}
