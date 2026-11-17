@@ -244,6 +244,20 @@ function setServiceArtwork(index){
  const next=serviceArtwork[index+1];
  if(next)next.forEach(name=>{const img=new Image();img.src=`./assets/illustrations/${name}.webp`;});
 }
+const chapterLooks=[
+ {tag:'ESTRATEGIA INTEGRAL',word:'2026',line:'Un año. Una narrativa.',bottom:'RESULTADOS / CERCANÍA / FUTURO'},
+ {tag:'COMUNICACIÓN INSTITUCIONAL',word:'Hacer claro.',line:'Del dato al significado.',ref:3},
+ {tag:'HISTORIAS Y TESTIMONIOS',word:'Voces que acercan.',line:'Las personas dan contexto.',ref:0},
+ {tag:'DIRECCIÓN CREATIVA',word:'Una voz. Muchas piezas.',line:'Identidad que se reconoce.',ref:4},
+ {tag:'SISTEMA DE CONTENIDOS',word:'Una historia, distintos formatos.',line:'Audiovisual / Digital / Gráfico',ref:6},
+ {tag:'PRODUCCIÓN Y VALIDACIÓN',word:'De principio a fin.',line:'Un proceso compartido.',bottom:'01 PREPARAR → 02 PRODUCIR → 03 ENTREGAR'},
+ {tag:'SIGUIENTE PASO',word:'2027',line:'El futuro empieza con un acuerdo.',bottom:'PRIORIDADES / MATERIALES / ALCANCE'}
+];
+function renderChapterCanvas(index){
+ const c=chapterLooks[index],pane=$('#chapterCanvas');pane.hidden=false;
+ pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}"><span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER REFERENCIA ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}<div class="chapter-bottom">${c.bottom||'TRABAJO TOM · REFERENCIA DE PRODUCCIÓN'}</div></div>`;
+ pane.querySelector('[data-film]')?.addEventListener('click',e=>openReference(c.ref,e.currentTarget));
+}
 function openService(index,trigger){
   activeType='service';activeIndex=Math.max(0,Math.min(services.length-1,index));
   if(trigger)lastTrigger=trigger;
@@ -261,9 +275,10 @@ function openService(index,trigger){
   $('#detailLead').textContent=e.subline;
   $('#detailVisual').hidden=false;$('#themeSupport').hidden=true;
   renderExperience(s);renderFacts(s.id);updatePager();
-  setPhoto(s.image);showDialog();setMedia(s);
+  setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);
 }
 function openTheme(index,trigger){
+  $('#chapterCanvas').hidden=true;
   activeType='theme';activeIndex=Math.max(0,Math.min(themes.length-1,index));
   if(trigger)lastTrigger=trigger;
   clearVideo();
