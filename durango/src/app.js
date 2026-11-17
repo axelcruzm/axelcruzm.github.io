@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=20';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=23';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -126,8 +126,8 @@ function setPhoto(key){
   pane.classList.remove('is-loaded');
   image.onload=null;image.onerror=null;
   image.removeAttribute('src');
-  $('#detailLocation').textContent='VISUAL CONCEPTUAL · DURANGO';
-  $('#photoCredit').textContent='Referencia visual conceptual. Pendiente de fotografía documental autorizada.';
+  $('#detailLocation').textContent='DURANGO';
+  $('#photoCredit').textContent='Durango · Paisaje e identidad';
   image.onload=()=>{
     pane.classList.add('is-loaded');if(!video.hidden)return;$('#detailLocation').textContent=p.place;
     $('#photoCredit').innerHTML=`Fotografía: <a href="${p.source}" target="_blank" rel="noopener">${p.by}</a> · <a href="${p.licenseUrl}" target="_blank" rel="noopener">${p.license}</a> · Wikimedia Commons`;
@@ -150,7 +150,7 @@ function coreGraphic(s){
 }
 function renderExperience(service){
  const exp=experiences[service.id], visual=$('#detailVisual');
- visual.innerHTML=`<div class="campaign-process"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM · REFERENCIAS'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
+ visual.innerHTML=`<div class="campaign-process"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
  visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));visual.querySelector('.campaign-caption').textContent=exp.steps[Number(b.dataset.step)].caption;}));
  visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
@@ -158,7 +158,7 @@ const screening=document.createElement('dialog');screening.className='screening'
 let referenceTrigger=null;
 function openReference(n,trigger){
  const r=references[n];referenceTrigger=trigger;
- screening.innerHTML=`<header><div><small>TRABAJO TOM · ${r.client}</small><h2 id="screeningTitle">${r.title}</h2></div><button type="button" class="screening-close" aria-label="Cerrar video">✕</button></header><div class="screening-player"><iframe title="${r.title}" src="https://www.youtube-nocookie.com/embed/${r.id}?rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><footer><p>${r.note} Referencia de trabajo previo; no corresponde a resultados de Durango.</p><a href="https://youtu.be/${r.id}" target="_blank" rel="noopener">Abrir en YouTube ↗</a></footer>`;
+ screening.innerHTML=`<header><div><small>TRABAJO TOM · ${r.client}</small><h2 id="screeningTitle">${r.title}</h2></div><button type="button" class="screening-close" aria-label="Cerrar video">✕</button></header><div class="screening-player"><iframe title="${r.title}" src="https://www.youtube-nocookie.com/embed/${r.id}?rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><footer><p>${r.note}</p><a href="https://youtu.be/${r.id}" target="_blank" rel="noopener">Abrir en YouTube ↗</a></footer>`;
  screening.querySelector('button').addEventListener('click',()=>screening.close());screening.showModal();
 }
 screening.addEventListener('click',e=>{if(e.target===screening)screening.close();});
@@ -256,7 +256,7 @@ const chapterLooks=[
 ];
 function renderChapterCanvas(index){
  const c=chapterLooks[index],pane=$('#chapterCanvas');pane.hidden=false;
- pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}"><span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER REFERENCIA ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}<div class="chapter-bottom">${c.bottom||'TRABAJO TOM · REFERENCIA DE PRODUCCIÓN'}</div></div>`;
+ pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}"><span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER VIDEO ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}<div class="chapter-bottom">${c.bottom||'PRODUCCIÓN TOM'}</div></div>`;
  pane.querySelector('[data-film]')?.addEventListener('click',e=>openReference(c.ref,e.currentTarget));
 }
 function openService(index,trigger){
