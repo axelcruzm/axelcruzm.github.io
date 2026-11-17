@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=37';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=38';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -279,10 +279,11 @@ function renderGallery(index){
  ]:[['preparacion-abstracta','Preparación'],['produccion-abstracta','Producción'],['entrega-abstracta','Entrega']];
  const pane=$('#chapterCanvas');pane.hidden=false;let current=0;
  pane.innerHTML=`<div class="tom-gallery ${index===5?'process-murals':''}"><img class="gallery-image" alt="">${index===5?'<div class="mural-center-title" aria-hidden="true"></div>':''}<div class="gallery-controls"><button type="button" aria-label="Imagen anterior">←</button><div><strong class="gallery-caption"></strong><small class="gallery-count" aria-live="polite"></small></div><button type="button" aria-label="Imagen siguiente">→</button></div></div>`;
- const show=()=>{const [file,label]=items[current],img=pane.querySelector('.gallery-image');img.src=`./assets/${index===5?'process':'illustrations'}/${file}.webp`;img.alt=label;pane.querySelector('.gallery-caption').textContent=label;if(index===5)pane.querySelector('.mural-center-title').textContent=label.toLocaleUpperCase('es');pane.querySelector('.gallery-count').textContent=`${String(current+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;};
+ if(index===5)pane.querySelector('.gallery-controls').remove();
+ const show=()=>{const [file,label]=items[current],img=pane.querySelector('.gallery-image');img.src=`./assets/${index===5?'process':'illustrations'}/${file}.webp`;img.alt=label;if(index===5){pane.querySelector('.mural-center-title').textContent=label.toLocaleUpperCase('es');}else{pane.querySelector('.gallery-caption').textContent=label;pane.querySelector('.gallery-count').textContent=`${String(current+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;}};
  pane.querySelectorAll('.gallery-controls button').forEach((b,i)=>b.onclick=()=>{current=(current+(i?1:-1)+items.length)%items.length;show();});show();
  if(index===5)items.forEach(([file])=>{const img=new Image();img.src=`./assets/process/${file}.webp`;});
- if((index===3||index===5)&&!matchMedia('(prefers-reduced-motion: reduce)').matches)beautyTimer=setInterval(()=>{if(!document.hidden){current=(current+1)%items.length;show();}},2000);
+ if(index===5||(index===3&&!matchMedia('(prefers-reduced-motion: reduce)').matches))beautyTimer=setInterval(()=>{if(!document.hidden){current=(current+1)%items.length;show();}},2000);
 }
 function renderChapterCanvas(index){
  stopBrandLoop();
