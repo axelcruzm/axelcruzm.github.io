@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=23';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=25';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -12,7 +12,7 @@ let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
 let selectedStep=0,hovered=null,stageVisible=true;
 const outerNodes=[],innerNodes=[];
 const accents=['#ce1747','#e66b16','#207caa','#255caa','#aa2366','#aa2366','#80532f'];
-const displayTitle=s=>s.id==='ia'?'Inteligencia artificial y plataformas':s.title;
+const displayTitle=s=>s.id==='campaign1'?'Tu campaña institucional':s.title;
 
 const iconPaths={
  chess:`<path d="M10 3.3 13 6l-1.5 3 3.8 2.8-2.6 3.1H5.6l-.8-2.6 3.5-3.1-1.2-3 1-2.8"/><path d="M5 17h11M4 20h13"/>`,
@@ -150,7 +150,7 @@ function coreGraphic(s){
 }
 function renderExperience(service){
  const exp=experiences[service.id], visual=$('#detailVisual');
- visual.innerHTML=`<div class="campaign-process"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
+ visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Aquí apoyamos a Zacatecas a comunicar las Reformas:':activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
  visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));visual.querySelector('.campaign-caption').textContent=exp.steps[Number(b.dataset.step)].caption;}));
  visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
@@ -247,7 +247,7 @@ function setServiceArtwork(index){
 }
 const chapterLooks=[
  {tag:'ESTRATEGIA INTEGRAL',word:'2026',line:'Un año. Una narrativa.',bottom:'RESULTADOS / CERCANÍA / FUTURO'},
- {tag:'COMUNICACIÓN INSTITUCIONAL',word:'Hacer claro.',line:'Del dato al significado.',ref:3},
+ {tag:'COMUNICACIÓN INSTITUCIONAL',word:'Hacer claro.',line:'Del dato al significado.',ref:4},
  {tag:'HISTORIAS Y TESTIMONIOS',word:'Voces que acercan.',line:'Las personas dan contexto.',ref:0},
  {tag:'DIRECCIÓN CREATIVA',word:'Una voz. Muchas piezas.',line:'Identidad que se reconoce.',ref:4},
  {tag:'SISTEMA DE CONTENIDOS',word:'Una historia, distintos formatos.',line:'Audiovisual / Digital / Gráfico',ref:6},
@@ -286,9 +286,9 @@ function openService(index,trigger){
   $('#heroNumber').textContent=s.number;
   $('#heroServiceIcon').innerHTML=icon(s.icon);
   $('#detailServiceName').textContent='';
-  $('#detailTitle').textContent=displayTitle(s);
-  $('#detailPromise').textContent=e.headline;$('#detailPromise').hidden=false;
-  $('#detailLead').textContent=e.subline;
+  $('#detailTitle').textContent=s.title;
+  $('#detailPromise').textContent=e.headline;$('#detailPromise').hidden=!e.headline;
+  $('#detailLead').textContent=e.subline;$('#detailLead').hidden=!e.subline;
   $('#detailVisual').hidden=false;$('#themeSupport').hidden=true;
   renderExperience(s);renderFacts(s.id);updatePager();
   setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);
@@ -304,7 +304,7 @@ function openTheme(index,trigger){
   $('#serviceIdentity').hidden=true;$('#detailPromise').hidden=true;
   $('#detailServiceName').textContent=theme.name;
   $('#detailTitle').textContent=story.headline;
-  $('#detailLead').textContent=story.intro;
+  $('#detailLead').hidden=false;$('#detailLead').textContent=story.intro;
   $('#themeSupport').textContent=story.support;$('#themeSupport').hidden=false;
   $('#detailVisual').hidden=true;$('#detailVisual').replaceChildren();$('#serviceFacts').hidden=true;
   updatePager();setPhoto(story.image);showDialog();
@@ -331,7 +331,7 @@ new IntersectionObserver(entries=>{stageVisible=entries[0]?.isIntersecting??true
 reducedMotion.addEventListener?.('change',()=>{if(reducedMotion.matches){stopClock();video.pause();}else startClock();paint();});
 window.addEventListener('resize',recalcGeometry,{passive:true});
 recalcGeometry();startClock();
-$('#startJourney').addEventListener('click',event=>openService(0,event.currentTarget));
+$('#startJourney')?.addEventListener('click',event=>openService(0,event.currentTarget));
 $('#startJourneyMobile').addEventListener('click',event=>openService(0,event.currentTarget));
 $('#closeDialog').addEventListener('click',close);
 $('#prevDetail').addEventListener('click',()=>navigate(-1));

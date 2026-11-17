@@ -306,3 +306,22 @@
 
 .brand-loop{width:100%;height:100%;object-fit:cover;display:block;background:#050505}.brand-loop-controls{position:absolute;bottom:18px;right:18px;display:flex;gap:8px;z-index:10}.brand-loop-controls button{border:1px solid #ffffff60;color:white;background:#101820b3;backdrop-filter:blur(8px);padding:10px 14px;border-radius:24px;font:600 12px Manrope,sans-serif;cursor:pointer}
 @media(max-width:640px){.detail-dialog.has-brand-loop .dialog-image-pane{display:block;flex:0 0 27dvh;min-height:160px}.brand-loop{object-fit:contain}.brand-loop-controls{bottom:8px;right:10px}}
+/* V25 — clear proposal title, objective pyramid and quiet footer fauna. */
+.proposal-heading{display:grid;gap:5px;color:#253644;line-height:1.2;text-shadow:0 1px 12px white}
+.proposal-heading>span{font-size:10px;letter-spacing:.2em;font-weight:800;color:#92764b}.proposal-heading strong{font-size:18px;letter-spacing:-.035em}.proposal-heading small{font-size:12px;letter-spacing:.05em}.proposal-heading b{color:#92764b}
+.detail-dialog:not(.is-theme) .detail-promise[hidden],.detail-dialog:not(.is-theme) .dialog-lead[hidden]{display:none!important}
+.detail-dialog .dialog-footer{position:relative;min-height:88px}
+.detail-dialog .dialog-footer .animal-gallery{position:absolute;left:50%;bottom:9px;transform:translateX(-50%);width:90px;height:62px;padding:0;margin:0;border:0;pointer-events:none}
+.detail-dialog .dialog-footer .animal-gallery img:not([hidden]){width:85px;max-width:85px;height:62px;object-fit:contain}
+.campaign-tabs button{position:relative;transition:transform .22s,box-shadow .22s,background .22s;min-height:86px;padding:16px;font-size:15px;border-radius:16px;box-shadow:0 4px 12px #182d4106}
+.campaign-tabs button:after{content:'↗';position:absolute;right:10px;top:10px;color:var(--service-accent);opacity:.5;transition:transform .22s}
+.campaign-tabs button:hover{transform:translateY(-4px);box-shadow:0 10px 22px #182d4112}.campaign-tabs button:hover:after{transform:translate(2px,-2px);opacity:1}
+.campaign-tabs button[aria-pressed=true]{box-shadow:0 6px 20px color-mix(in srgb,var(--service-accent) 12%,transparent);border-width:2px}
+.campaign-caption{padding:15px 18px;background:#f5f7f8;border-radius:12px;min-height:75px;font-size:15px;line-height:1.65}
+.campaign-pyramid{border:0;padding-top:0}.campaign-pyramid .campaign-tabs{display:grid;grid-template-columns:1fr 1fr;gap:18px;position:relative;padding:5px 15px}
+.campaign-pyramid .campaign-tabs:before{content:'';position:absolute;inset:20px 20% 35px;background:color-mix(in srgb,var(--service-accent) 8%,white);clip-path:polygon(50% 0,100% 100%,0 100%);z-index:-1}
+.campaign-pyramid .campaign-tabs button:first-child{grid-column:1/-1;width:55%;justify-self:center}.campaign-pyramid .campaign-tabs button{min-height:108px;background:white;text-align:center;font-size:17px}.campaign-pyramid .campaign-tabs small{font-size:11px;margin-bottom:9px}
+.detail-dialog[data-art="1"] #detailTitle{font-size:clamp(27px,2.5vw,38px)}
+.detail-dialog[data-art="1"] .detail-visual{margin-top:32px}.work-label{line-height:1.5}
+@media(prefers-reduced-motion:no-preference){.campaign-tabs button{animation:objective-enter .45s both}.campaign-tabs button:nth-child(2){animation-delay:.08s}.campaign-tabs button:nth-child(3){animation-delay:.16s}@keyframes objective-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}}
+@media(max-width:640px){.campaign-pyramid .campaign-tabs{padding:0;gap:12px}.campaign-pyramid .campaign-tabs button{font-size:14px;min-height:94px}.campaign-tabs button{font-size:12px;padding:10px;min-height:76px}.detail-dialog .dialog-footer .animal-gallery{left:38%;width:65px}.detail-dialog .dialog-footer .animal-gallery img:not([hidden]){width:60px;height:48px}.detail-dialog[data-art="1"] #detailTitle{font-size:25px}}
