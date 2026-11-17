@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=26';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=27';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -150,7 +150,7 @@ function coreGraphic(s){
 }
 function renderExperience(service){
  const exp=experiences[service.id], visual=$('#detailVisual');
- visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Aquí apoyamos a Zacatecas a comunicar las Reformas:':activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
+ visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Campaña de Información Reformas Laborales para Zacatecas:':activeIndex===2?'Campañas de Beneficencia Pública que hemos realizado':activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
  visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));visual.querySelector('.campaign-caption').textContent=exp.steps[Number(b.dataset.step)].caption;}));
  visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
@@ -257,9 +257,21 @@ const chapterLooks=[
 function stopBrandLoop(){
  const v=document.querySelector('#brandLoop');if(v){v.pause();v.removeAttribute('src');v.load();}
 }
+function renderGallery(index){
+ const items=index===3?[
+ ['dashboard','Estrategia'],['cine-edicion','Producción audiovisual'],['comunicacion','Comunicación'],['robot-ia','Tecnología'],['animacion','Movimiento'],['documento','Identidad editorial'],['delivery','Entrega']
+ ]:[['documento','Preparar'],['cine-edicion','Producir'],['delivery','Entregar']];
+ const pane=$('#chapterCanvas');pane.hidden=false;let current=0;
+ pane.innerHTML=`<div class="tom-gallery"><img class="gallery-logo" src="./assets/tom-logo-oficial.png" alt="TOM"><span class="gallery-eyebrow">${index===3?'LENGUAJE VISUAL':'DE PRINCIPIO A FIN'}</span><img class="gallery-image" alt=""><div class="gallery-controls"><button type="button" aria-label="Imagen anterior">←</button><div><strong class="gallery-caption"></strong><small class="gallery-count" aria-live="polite"></small></div><button type="button" aria-label="Imagen siguiente">→</button></div></div>`;
+ const show=()=>{const [file,label]=items[current],img=pane.querySelector('.gallery-image');img.src=`./assets/illustrations/${file}.webp`;img.alt=label;pane.querySelector('.gallery-caption').textContent=label;pane.querySelector('.gallery-count').textContent=`${String(current+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;};
+ pane.querySelectorAll('.gallery-controls button').forEach((b,i)=>b.onclick=()=>{current=(current+(i?1:-1)+items.length)%items.length;show();});show();
+}
 function renderChapterCanvas(index){
  stopBrandLoop();
  dialog.classList.toggle('has-brand-loop',index===0);
+ dialog.classList.toggle('is-closing',index===6);
+ if(index===3||index===5){renderGallery(index);return;}
+ if(index===6){const pane=$('#chapterCanvas');pane.hidden=false;pane.innerHTML='';return;}
  if(index===0){
   const pane=$('#chapterCanvas');pane.hidden=false;
   pane.innerHTML=`<video id="brandLoop" class="brand-loop" src="./assets/video/tom-brand-loop.mp4" loop playsinline preload="auto" aria-label="TOM · Reel de marca"></video><div class="brand-loop-controls"><button type="button" id="brandSound" aria-label="Silenciar música">Sonido: activo</button><button type="button" id="brandPause" aria-label="Pausar video">Ⅱ</button></div>`;
@@ -287,14 +299,16 @@ function openService(index,trigger){
   $('#heroServiceIcon').innerHTML=icon(s.icon);
   $('#detailServiceName').textContent='';
   $('#detailTitle').textContent=s.title;
+  if(activeIndex===0)$('#detailTitle').innerHTML='<span class=tom-signoff>Top of Mind Communication</span>Tu campaña institucional de cierre 2026';
   $('#detailPromise').textContent=e.headline;$('#detailPromise').hidden=!e.headline;
   $('#detailLead').textContent=e.subline;$('#detailLead').hidden=!e.subline;
   $('#detailVisual').hidden=false;$('#themeSupport').hidden=true;
   renderExperience(s);renderFacts(s.id);updatePager();
+  if(activeIndex===6){$('#detailTitle').innerHTML='<span class=closing-intro>Construyamos el cierre del año 2026, para comenzar los acuerdos de:</span><span class=closing-year>202<b>7</b></span>';$('#detailPromise').textContent='Acordemos el punto de partida.';$('#detailLead').hidden=true;$('#detailVisual').innerHTML='<button class=areas-cta type=button>Las 4 áreas para potenciar Durango <span aria-hidden=true>→</span></button>';$('#detailVisual button').onclick=()=>openTheme(0);}
   setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);
 }
 function openTheme(index,trigger){
-  stopBrandLoop();dialog.classList.remove('has-brand-loop');$('#chapterCanvas').hidden=true;
+  stopBrandLoop();dialog.classList.remove('has-brand-loop','is-closing');$('#chapterCanvas').hidden=true;
   activeType='theme';activeIndex=Math.max(0,Math.min(themes.length-1,index));
   if(trigger)lastTrigger=trigger;
   clearVideo();
