@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=28';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=29';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -150,7 +150,7 @@ function coreGraphic(s){
 }
 function renderExperience(service){
  const exp=experiences[service.id], visual=$('#detailVisual');
- visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Campaña de Información Reformas Laborales para Zacatecas:':activeIndex===2?'Campañas de Beneficencia Pública que hemos realizado':activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
+ visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Campaña de Información Reformas Laborales para Zacatecas:':activeIndex===2?'Campañas de Beneficencia Pública que hemos realizado':activeIndex===4?'Distintas piezas, distintos formatos · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
  visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));visual.querySelector('.campaign-caption').textContent=exp.steps[Number(b.dataset.step)].caption;}));
  visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
@@ -269,19 +269,29 @@ function renderBeauty(){
  buttons[0].onclick=()=>{playing=false;show(-1);sync();};buttons[2].onclick=()=>{playing=false;show(1);sync();};buttons[1].onclick=()=>{playing=!playing;sync();};
  Promise.all(Array.from(imgs,img=>img.decode().catch(()=>{}))).then(()=>{if(pane.querySelector('.beauty-gallery')&&dialog.open&&activeType==='service'&&activeIndex===2)sync();});
 }
+function renderResults(){
+ const pane=$('#chapterCanvas');pane.hidden=false;let current=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const labels=['México y Durango · 2026','Proyección de resultados · 2026','Personas y comunidad · 2026'];
+ pane.innerHTML=`<div class="results-gallery"><img class="results-image" src="./assets/results/results-1.svg" alt="${labels[0]}"><img class="results-logo" src="./assets/results/tom-logo.png" alt="Top of Mind Communication"><div class="beauty-controls"><button type="button" aria-label="Composición anterior">←</button><span class="results-count">01 / 03</span><button type="button" aria-label="Pausar composiciones">Ⅱ</button><button type="button" aria-label="Composición siguiente">→</button></div></div>`;
+ const buttons=pane.querySelectorAll('button');const show=step=>{current=(current+step+3)%3;pane.querySelector('.results-image').src=`./assets/results/results-${current+1}.svg`;pane.querySelector('.results-image').alt=labels[current];pane.querySelector('.results-count').textContent=`0${current+1} / 03`;};
+ const sync=()=>{clearInterval(beautyTimer);buttons[1].textContent=playing?'Ⅱ':'▶';buttons[1].setAttribute('aria-label',playing?'Pausar composiciones':'Reproducir composiciones');if(playing)beautyTimer=setInterval(()=>{if(!document.hidden)show(1);},2000);};
+ buttons[0].onclick=()=>{playing=false;show(-1);sync();};buttons[2].onclick=()=>{playing=false;show(1);sync();};buttons[1].onclick=()=>{playing=!playing;sync();};sync();
+}
 function renderGallery(index){
  const items=index===3?[
  ['dashboard','Estrategia'],['cine-edicion','Producción audiovisual'],['comunicacion','Comunicación'],['robot-ia','Tecnología'],['animacion','Animación'],['documento','Branding'],['delivery','Entrega']
  ]:[['documento','Preparar'],['cine-edicion','Producir'],['delivery','Entregar']];
  const pane=$('#chapterCanvas');pane.hidden=false;let current=0;
- pane.innerHTML=`<div class="tom-gallery"><img class="gallery-logo" src="./assets/tom-logo-oficial.png" alt="TOM"><span class="gallery-eyebrow">${index===3?'LENGUAJE VISUAL':'DE PRINCIPIO A FIN'}</span><img class="gallery-image" alt=""><div class="gallery-controls"><button type="button" aria-label="Imagen anterior">←</button><div><strong class="gallery-caption"></strong><small class="gallery-count" aria-live="polite"></small></div><button type="button" aria-label="Imagen siguiente">→</button></div></div>`;
+ pane.innerHTML=`<div class="tom-gallery">${index===5?'<span class=gallery-eyebrow>DE PRINCIPIO A FIN</span>':''}<img class="gallery-image" alt=""><div class="gallery-controls"><button type="button" aria-label="Imagen anterior">←</button><div><strong class="gallery-caption"></strong><small class="gallery-count" aria-live="polite"></small></div><button type="button" aria-label="Imagen siguiente">→</button></div></div>`;
  const show=()=>{const [file,label]=items[current],img=pane.querySelector('.gallery-image');img.src=`./assets/illustrations/${file}.webp`;img.alt=label;pane.querySelector('.gallery-caption').textContent=label;pane.querySelector('.gallery-count').textContent=`${String(current+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;};
  pane.querySelectorAll('.gallery-controls button').forEach((b,i)=>b.onclick=()=>{current=(current+(i?1:-1)+items.length)%items.length;show();});show();
+ if(index===3&&!matchMedia('(prefers-reduced-motion: reduce)').matches)beautyTimer=setInterval(()=>{if(!document.hidden){current=(current+1)%items.length;show();}},2000);
 }
 function renderChapterCanvas(index){
  stopBrandLoop();
  dialog.classList.toggle('has-brand-loop',index===0);
  dialog.classList.toggle('is-closing',index===6);
+ if(index===1){renderResults();return;}
  if(index===2){renderBeauty();return;}
  if(index===3||index===5){renderGallery(index);return;}
  if(index===6){const pane=$('#chapterCanvas');pane.hidden=false;pane.innerHTML='';return;}
@@ -296,7 +306,7 @@ function renderChapterCanvas(index){
  }
 
  const c=chapterLooks[index],pane=$('#chapterCanvas');pane.hidden=false;
- pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}"><span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER VIDEO ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}<div class="chapter-bottom">${c.bottom||'PRODUCCIÓN TOM'}</div></div>`;
+ pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}">${index===4?'':`<span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>`}${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER VIDEO ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}${index===4?'<p class="toyota-caption">Ayudamos a Toyota a implementar sus planes de capacitación / multicanal / toda la república.</p>':`<div class="chapter-bottom">${c.bottom||'PRODUCCIÓN TOM'}</div>`}</div>`;
  pane.querySelector('[data-film]')?.addEventListener('click',e=>openReference(c.ref,e.currentTarget));
 }
 function openService(index,trigger){

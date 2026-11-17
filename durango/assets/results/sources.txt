@@ -1,0 +1,2 @@
+Mexico state boundaries: https://github.com/angelnmara/geojson/blob/master/mexicoHigh.json
+TOM logo supplied by user: Imagen4.png
