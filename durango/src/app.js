@@ -1,4 +1,5 @@
-import {photos} from './content.js';
+import {curatedPhotos} from './photography.js?v=39';
+const photos={catedral:curatedPhotos[2],ojuela:curatedPhotos[4],waterfall:curatedPhotos[0],canyon:curatedPhotos[7]};
 import {services,themes,experiences,themeStories,references} from './campaign.js?v=38';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
@@ -122,17 +123,17 @@ function tick(now){
 function setPhoto(key){
   const p=photos[key]||photos.canyon;
   const image=$('#detailPhoto'),pane=$('#dialogImage');
-  pane.style.backgroundImage=`url("${p.fallback}")`;
+  pane.style.backgroundImage='none';
   pane.classList.remove('is-loaded');
-  image.onload=null;image.onerror=null;
-  image.removeAttribute('src');
+  image.onload=null;image.onerror=null;image.removeAttribute('src');
+  image.style.setProperty('--photo-position',p.position);
+  image.style.setProperty('--photo-theme-position',key==='waterfall'?'58% 15%':p.position);
+  image.style.setProperty('--photo-mobile-position',p.mobilePosition);
+  image.style.setProperty('--photo-grade',p.grade);
   $('#detailLocation').textContent='DURANGO';
-  $('#photoCredit').textContent='Durango · Paisaje e identidad';
-  image.onload=()=>{
-    pane.classList.add('is-loaded');if(!video.hidden)return;$('#detailLocation').textContent=p.place;
-    $('#photoCredit').innerHTML=`Fotografía: <a href="${p.source}" target="_blank" rel="noopener">${p.by}</a> · <a href="${p.licenseUrl}" target="_blank" rel="noopener">${p.license}</a> · Wikimedia Commons`;
-  };
-  image.onerror=()=>{pane.classList.remove('is-loaded');image.removeAttribute('src');};
+  $('#photoCredit').textContent='';
+  image.onload=()=>{pane.classList.add('is-loaded');};
+  image.onerror=()=>{pane.classList.remove('is-loaded');};
   image.alt=p.title;image.src=p.src;
 }
 
@@ -261,10 +262,10 @@ function stopBrandLoop(){
 }
 function renderBeauty(){
  const pane=$('#chapterCanvas');pane.hidden=false;let current=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
- const labels=['Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mirador Santa Teresa','Cascada El Rincón, Chavarría Viejo','Cascadas de Mexiquillo'];
- pane.innerHTML=`<div class="beauty-gallery"><div class="beauty-slides">${labels.map((label,i)=>`<img src="./assets/beauty/durango-${String(i+1).padStart(2,'0')}.webp" alt="${label}" class="${i===0?'is-current':''}" aria-hidden="${i!==0}">`).join('')}</div><div class="beauty-controls"><button type="button" aria-label="Fotografía anterior">←</button><span class="beauty-count">01 / 10</span><button type="button" class="beauty-pause" aria-label="Pausar galería">Ⅱ</button><button type="button" aria-label="Fotografía siguiente">→</button></div><a class="beauty-credit" href="https://durango.travel/sitios/parque-natural-mexiquillo" target="_blank" rel="noopener">Fotografías · Durango Travel ↗</a></div>`;
+ const labels=curatedPhotos;
+ pane.innerHTML=`<div class="beauty-gallery"><div class="beauty-slides">${labels.map((p,i)=>`<img src="${p.src}" alt="${p.title}" style="--photo-position:${p.position};--photo-mobile-position:${p.mobilePosition};--photo-grade:${p.grade}" class="${i===0?'is-current':''}" aria-hidden="${i!==0}" decoding="async">`).join('')}</div><div class="beauty-controls"><button type="button" aria-label="Fotografía anterior">←</button><span class="beauty-count">01 / ${labels.length}</span><button type="button" class="beauty-pause" aria-label="Pausar galería">Ⅱ</button><button type="button" aria-label="Fotografía siguiente">→</button></div></div>`;
  const buttons=pane.querySelectorAll('.beauty-controls button'),imgs=pane.querySelectorAll('.beauty-slides img');
- const show=step=>{current=(current+step+10)%10;imgs.forEach((img,i)=>{img.classList.toggle('is-current',i===current);img.setAttribute('aria-hidden',String(i!==current));});pane.querySelector('.beauty-count').textContent=`${String(current+1).padStart(2,'0')} / 10`;};
+ const show=step=>{current=(current+step+labels.length)%labels.length;imgs.forEach((img,i)=>{img.classList.toggle('is-current',i===current);img.setAttribute('aria-hidden',String(i!==current));});pane.querySelector('.beauty-count').textContent=`${String(current+1).padStart(2,'0')} / ${labels.length}`;};
  const sync=()=>{clearInterval(beautyTimer);beautyTimer=null;buttons[1].textContent=playing?'Ⅱ':'▶';buttons[1].setAttribute('aria-label',playing?'Pausar galería':'Reproducir galería');if(playing)beautyTimer=setInterval(()=>{if(!document.hidden)show(1);},1000);};
  buttons[0].onclick=()=>{playing=false;show(-1);sync();};buttons[2].onclick=()=>{playing=false;show(1);sync();};buttons[1].onclick=()=>{playing=!playing;sync();};
  Promise.all(Array.from(imgs,img=>img.decode().catch(()=>{}))).then(()=>{if(pane.querySelector('.beauty-gallery')&&dialog.open&&activeType==='service'&&activeIndex===2)sync();});

@@ -383,3 +383,10 @@
 /* V37 — central titles on the process paintings. */
 .process-murals .mural-center-title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;color:#fff;font-family:Manrope,sans-serif;font-weight:800;font-size:clamp(26px,3.3vw,62px);line-height:1;letter-spacing:-.035em;text-align:center;text-shadow:0 2px 18px #17203499,0 1px 3px #17203460;pointer-events:none;z-index:1}.process-murals .gallery-controls{z-index:2}.process-murals .gallery-caption{display:none}.process-murals .gallery-count{margin:0}
 @media(max-width:640px){.process-murals .mural-center-title{font-size:clamp(26px,7vw,42px)}}
+
+/* Curated photography: optical crops and subtle photographic tone, no color overlays. */
+.beauty-slides img,.detail-dialog #detailPhoto{object-position:var(--photo-position,50% 50%);filter:var(--photo-grade,none)!important}
+.detail-dialog.is-closing .dialog-frame{background:linear-gradient(#101b275c,#101b27b8),url('../assets/curated/paisaje-desierto.webp') center/cover}
+@media(max-width:640px){.beauty-slides img,.detail-dialog #detailPhoto{object-position:var(--photo-mobile-position,50% 50%)}}
+
+@media(min-width:641px){.detail-dialog.is-theme #detailPhoto{object-position:var(--photo-theme-position,50% 50%)}}
