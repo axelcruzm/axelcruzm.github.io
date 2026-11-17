@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=30';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=31';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -12,7 +12,7 @@ let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
 let selectedStep=0,hovered=null,stageVisible=true;
 const outerNodes=[],innerNodes=[];
 const accents=['#ce1747','#e66b16','#207caa','#255caa','#aa2366','#aa2366','#80532f'];
-const displayTitle=s=>s.id==='campaign1'?'Tu campaña institucional':s.id==='campaign5'?'Tu campaña, nosotros los formatos':s.title;
+const displayTitle=s=>s.id==='campaign1'?'Tu campaña institucional':s.id==='campaign5'?'Tú la campaña,<br>Nosotros los formatos':s.title;
 
 const iconPaths={
  chess:`<path d="M10 3.3 13 6l-1.5 3 3.8 2.8-2.6 3.1H5.6l-.8-2.6 3.5-3.1-1.2-3 1-2.8"/><path d="M5 17h11M4 20h13"/>`,
