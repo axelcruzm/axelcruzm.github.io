@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=29';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=30';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -12,7 +12,7 @@ let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
 let selectedStep=0,hovered=null,stageVisible=true;
 const outerNodes=[],innerNodes=[];
 const accents=['#ce1747','#e66b16','#207caa','#255caa','#aa2366','#aa2366','#80532f'];
-const displayTitle=s=>s.id==='campaign1'?'Tu campaña institucional':s.title;
+const displayTitle=s=>s.id==='campaign1'?'Tu campaña institucional':s.id==='campaign5'?'Tu campaña, nosotros los formatos':s.title;
 
 const iconPaths={
  chess:`<path d="M10 3.3 13 6l-1.5 3 3.8 2.8-2.6 3.1H5.6l-.8-2.6 3.5-3.1-1.2-3 1-2.8"/><path d="M5 17h11M4 20h13"/>`,
@@ -285,7 +285,7 @@ function renderGallery(index){
  pane.innerHTML=`<div class="tom-gallery">${index===5?'<span class=gallery-eyebrow>DE PRINCIPIO A FIN</span>':''}<img class="gallery-image" alt=""><div class="gallery-controls"><button type="button" aria-label="Imagen anterior">←</button><div><strong class="gallery-caption"></strong><small class="gallery-count" aria-live="polite"></small></div><button type="button" aria-label="Imagen siguiente">→</button></div></div>`;
  const show=()=>{const [file,label]=items[current],img=pane.querySelector('.gallery-image');img.src=`./assets/illustrations/${file}.webp`;img.alt=label;pane.querySelector('.gallery-caption').textContent=label;pane.querySelector('.gallery-count').textContent=`${String(current+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;};
  pane.querySelectorAll('.gallery-controls button').forEach((b,i)=>b.onclick=()=>{current=(current+(i?1:-1)+items.length)%items.length;show();});show();
- if(index===3&&!matchMedia('(prefers-reduced-motion: reduce)').matches)beautyTimer=setInterval(()=>{if(!document.hidden){current=(current+1)%items.length;show();}},2000);
+ if((index===3||index===5)&&!matchMedia('(prefers-reduced-motion: reduce)').matches)beautyTimer=setInterval(()=>{if(!document.hidden){current=(current+1)%items.length;show();}},2000);
 }
 function renderChapterCanvas(index){
  stopBrandLoop();
