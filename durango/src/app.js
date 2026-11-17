@@ -1,6 +1,6 @@
-import {services,themes,photos} from './content.js';
-import {experiences} from './experiences.js';
-import {themeStories,serviceMedia,serviceFacts} from './presentation.js';
+import {photos} from './content.js';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=20';
+import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
 const outerTrack=$('#serviceTrack'),innerTrack=$('#themeTrack');
@@ -32,7 +32,7 @@ const icon=(name,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" s
 function renderNavigation(){
   services.forEach((s,i)=>{
     const button=document.createElement('button');
-    button.type='button';button.className='orbital-anchor';button.style.setProperty('--service-accent',accents[i]);button.setAttribute('aria-label',`Abrir ${s.title}. Servicio ${s.number} de siete`);
+    button.type='button';button.className='orbital-anchor';button.style.setProperty('--service-accent',accents[i]);button.setAttribute('aria-label',`Abrir ${s.title}. Capítulo ${s.number} de siete`);
     button.innerHTML=`<span class="service-pill"><span class="service-number">${s.number}</span><span class="service-icon">${icon(s.icon)}</span><span class="service-copy"><strong class="service-label">${displayTitle(s)}</strong></span><span class="service-open">↗</span></span>`;
     button.addEventListener('click',()=>openService(i,button));
     button.addEventListener('pointerenter',()=>{hovered={kind:'outer',i};button.classList.add('is-near');connection.classList.add('is-visible');});
@@ -149,17 +149,20 @@ function coreGraphic(s){
   return `<div class="visual-strategy"><div class="strategy-connector"></div>${steps.map((st,i)=>`<button type="button" data-step="${i}" class="strategy-panel ${i===selectedStep?'is-active':''}"><span>0${i+1}</span><strong>${st.label}</strong><div class="strategy-mark"><i></i><i></i><i></i></div></button>`).join('')}</div>`;
 }
 function renderExperience(service){
-  const exp=experiences[service.id];
-  const control=exp.kind==='compare'?'DESLIZA PARA COMPARAR':'EXPLORA EL PROCESO';
-  const formats=exp.kind==='formats'?`<div class="viz-stepper" role="group" aria-label="Seleccionar formato">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" class="viz-step ${i===0?'is-active':''}" aria-pressed="${i===0}">${st.label}</button>`).join('')}</div>`:'';
-  $('#detailVisual').innerHTML=`<div class="viz-shell viz-${exp.kind}"><div class="viz-kicker"><span>${control}</span><span>DEMO</span></div><div class="viz-graphic">${coreGraphic(service)}</div>${formats}<div class="viz-caption" aria-live="polite"><strong id="vizCaption">${exp.steps[0].caption}</strong><small id="vizDetail">${exp.steps[0].detail}</small></div></div>`;
-  const visual=$('#detailVisual');
-  visual.querySelectorAll('[data-step]').forEach(button=>{
-    button.setAttribute('aria-pressed',String(Number(button.dataset.step)===0));
-    button.addEventListener('click',()=>updateStep(service,Number(button.dataset.step)));
-  });
-  visual.querySelector('#compareSlider')?.addEventListener('input',event=>$('#compareBoard').style.setProperty('--compare',`${event.target.value}%`));
+ const exp=experiences[service.id], visual=$('#detailVisual');
+ visual.innerHTML=`<div class="campaign-process"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===4?'EXPERIENCIA ADICIONAL · TOM':'TRABAJOS TOM · REFERENCIAS'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
+ visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));visual.querySelector('.campaign-caption').textContent=exp.steps[Number(b.dataset.step)].caption;}));
+ visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
+const screening=document.createElement('dialog');screening.className='screening';screening.setAttribute('aria-labelledby','screeningTitle');document.body.append(screening);
+let referenceTrigger=null;
+function openReference(n,trigger){
+ const r=references[n];referenceTrigger=trigger;
+ screening.innerHTML=`<header><div><small>TRABAJO TOM · ${r.client}</small><h2 id="screeningTitle">${r.title}</h2></div><button type="button" class="screening-close" aria-label="Cerrar video">✕</button></header><div class="screening-player"><iframe title="${r.title}" src="https://www.youtube-nocookie.com/embed/${r.id}?rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div><footer><p>${r.note} Referencia de trabajo previo; no corresponde a resultados de Durango.</p><a href="https://youtu.be/${r.id}" target="_blank" rel="noopener">Abrir en YouTube ↗</a></footer>`;
+ screening.querySelector('button').addEventListener('click',()=>screening.close());screening.showModal();
+}
+screening.addEventListener('click',e=>{if(e.target===screening)screening.close();});
+screening.addEventListener('close',()=>{screening.replaceChildren();referenceTrigger?.focus();});
 function updateStep(service,index){
   const exp=experiences[service.id];selectedStep=Math.max(0,Math.min(exp.steps.length-1,index));
   const visual=$('#detailVisual');
@@ -213,11 +216,11 @@ function renderFacts(id){
 }
 function updatePager(){
   const isService=activeType==='service',total=isService?services.length:themes.length;
-  $('#journeyLabel').textContent=isService?'SERVICIOS TOM':'ÁREAS DE DURANGO';
+  $('#journeyLabel').textContent=isService?'NUESTRA PROPUESTA':'TEMAS DE CAMPAÑA';
   $('#pagerText').textContent=`${String(activeIndex+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
   $('#prevDetail').disabled=activeIndex===0;
-  $('#prevDetail').setAttribute('aria-label',isService?'Servicio anterior':'Área anterior');
-  $('#nextDetail').setAttribute('aria-label',activeIndex===total-1?'Terminar recorrido y volver al mapa':isService?'Servicio siguiente':'Área siguiente');
+  $('#prevDetail').setAttribute('aria-label',isService?'Capítulo anterior':'Área anterior');
+  $('#nextDetail').setAttribute('aria-label',activeIndex===total-1?'Terminar recorrido y volver al mapa':isService?'Capítulo siguiente':'Área siguiente');
   $('#nextDetail').title=$('#nextDetail').getAttribute('aria-label');
   $('#nextDetail').textContent=activeIndex===total-1?'✓':'→';
 }
@@ -229,8 +232,8 @@ function showDialog(){
   $('.dialog-content-scroll').scrollTop=0;
 }
 const serviceArtwork=[
- ['culebra-agua','dashboard'],['tortuga-lodo','cine-edicion'],
- ['lagartija-bolson','comunicacion'],['culebra-fox','robot-ia'],
+ ['culebra-agua','dashboard'],['tortuga-lodo','comunicacion'],
+ ['lagartija-bolson','cine-edicion'],['culebra-fox','animacion'],
  ['cachorrito','animacion'],['loro','documento'],['tortuga-bolson','delivery']
 ];
 function setServiceArtwork(index){
@@ -310,7 +313,7 @@ dialog.addEventListener('close',()=>{
   lastTrigger=null;startClock();
 });
 document.addEventListener('keydown',event=>{
-  if(!dialog.open||event.target.closest('input,textarea,select,[contenteditable]'))return;
+  if(screening.open||!dialog.open||event.target.closest('input,textarea,select,[contenteditable]'))return;
   if(event.key==='ArrowRight'){event.preventDefault();navigate(1);}
   if(event.key==='ArrowLeft'){event.preventDefault();navigate(-1);}
 });
