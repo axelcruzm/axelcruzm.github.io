@@ -254,7 +254,22 @@ const chapterLooks=[
  {tag:'PRODUCCIÓN Y VALIDACIÓN',word:'De principio a fin.',line:'Un proceso compartido.',bottom:'01 PREPARAR → 02 PRODUCIR → 03 ENTREGAR'},
  {tag:'SIGUIENTE PASO',word:'2027',line:'El futuro empieza con un acuerdo.',bottom:'PRIORIDADES / MATERIALES / ALCANCE'}
 ];
+function stopBrandLoop(){
+ const v=document.querySelector('#brandLoop');if(v){v.pause();v.removeAttribute('src');v.load();}
+}
 function renderChapterCanvas(index){
+ stopBrandLoop();
+ dialog.classList.toggle('has-brand-loop',index===0);
+ if(index===0){
+  const pane=$('#chapterCanvas');pane.hidden=false;
+  pane.innerHTML=`<video id="brandLoop" class="brand-loop" src="./assets/video/tom-brand-loop.mp4" loop playsinline preload="auto" aria-label="TOM · Reel de marca"></video><div class="brand-loop-controls"><button type="button" id="brandSound" aria-label="Silenciar música">Sonido: activo</button><button type="button" id="brandPause" aria-label="Pausar video">Ⅱ</button></div>`;
+  const v=$('#brandLoop'),sound=$('#brandSound'),pause=$('#brandPause');
+  const sync=()=>{sound.textContent=v.muted?'Activar sonido':'Silenciar';sound.setAttribute('aria-label',v.muted?'Activar música':'Silenciar música');pause.textContent=v.paused?'▶':'Ⅱ';pause.setAttribute('aria-label',v.paused?'Reproducir video':'Pausar video');};
+  sound.onclick=()=>{v.muted=!v.muted;sync();};pause.onclick=()=>{if(v.paused)v.play().catch(()=>{});else v.pause();};
+  v.addEventListener('play',sync);v.addEventListener('pause',sync);
+  v.play().catch(()=>{v.muted=true;sync();v.play().catch(()=>{});});return;
+ }
+
  const c=chapterLooks[index],pane=$('#chapterCanvas');pane.hidden=false;
  pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}"><span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER VIDEO ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}<div class="chapter-bottom">${c.bottom||'PRODUCCIÓN TOM'}</div></div>`;
  pane.querySelector('[data-film]')?.addEventListener('click',e=>openReference(c.ref,e.currentTarget));
@@ -279,7 +294,7 @@ function openService(index,trigger){
   setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);
 }
 function openTheme(index,trigger){
-  $('#chapterCanvas').hidden=true;
+  stopBrandLoop();dialog.classList.remove('has-brand-loop');$('#chapterCanvas').hidden=true;
   activeType='theme';activeIndex=Math.max(0,Math.min(themes.length-1,index));
   if(trigger)lastTrigger=trigger;
   clearVideo();
@@ -323,6 +338,7 @@ $('#prevDetail').addEventListener('click',()=>navigate(-1));
 $('#nextDetail').addEventListener('click',()=>navigate(1));
 dialog.addEventListener('click',event=>{if(event.target===dialog)close();});
 dialog.addEventListener('close',()=>{
+  stopBrandLoop();
   clearVideo();
   document.body.classList.remove('modal-open');
   if(lastTrigger?.isConnected)lastTrigger.focus({preventScroll:true});
