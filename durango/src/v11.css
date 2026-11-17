@@ -372,3 +372,6 @@
 
 /* V32 — one monumental mural for Durango. */
 .results-mural{position:absolute;inset:0;overflow:hidden;background:#b6501e}.results-mural img{display:block;width:100%;height:100%;object-fit:cover;object-position:center center}
+
+/* V33 — quiet Toyota image caption. */
+.chapter-art-5{gap:10px}.chapter-art-5 .toyota-caption{font-size:12px;line-height:1.55;font-weight:400;color:#ffffffb3;margin:0;width:100%;max-width:none;text-align:left}
