@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=27';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=28';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -254,12 +254,24 @@ const chapterLooks=[
  {tag:'PRODUCCIÓN Y VALIDACIÓN',word:'De principio a fin.',line:'Un proceso compartido.',bottom:'01 PREPARAR → 02 PRODUCIR → 03 ENTREGAR'},
  {tag:'SIGUIENTE PASO',word:'2027',line:'El futuro empieza con un acuerdo.',bottom:'PRIORIDADES / MATERIALES / ALCANCE'}
 ];
+let beautyTimer=null;
 function stopBrandLoop(){
+ clearInterval(beautyTimer);beautyTimer=null;
  const v=document.querySelector('#brandLoop');if(v){v.pause();v.removeAttribute('src');v.load();}
+}
+function renderBeauty(){
+ const pane=$('#chapterCanvas');pane.hidden=false;let current=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const labels=['Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mexiquillo','Mirador Santa Teresa','Cascada El Rincón, Chavarría Viejo','Cascadas de Mexiquillo'];
+ pane.innerHTML=`<div class="beauty-gallery"><div class="beauty-slides">${labels.map((label,i)=>`<img src="./assets/beauty/durango-${String(i+1).padStart(2,'0')}.webp" alt="${label}" class="${i===0?'is-current':''}" aria-hidden="${i!==0}">`).join('')}</div><div class="beauty-controls"><button type="button" aria-label="Fotografía anterior">←</button><span class="beauty-count">01 / 10</span><button type="button" class="beauty-pause" aria-label="Pausar galería">Ⅱ</button><button type="button" aria-label="Fotografía siguiente">→</button></div><a class="beauty-credit" href="https://durango.travel/sitios/parque-natural-mexiquillo" target="_blank" rel="noopener">Fotografías · Durango Travel ↗</a></div>`;
+ const buttons=pane.querySelectorAll('.beauty-controls button'),imgs=pane.querySelectorAll('.beauty-slides img');
+ const show=step=>{current=(current+step+10)%10;imgs.forEach((img,i)=>{img.classList.toggle('is-current',i===current);img.setAttribute('aria-hidden',String(i!==current));});pane.querySelector('.beauty-count').textContent=`${String(current+1).padStart(2,'0')} / 10`;};
+ const sync=()=>{clearInterval(beautyTimer);beautyTimer=null;buttons[1].textContent=playing?'Ⅱ':'▶';buttons[1].setAttribute('aria-label',playing?'Pausar galería':'Reproducir galería');if(playing)beautyTimer=setInterval(()=>{if(!document.hidden)show(1);},1000);};
+ buttons[0].onclick=()=>{playing=false;show(-1);sync();};buttons[2].onclick=()=>{playing=false;show(1);sync();};buttons[1].onclick=()=>{playing=!playing;sync();};
+ Promise.all(Array.from(imgs,img=>img.decode().catch(()=>{}))).then(()=>{if(pane.querySelector('.beauty-gallery')&&dialog.open&&activeType==='service'&&activeIndex===2)sync();});
 }
 function renderGallery(index){
  const items=index===3?[
- ['dashboard','Estrategia'],['cine-edicion','Producción audiovisual'],['comunicacion','Comunicación'],['robot-ia','Tecnología'],['animacion','Movimiento'],['documento','Identidad editorial'],['delivery','Entrega']
+ ['dashboard','Estrategia'],['cine-edicion','Producción audiovisual'],['comunicacion','Comunicación'],['robot-ia','Tecnología'],['animacion','Animación'],['documento','Branding'],['delivery','Entrega']
  ]:[['documento','Preparar'],['cine-edicion','Producir'],['delivery','Entregar']];
  const pane=$('#chapterCanvas');pane.hidden=false;let current=0;
  pane.innerHTML=`<div class="tom-gallery"><img class="gallery-logo" src="./assets/tom-logo-oficial.png" alt="TOM"><span class="gallery-eyebrow">${index===3?'LENGUAJE VISUAL':'DE PRINCIPIO A FIN'}</span><img class="gallery-image" alt=""><div class="gallery-controls"><button type="button" aria-label="Imagen anterior">←</button><div><strong class="gallery-caption"></strong><small class="gallery-count" aria-live="polite"></small></div><button type="button" aria-label="Imagen siguiente">→</button></div></div>`;
@@ -270,6 +282,7 @@ function renderChapterCanvas(index){
  stopBrandLoop();
  dialog.classList.toggle('has-brand-loop',index===0);
  dialog.classList.toggle('is-closing',index===6);
+ if(index===2){renderBeauty();return;}
  if(index===3||index===5){renderGallery(index);return;}
  if(index===6){const pane=$('#chapterCanvas');pane.hidden=false;pane.innerHTML='';return;}
  if(index===0){
