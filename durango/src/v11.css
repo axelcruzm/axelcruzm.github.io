@@ -375,3 +375,7 @@
 
 /* V33 — quiet Toyota image caption. */
 .chapter-art-5{gap:10px}.chapter-art-5 .toyota-caption{font-size:12px;line-height:1.55;font-weight:400;color:#ffffffb3;margin:0;width:100%;max-width:none;text-align:left}
+
+/* V35 — a painted trilogy across the production journey. */
+.tom-gallery.process-murals{position:relative;padding:0;background:#233f5b;overflow:hidden}.process-murals .gallery-image{position:absolute;inset:0;width:100%;height:100%;padding:0;object-fit:cover;object-position:center}.process-murals .gallery-controls{position:absolute;left:20px;bottom:20px;width:calc(100% - 40px);padding:12px 16px;border-radius:24px;background:#13202bd9;backdrop-filter:blur(12px);color:white;border:1px solid #ffffff35}.process-murals .gallery-controls button{border-color:#ffffff50;color:white}.process-murals .gallery-caption{font-size:16px}.process-murals .gallery-count{margin-top:4px;font-size:10px}
+@media(max-width:640px){.process-murals .gallery-controls{left:10px;bottom:8px;width:calc(100% - 20px);padding:6px 10px}.process-murals .gallery-caption{font-size:12px}.process-murals .gallery-image{object-position:center 40%}}
