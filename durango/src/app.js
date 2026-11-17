@@ -237,6 +237,7 @@ const serviceArtwork=[
  ['cachorrito','animacion'],['loro','documento'],['tortuga-bolson','delivery']
 ];
 function setServiceArtwork(index){
+ document.querySelectorAll('.animal-gallery img').forEach((img,i)=>{img.hidden=i!==index;});
  const [animal,service]=serviceArtwork[index];
  dialog.dataset.art=String(index+1);
  $('#animalArt').src=`./assets/illustrations/${animal}.webp`;
