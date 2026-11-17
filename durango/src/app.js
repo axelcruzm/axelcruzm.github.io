@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=31';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=32';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -270,12 +270,8 @@ function renderBeauty(){
  Promise.all(Array.from(imgs,img=>img.decode().catch(()=>{}))).then(()=>{if(pane.querySelector('.beauty-gallery')&&dialog.open&&activeType==='service'&&activeIndex===2)sync();});
 }
 function renderResults(){
- const pane=$('#chapterCanvas');pane.hidden=false;let current=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
- const labels=['México y Durango · 2026','Proyección de resultados · 2026','Personas y comunidad · 2026'];
- pane.innerHTML=`<div class="results-gallery"><img class="results-image" src="./assets/results/results-1.svg" alt="${labels[0]}"><img class="results-logo" src="./assets/results/tom-logo.png" alt="Top of Mind Communication"><div class="beauty-controls"><button type="button" aria-label="Composición anterior">←</button><span class="results-count">01 / 03</span><button type="button" aria-label="Pausar composiciones">Ⅱ</button><button type="button" aria-label="Composición siguiente">→</button></div></div>`;
- const buttons=pane.querySelectorAll('button');const show=step=>{current=(current+step+3)%3;pane.querySelector('.results-image').src=`./assets/results/results-${current+1}.svg`;pane.querySelector('.results-image').alt=labels[current];pane.querySelector('.results-count').textContent=`0${current+1} / 03`;};
- const sync=()=>{clearInterval(beautyTimer);buttons[1].textContent=playing?'Ⅱ':'▶';buttons[1].setAttribute('aria-label',playing?'Pausar composiciones':'Reproducir composiciones');if(playing)beautyTimer=setInterval(()=>{if(!document.hidden)show(1);},2000);};
- buttons[0].onclick=()=>{playing=false;show(-1);sync();};buttons[2].onclick=()=>{playing=false;show(1);sync();};buttons[1].onclick=()=>{playing=!playing;sync();};sync();
+ const pane=$('#chapterCanvas');pane.hidden=false;
+ pane.innerHTML='<div class="results-mural"><img src="./assets/results/durango-mural-2026.webp" alt="Composición muralista de Durango: su arquitectura, paisajes y comunidades, con 2026 en el horizonte."></div>';
 }
 function renderGallery(index){
  const items=index===3?[
