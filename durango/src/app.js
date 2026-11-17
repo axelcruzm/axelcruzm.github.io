@@ -1,5 +1,5 @@
 import {photos} from './content.js';
-import {services,themes,experiences,themeStories,references} from './campaign.js?v=32';
+import {services,themes,experiences,themeStories,references} from './campaign.js?v=34';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
 const $=selector=>document.querySelector(selector);
@@ -271,7 +271,7 @@ function renderBeauty(){
 }
 function renderResults(){
  const pane=$('#chapterCanvas');pane.hidden=false;
- pane.innerHTML='<div class="results-mural"><img src="./assets/results/durango-mural-2026.webp" alt="Composición muralista de Durango: su arquitectura, paisajes y comunidades, con 2026 en el horizonte."></div>';
+ pane.innerHTML='<div class="results-mural"><img src="./assets/results/durango-mural-color.webp" alt="Mural multicolor de Durango: campo, comunidades, monumentos, flores, cosechas y gastronomía sobre un fondo naranja."></div>';
 }
 function renderGallery(index){
  const items=index===3?[
@@ -302,7 +302,7 @@ function renderChapterCanvas(index){
  }
 
  const c=chapterLooks[index],pane=$('#chapterCanvas');pane.hidden=false;
- pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}">${index===4?'':`<span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>`}${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER VIDEO ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}${index===4?'<p class="toyota-caption">Ayudamos a Toyota a implementar sus planes de capacitación / multicanal / toda la república.</p>':`<div class="chapter-bottom">${c.bottom||'PRODUCCIÓN TOM'}</div>`}</div>`;
+ pane.innerHTML=`<div class="chapter-art chapter-art-${index+1}">${index===4?'':`<span class="chapter-tag">${c.tag}</span><div class="chapter-headline">${c.word}</div><p class="chapter-line">${c.line}</p>`}${c.ref!==undefined?`<button type="button" class="chapter-film" data-film="${c.ref}" aria-label="Ver ${references[c.ref].title}"><img src="https://i.ytimg.com/vi/${references[c.ref].id}/hqdefault.jpg" alt="Vista previa: ${references[c.ref].title}"><span class="chapter-film-play">▶</span><span class="chapter-film-caption">${references[c.ref].client} · VER VIDEO ↗</span></button>`:`<div class="chapter-symbol" aria-hidden="true">${icon(index===0?'nodes':index===5?'layers':'chart')}</div>`}${index===4?'<p class="toyota-caption">Ayudamos a Toyota a implementar sus planes de capacitación en toda la república en múltiples canales.</p>':`<div class="chapter-bottom">${c.bottom||'PRODUCCIÓN TOM'}</div>`}</div>`;
  pane.querySelector('[data-film]')?.addEventListener('click',e=>openReference(c.ref,e.currentTarget));
 }
 function openService(index,trigger){
