@@ -349,6 +349,7 @@ function openService(index,trigger){
   $('#heroServiceIcon').innerHTML=icon(s.icon);
   $('#detailServiceName').textContent='';
   $('#detailTitle').textContent=s.title;
+  if (s.id === 'campaign2') $('#detailTitle').prepend('Durango', document.createElement('br'));
   if(activeIndex===0)$('#detailTitle').innerHTML='Tu campaña institucional de cierre 2026<span class=tom-signoff>Top of Mind Communication</span>';
   $('#detailPromise').textContent=e.headline;$('#detailPromise').hidden=!e.headline;
   $('#detailLead').textContent=e.subline;$('#detailLead').hidden=!e.subline;
