@@ -289,12 +289,12 @@ function stopBrandLoop(){
 function renderBeauty(){
  const pane=$('#chapterCanvas');pane.hidden=false;let current=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
  const labels=curatedPhotos;
- pane.innerHTML=`<div class="beauty-gallery"><div class="beauty-slides">${labels.map((p,i)=>`<img src="${p.src}" alt="${p.title}" style="--photo-position:${p.position};--photo-mobile-position:${p.mobilePosition};--photo-grade:${p.grade}" class="${i===0?'is-current':''}" aria-hidden="${i!==0}" decoding="async">`).join('')}</div><div class="beauty-controls"><button type="button" aria-label="Fotografía anterior">←</button><span class="beauty-count">01 / ${labels.length}</span><button type="button" class="beauty-pause" aria-label="Pausar galería">Ⅱ</button><button type="button" aria-label="Fotografía siguiente">→</button></div></div>`;
- const buttons=pane.querySelectorAll('.beauty-controls button'),imgs=pane.querySelectorAll('.beauty-slides img');
+ pane.innerHTML=`<div class="beauty-gallery"><div class="beauty-slides">${labels.map((p,i)=>`<img src="${p.src}" alt="${p.title}" style="--photo-position:${p.position};--photo-mobile-position:${p.mobilePosition};--photo-grade:${p.grade}" class="${i===0?'is-current':''}" aria-hidden="${i!==0}" decoding="async">`).join('')}</div><div class="beauty-controls"><span class="beauty-count">01 / ${labels.length}</span><button type="button" class="beauty-pause" aria-label="Pausar galería">Ⅱ</button></div></div>`;
+ const playPause=pane.querySelector('.beauty-pause'),imgs=pane.querySelectorAll('.beauty-slides img');
  const show=step=>{current=(current+step+labels.length)%labels.length;imgs.forEach((img,i)=>{img.classList.toggle('is-current',i===current);img.setAttribute('aria-hidden',String(i!==current));});pane.querySelector('.beauty-count').textContent=`${String(current+1).padStart(2,'0')} / ${labels.length}`;};
- const sync=()=>{clearInterval(beautyTimer);beautyTimer=null;buttons[1].textContent=playing?'Ⅱ':'▶';buttons[1].setAttribute('aria-label',playing?'Pausar galería':'Reproducir galería');if(playing)beautyTimer=setInterval(()=>{if(!document.hidden)show(1);},1000);};
- buttons[0].onclick=()=>{playing=false;show(-1);sync();};buttons[2].onclick=()=>{playing=false;show(1);sync();};buttons[1].onclick=()=>{playing=!playing;sync();};
- Promise.all(Array.from(imgs,img=>img.decode().catch(()=>{}))).then(()=>{if(pane.querySelector('.beauty-gallery')&&dialog.open&&activeType==='service'&&activeIndex===2)sync();});
+ const sync=()=>{clearInterval(beautyTimer);beautyTimer=null;playPause.textContent=playing?'Ⅱ':'▶';playPause.setAttribute('aria-label',playing?'Pausar galería':'Reproducir galería');if(playing)beautyTimer=setInterval(()=>{if(!document.hidden)show(1);},1000);};
+ playPause.onclick=()=>{playing=!playing;sync();};
+ Promise.all(Array.from(imgs,img=>img.decode().catch(()=>{}))).then(()=>{if(playPause.isConnected&&dialog.open&&activeType==='service'&&activeIndex===2)sync();});
 }
 function renderResults(){
  const pane=$('#chapterCanvas');pane.hidden=false;
