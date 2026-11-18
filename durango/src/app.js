@@ -152,7 +152,7 @@ function coreGraphic(s){
 function renderExperience(service){
  const exp=experiences[service.id], visual=$('#detailVisual');
  visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Campaña de Información Reformas Laborales para Zacatecas:':activeIndex===2?'Campañas de Beneficencia Pública que hemos realizado':activeIndex===4?'Distintas piezas, distintos formatos · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
- visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));selectedStep=Number(b.dataset.step);visual.querySelector('.campaign-caption').textContent=exp.steps[selectedStep].caption;if(activeIndex===5)renderGallery(5);requestAnimationFrame(fitInteractives);}));
+ visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));selectedStep=Number(b.dataset.step);showFaunaFrame(selectedStep);visual.querySelector('.campaign-caption').textContent=exp.steps[selectedStep].caption;if(activeIndex===5)renderGallery(5);requestAnimationFrame(fitInteractives);}));
  visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
 const screening=document.createElement('dialog');screening.className='screening';screening.setAttribute('aria-labelledby','screeningTitle');document.body.append(screening);
@@ -237,8 +237,34 @@ const serviceArtwork=[
  ['lagartija-bolson','cine-edicion'],['culebra-fox','animacion'],
  ['cachorrito','animacion'],['loro','documento'],['tortuga-bolson','delivery']
 ];
+const faunaImages = Array.from(document.querySelectorAll('.animal-gallery img'));
+const faunaFrames = faunaImages.map(img => {
+  const original = img.getAttribute('src');
+  const stem = original.replace(/\.webp$/, '');
+  return [original, stem + '-2.png', stem + '-3.png'];
+});
+let closingFrameTimers = [];
+
+function stopClosingFrames() {
+  closingFrameTimers.forEach(clearTimeout);
+  closingFrameTimers = [];
+}
+
+function showFaunaFrame(step) {
+  faunaImages[activeIndex].src = faunaFrames[activeIndex][step];
+}
+
+function prepareFauna(index) {
+  stopClosingFrames();
+  faunaImages.forEach((img, i) => { img.hidden = i !== index; });
+  showFaunaFrame(0);
+  faunaFrames[index].slice(1).forEach(src => { const img = new Image(); img.src = src; });
+  if (index === 6 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    closingFrameTimers = [1, 2].map(step => setTimeout(() => showFaunaFrame(step), step * 300));
+  }
+}
 function setServiceArtwork(index){
- document.querySelectorAll('.animal-gallery img').forEach((img,i)=>{img.hidden=i!==index;});
+ prepareFauna(index);
  const [animal,service]=serviceArtwork[index];
  dialog.dataset.art=String(index+1);
  $('#animalArt').src=`./assets/illustrations/${animal}.webp`;
@@ -332,6 +358,7 @@ function openService(index,trigger){
   setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);requestAnimationFrame(fitInteractives);
 }
 function openTheme(index,trigger){
+  stopClosingFrames();
   stopBrandLoop();dialog.classList.remove('has-brand-loop','is-closing');$('#chapterCanvas').hidden=true;
   activeType='theme';activeIndex=Math.max(0,Math.min(themes.length-1,index));
   if(trigger)lastTrigger=trigger;
@@ -376,6 +403,7 @@ $('#prevDetail').addEventListener('click',()=>navigate(-1));
 $('#nextDetail').addEventListener('click',()=>navigate(1));
 dialog.addEventListener('click',event=>{if(event.target===dialog)close();});
 dialog.addEventListener('close',()=>{
+  stopClosingFrames();
   stopAreaMusic();
   stopBrandLoop();
   clearVideo();
