@@ -298,7 +298,7 @@ function renderChapterCanvas(index){
   const pane=$('#chapterCanvas');pane.hidden=false;
   pane.innerHTML=`<video id="brandLoop" class="brand-loop" src="./assets/video/tom-brand-loop.mp4" loop playsinline preload="auto" aria-label="TOM · Reel de marca"></video><div class="brand-loop-controls"><button type="button" id="brandSound" aria-label="Silenciar música">Sonido: activo</button><button type="button" id="brandPause" aria-label="Pausar video">Ⅱ</button></div>`;
   const v=$('#brandLoop'),sound=$('#brandSound'),pause=$('#brandPause');
-  v.volume=0.4;
+  v.volume=0.2;
   const sync=()=>{sound.textContent=v.muted?'Activar sonido':'Silenciar';sound.setAttribute('aria-label',v.muted?'Activar música':'Silenciar música');pause.textContent=v.paused?'▶':'Ⅱ';pause.setAttribute('aria-label',v.paused?'Reproducir video':'Pausar video');};
   sound.onclick=()=>{v.muted=!v.muted;sync();};pause.onclick=()=>{if(v.paused)v.play().catch(()=>{});else v.pause();};
   v.addEventListener('play',sync);v.addEventListener('pause',sync);
