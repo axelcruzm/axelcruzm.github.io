@@ -152,7 +152,7 @@ function coreGraphic(s){
 function renderExperience(service){
  const exp=experiences[service.id], visual=$('#detailVisual');
  visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Campaña de Información Reformas Laborales para Zacatecas:':activeIndex===2?'Campañas de Beneficencia Pública que hemos realizado':activeIndex===4?'Distintas piezas, distintos formatos · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
- visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));visual.querySelector('.campaign-caption').textContent=exp.steps[Number(b.dataset.step)].caption;}));
+ visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));selectedStep=Number(b.dataset.step);visual.querySelector('.campaign-caption').textContent=exp.steps[selectedStep].caption;if(activeIndex===5)renderGallery(5);}));
  visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
 const screening=document.createElement('dialog');screening.className='screening';screening.setAttribute('aria-labelledby','screeningTitle');document.body.append(screening);
@@ -272,19 +272,19 @@ function renderBeauty(){
 }
 function renderResults(){
  const pane=$('#chapterCanvas');pane.hidden=false;
- pane.innerHTML='<div class="results-mural"><img src="./assets/results/durango-mural-color.webp" alt="Mural multicolor de Durango: campo, comunidades, monumentos, flores, cosechas y gastronomía sobre un fondo naranja."></div>';
+ pane.innerHTML='<div class="results-mural"><img src="./assets/results/durango-mural-industria.webp" alt="Mural de Durango: patrimonio, naturaleza y comunidad junto a industria, conectividad, energía solar e innovación, sobre una base naranja."></div>';
 }
 function renderGallery(index){
  const items=index===3?[
  ['dashboard','Estrategia'],['cine-edicion','Producción audiovisual'],['comunicacion','Comunicación'],['robot-ia','Tecnología'],['animacion','Animación'],['documento','Branding'],['delivery','Entrega']
  ]:[['preparacion-abstracta','Preparación'],['produccion-abstracta','Producción'],['entrega-abstracta','Entrega']];
- const pane=$('#chapterCanvas');pane.hidden=false;let current=0;
+ const pane=$('#chapterCanvas');pane.hidden=false;let current=index===5?selectedStep:0;
  pane.innerHTML=`<div class="tom-gallery ${index===5?'process-murals':''}"><img class="gallery-image" alt="">${index===5?'<div class="mural-center-title" aria-hidden="true"></div>':''}<div class="gallery-controls"><button type="button" aria-label="Imagen anterior">←</button><div><strong class="gallery-caption"></strong><small class="gallery-count" aria-live="polite"></small></div><button type="button" aria-label="Imagen siguiente">→</button></div></div>`;
  if(index===5)pane.querySelector('.gallery-controls').remove();
  const show=()=>{const [file,label]=items[current],img=pane.querySelector('.gallery-image');img.src=`./assets/${index===5?'process':'illustrations'}/${file}.webp`;img.alt=label;if(index===5){pane.querySelector('.mural-center-title').textContent=label.toLocaleUpperCase('es');}else{pane.querySelector('.gallery-caption').textContent=label;pane.querySelector('.gallery-count').textContent=`${String(current+1).padStart(2,'0')} / ${String(items.length).padStart(2,'0')}`;}};
  pane.querySelectorAll('.gallery-controls button').forEach((b,i)=>b.onclick=()=>{current=(current+(i?1:-1)+items.length)%items.length;show();});show();
  if(index===5)items.forEach(([file])=>{const img=new Image();img.src=`./assets/process/${file}.webp`;});
- if(index===5||(index===3&&!matchMedia('(prefers-reduced-motion: reduce)').matches))beautyTimer=setInterval(()=>{if(!document.hidden){current=(current+1)%items.length;show();}},2000);
+ if(index===3&&!matchMedia('(prefers-reduced-motion: reduce)').matches)beautyTimer=setInterval(()=>{if(!document.hidden){current=(current+1)%items.length;show();}},2000);
 }
 function renderChapterCanvas(index){
  stopBrandLoop();
