@@ -1,5 +1,5 @@
 import {curatedPhotos} from './photography.js?v=39';
-const photos={catedral:curatedPhotos[2],ojuela:curatedPhotos[4],waterfall:curatedPhotos[0],canyon:curatedPhotos[7]};
+const photos={closing:{src:'./assets/cierre-sierra-dorada.webp',title:'Paisaje inspirado en la sierra de Durango al atardecer',position:'50% 50%',mobilePosition:'50% 48%',grade:'none'},catedral:curatedPhotos[2],ojuela:curatedPhotos[4],waterfall:curatedPhotos[0],canyon:curatedPhotos[7]};
 import {services,themes,experiences,themeStories,references} from './campaign.js?v=38';
 import {serviceMedia,serviceFacts} from './presentation.js';
 
@@ -380,6 +380,7 @@ function openTheme(index,trigger){
 function openJourneyDecision(){
   stopAreaMusic();
   activeType='decision';
+  setPhoto('closing');
   $('#detailKicker').textContent='DURANGO / SIGUIENTE PASO';
   $('#detailServiceName').textContent='Durango × Top of Mind';
   $('#detailTitle').textContent='¿Qué historia de Durango contamos primero?';
