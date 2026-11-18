@@ -13,7 +13,7 @@ let activeType='service',activeIndex=0,lastTrigger=null,manualPause=false;
 let selectedStep=0,hovered=null,stageVisible=true;
 const outerNodes=[],innerNodes=[];
 const accents=['#ce1747','#e66b16','#207caa','#255caa','#aa2366','#aa2366','#80532f'];
-const displayTitle=s=>s.id==='campaign1'?'Tu campaña institucional':s.id==='campaign5'?'Tú la campaña,<br>Nosotros los formatos':s.title;
+const displayTitle=s=>s.id==='campaign1'?'Tu campaña institucional':s.id==='campaign2'?'Durango<br>Resultados 2026':s.id==='campaign5'?'Tú la campaña,<br>Nosotros los formatos':s.title;
 
 const iconPaths={
  chess:`<path d="M10 3.3 13 6l-1.5 3 3.8 2.8-2.6 3.1H5.6l-.8-2.6 3.5-3.1-1.2-3 1-2.8"/><path d="M5 17h11M4 20h13"/>`,
@@ -33,7 +33,7 @@ const icon=(name,cls='')=>`<svg class="${cls}" viewBox="0 0 24 24" fill="none" s
 function renderNavigation(){
   services.forEach((s,i)=>{
     const button=document.createElement('button');
-    button.type='button';button.className='orbital-anchor';button.style.setProperty('--service-accent',accents[i]);button.setAttribute('aria-label',`Abrir ${s.title}. Capítulo ${s.number} de siete`);
+    button.type='button';button.className='orbital-anchor';button.style.setProperty('--service-accent',accents[i]);button.setAttribute('aria-label',`Abrir ${s.id==='campaign2'?'Durango, ':''}${s.title}. Capítulo ${s.number} de siete`);
     button.innerHTML=`<span class="service-pill"><span class="service-number">${s.number}</span><span class="service-icon">${icon(s.icon)}</span><span class="service-copy"><strong class="service-label">${displayTitle(s)}</strong></span><span class="service-open">↗</span></span>`;
     button.addEventListener('click',()=>openService(i,button));
     button.addEventListener('pointerenter',()=>{hovered={kind:'outer',i};button.classList.add('is-near');connection.classList.add('is-visible');});
