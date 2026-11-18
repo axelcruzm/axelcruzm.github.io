@@ -152,7 +152,7 @@ function coreGraphic(s){
 function renderExperience(service){
  const exp=experiences[service.id], visual=$('#detailVisual');
  visual.innerHTML=`<div class="campaign-process ${activeIndex===0?'campaign-pyramid':''}"><div class="campaign-tabs" role="group" aria-label="Explorar propuesta">${exp.steps.map((st,i)=>`<button type="button" data-step="${i}" aria-pressed="${i===0}"><small>0${i+1}</small>${st.label}</button>`).join('')}</div><p class="campaign-caption" aria-live="polite">${exp.steps[0].caption}</p></div>${exp.refs.length?`<div class="work-references"><span class="work-label">${activeIndex===1?'Campaña de Información Reformas Laborales para Zacatecas:':activeIndex===2?'Campañas de Beneficencia Pública que hemos realizado':activeIndex===4?'Distintas piezas, distintos formatos · TOM':'TRABAJOS TOM'}</span>${exp.refs.map(n=>`<button type="button" class="work-reference" data-reference="${n}"><span class="work-play">▶</span><span><small>${references[n].client}</small><strong>${references[n].title}</strong></span><span aria-hidden="true">↗</span></button>`).join('')}</div>`:''}${activeIndex===6?'<p class="scope-note">Propuesta de alcance. Entregables y calendario sujetos a definición conjunta.</p>':''}`;
- visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));selectedStep=Number(b.dataset.step);visual.querySelector('.campaign-caption').textContent=exp.steps[selectedStep].caption;if(activeIndex===5)renderGallery(5);}));
+ visual.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{visual.querySelectorAll('[data-step]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));selectedStep=Number(b.dataset.step);visual.querySelector('.campaign-caption').textContent=exp.steps[selectedStep].caption;if(activeIndex===5)renderGallery(5);requestAnimationFrame(fitInteractives);}));
  visual.querySelectorAll('[data-reference]').forEach(b=>b.addEventListener('click',()=>openReference(Number(b.dataset.reference),b)));
 }
 const screening=document.createElement('dialog');screening.className='screening';screening.setAttribute('aria-labelledby','screeningTitle');document.body.append(screening);
@@ -296,11 +296,11 @@ function renderChapterCanvas(index){
  if(index===6){const pane=$('#chapterCanvas');pane.hidden=false;pane.innerHTML='';return;}
  if(index===0){
   const pane=$('#chapterCanvas');pane.hidden=false;
-  pane.innerHTML=`<video id="brandLoop" class="brand-loop" src="./assets/video/tom-brand-loop.mp4" loop playsinline preload="auto" aria-label="TOM · Reel de marca"></video><div class="brand-loop-controls"><button type="button" id="brandSound" aria-label="Silenciar música">Sonido: activo</button><button type="button" id="brandPause" aria-label="Pausar video">Ⅱ</button></div>`;
+  pane.innerHTML=`<video id="brandLoop" muted class="brand-loop" src="./assets/video/tom-brand-loop.mp4" loop playsinline preload="auto" aria-label="TOM · Reel de marca"></video><div class="brand-loop-controls"><button type="button" id="brandSound" aria-label="Silenciar música">Sonido: activo</button><button type="button" id="brandPause" aria-label="Pausar video">Ⅱ</button></div>`;
   const v=$('#brandLoop'),sound=$('#brandSound'),pause=$('#brandPause');
-  v.volume=0.2;
-  const sync=()=>{sound.textContent=v.muted?'Activar sonido':'Silenciar';sound.setAttribute('aria-label',v.muted?'Activar música':'Silenciar música');pause.textContent=v.paused?'▶':'Ⅱ';pause.setAttribute('aria-label',v.paused?'Reproducir video':'Pausar video');};
-  sound.onclick=()=>{v.muted=!v.muted;sync();};pause.onclick=()=>{if(v.paused)v.play().catch(()=>{});else v.pause();};
+  v.volume=0.2;v.muted=!soundEnabled;
+  const sync=()=>{sound.innerHTML=soundIcon+(v.muted?' Sync with music':' Music on');sound.setAttribute('aria-pressed',String(!v.muted));sound.setAttribute('aria-label',v.muted?'Activar música':'Silenciar música');pause.textContent=v.paused?'▶':'Ⅱ';pause.setAttribute('aria-label',v.paused?'Reproducir video':'Pausar video');};
+  sound.onclick=()=>{setSoundEnabled(!soundEnabled);sync();};pause.onclick=()=>{if(v.paused)v.play().catch(()=>{});else v.pause();};
   v.addEventListener('play',sync);v.addEventListener('pause',sync);
   v.play().catch(()=>{v.muted=true;sync();v.play().catch(()=>{});});return;
  }
@@ -322,13 +322,13 @@ function openService(index,trigger){
   $('#heroServiceIcon').innerHTML=icon(s.icon);
   $('#detailServiceName').textContent='';
   $('#detailTitle').textContent=s.title;
-  if(activeIndex===0)$('#detailTitle').innerHTML='<span class=tom-signoff>Top of Mind Communication</span>Tu campaña institucional de cierre 2026';
+  if(activeIndex===0)$('#detailTitle').innerHTML='Tu campaña institucional de cierre 2026<span class=tom-signoff>Top of Mind Communication</span>';
   $('#detailPromise').textContent=e.headline;$('#detailPromise').hidden=!e.headline;
   $('#detailLead').textContent=e.subline;$('#detailLead').hidden=!e.subline;
   $('#detailVisual').hidden=false;$('#themeSupport').hidden=true;
   renderExperience(s);renderFacts(s.id);updatePager();
   if(activeIndex===6){$('#detailTitle').innerHTML='<span class=closing-intro>Construyamos el cierre del año 2026, para comenzar los acuerdos de:</span><span class=closing-year>202<b>7</b></span>';$('#detailPromise').textContent='Acordemos el punto de partida.';$('#detailLead').hidden=true;$('#detailVisual').innerHTML='<button class=areas-cta type=button>Las 4 áreas para potenciar Durango <span aria-hidden=true>→</span></button>';$('#detailVisual button').onclick=()=>openTheme(0);}
-  setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);
+  setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);requestAnimationFrame(fitInteractives);
 }
 function openTheme(index,trigger){
   stopBrandLoop();dialog.classList.remove('has-brand-loop','is-closing');$('#chapterCanvas').hidden=true;
@@ -394,3 +394,37 @@ $('#fullscreenToggle').addEventListener('click',()=>{
 document.addEventListener('fullscreenchange',()=>$('#fullscreenToggle').setAttribute('aria-label',document.fullscreenElement?'Salir de pantalla completa':'Ver en pantalla completa'));
 
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopClock();video.pause();}else startClock();});
+
+// Quiet, explicitly enabled soundscape. One incident at a time; no hover sounds.
+let soundEnabled=false,lastIncident=0,activeIncident=null;
+const soundIcon='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 18V5l11-2v13M9 8l11-2" fill="none" stroke="currentColor" stroke-width="1.7"/><ellipse cx="6" cy="18" rx="3" ry="2" fill="currentColor"/><ellipse cx="17" cy="16" rx="3" ry="2" fill="currentColor"/></svg>';
+const incidents=Object.fromEntries(['select','open','close'].map(name=>{const a=new Audio('./assets/audio/'+name+'.mp3');a.preload='auto';a.volume=.45;return[name,a];}));
+function setSoundEnabled(enabled){
+ soundEnabled=enabled;
+ if(!enabled&&activeIncident){activeIncident.pause();activeIncident.currentTime=0;}
+ const v=$('#brandLoop');if(v)v.muted=!enabled;
+ document.querySelectorAll('[data-sound-toggle]').forEach(b=>{b.innerHTML=soundIcon;b.setAttribute('aria-pressed',String(enabled));b.setAttribute('aria-label',enabled?'Silenciar música y efectos':'Activar música y efectos');b.title=enabled?'Silenciar':'Activar sonido';});
+ const b=$('#brandSound');if(b){b.innerHTML=soundIcon+(enabled?' Music on':' Sync with music');b.setAttribute('aria-pressed',String(enabled));b.setAttribute('aria-label',enabled?'Silenciar música y efectos':'Activar música y efectos');}
+}
+document.querySelectorAll('[data-sound-toggle]').forEach(b=>b.addEventListener('click',()=>setSoundEnabled(!soundEnabled)));
+setSoundEnabled(false);
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b||b.disabled||b.matches('[data-sound-toggle],#brandSound,#brandPause')||!soundEnabled)return;
+ const now=performance.now();if(now-lastIncident<110)return;lastIncident=now;
+ const kind=b.matches('#closeDialog,.screening-close')?'close':b.closest('#serviceTrack,#themeTrack,#mobileServices,#mobileThemes')||b.matches('#nextDetail,#prevDetail,.areas-cta')?'open':'select';
+ if(activeIncident){activeIncident.pause();activeIncident.currentTime=0;}
+ activeIncident=incidents[kind];activeIncident.currentTime=0;activeIncident.play().catch(()=>{});
+},true);
+function fitInteractives(){
+ if(!dialog.open||activeType!=='service'||activeIndex===6)return;
+ const sc=dialog.querySelector('.dialog-content-scroll'),buttons=[...sc.querySelectorAll('.campaign-tabs button')];
+ buttons.forEach(b=>{b.style.removeProperty('min-height');b.style.removeProperty('font-size');});
+ if(!buttons.length||innerWidth<=640)return;
+ const base=Math.ceil(Math.max(...buttons.map(b=>b.getBoundingClientRect().height))),cap=activeIndex===0?140:150;
+ for(let h=base+8;h<=cap;h+=8){
+  buttons.forEach(b=>b.style.minHeight=h+'px');
+  if(sc.scrollHeight>sc.clientHeight+1){buttons.forEach(b=>b.style.minHeight=(h-8)+'px');break;}
+ }
+}
+window.addEventListener('resize',()=>requestAnimationFrame(fitInteractives));
+document.fonts.ready.then(()=>requestAnimationFrame(fitInteractives));

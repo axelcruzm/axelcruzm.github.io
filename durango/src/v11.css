@@ -390,3 +390,12 @@
 @media(max-width:640px){.beauty-slides img,.detail-dialog #detailPhoto{object-position:var(--photo-mobile-position,50% 50%)}}
 
 @media(min-width:641px){.detail-dialog.is-theme #detailPhoto{object-position:var(--photo-theme-position,50% 50%)}}
+
+/* Opt-in sound and spacious interaction, bounded by the content viewport. */
+.brand-loop-controls button{display:inline-flex;align-items:center;gap:7px}
+.sound-toggle{display:inline-flex;align-items:center;justify-content:center}
+.sound-toggle[aria-pressed="false"]{opacity:.6}
+.detail-dialog[data-art="1"] .tom-signoff{display:block;margin:12px 0 0;font-size:12px;letter-spacing:.12em;font-weight:600;color:#7b8793}
+.campaign-tabs button{display:flex;flex-direction:column;justify-content:center}
+.campaign-pyramid .campaign-tabs button{align-items:center}
+@media(min-width:641px) and (min-height:800px){.campaign-tabs button{font-size:16px}.campaign-pyramid .campaign-tabs button{font-size:17px}}
