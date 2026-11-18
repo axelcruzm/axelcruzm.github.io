@@ -324,7 +324,7 @@ function renderChapterCanvas(index){
   const pane=$('#chapterCanvas');pane.hidden=false;
   pane.innerHTML=`<video id="brandLoop" muted class="brand-loop" src="./assets/video/tom-brand-loop.mp4" loop playsinline preload="auto" aria-label="TOM · Reel de marca"></video><div class="brand-loop-controls"><button type="button" id="brandSound" aria-label="Silenciar música">Sonido: activo</button><button type="button" id="brandPause" aria-label="Pausar video">Ⅱ</button></div>`;
   const v=$('#brandLoop'),sound=$('#brandSound'),pause=$('#brandPause');
-  v.volume=0.2;v.muted=!soundEnabled;
+  v.volume=0.4;v.muted=!soundEnabled;
   const sync=()=>{sound.innerHTML=soundIcon+(v.muted?' Sync with music':' Music on');sound.setAttribute('aria-pressed',String(!v.muted));sound.setAttribute('aria-label',v.muted?'Activar música':'Silenciar música');pause.textContent=v.paused?'▶':'Ⅱ';pause.setAttribute('aria-label',v.paused?'Reproducir video':'Pausar video');};
   sound.onclick=()=>{setSoundEnabled(!soundEnabled);sync();};pause.onclick=()=>{if(v.paused)v.play().catch(()=>{});else v.pause();};
   v.addEventListener('play',sync);v.addEventListener('pause',sync);
@@ -467,7 +467,7 @@ let soundEnabled=false,lastIncident=0,activeIncident=null;
 const soundIcon='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 18V5l11-2v13M9 8l11-2" fill="none" stroke="currentColor" stroke-width="1.7"/><ellipse cx="6" cy="18" rx="3" ry="2" fill="currentColor"/><ellipse cx="17" cy="16" rx="3" ry="2" fill="currentColor"/></svg>';
 const incidents=Object.fromEntries(['select','open','close'].map(name=>{const a=new Audio('./assets/audio/'+name+'.mp3');a.preload='auto';a.volume=.45;return[name,a];}));
 const areaMusic=document.createElement('audio');
-areaMusic.id='areaMusic';areaMusic.src='./assets/audio/el-revolcadero.mp3';areaMusic.loop=true;areaMusic.preload='metadata';areaMusic.volume=.2;
+areaMusic.id='areaMusic';areaMusic.src='./assets/audio/el-revolcadero.mp3';areaMusic.loop=true;areaMusic.preload='metadata';areaMusic.volume=.4;
 areaMusic.setAttribute('aria-label','El Revolcadero — Los Montañeces del Álamo');document.body.append(areaMusic);
 function syncAreaMusic(){
  const withinAreas=dialog.open&&activeType==='theme';
