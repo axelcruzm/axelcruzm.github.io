@@ -221,9 +221,9 @@ function updatePager(){
   $('#pagerText').textContent=`${String(activeIndex+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`;
   $('#prevDetail').disabled=activeIndex===0;
   $('#prevDetail').setAttribute('aria-label',isService?'Capítulo anterior':'Área anterior');
-  $('#nextDetail').setAttribute('aria-label',activeIndex===total-1?'Terminar recorrido y volver al mapa':isService?'Capítulo siguiente':'Área siguiente');
+  $('#nextDetail').setAttribute('aria-label',activeIndex===total-1?(isService?'Explorar las cuatro áreas':'Elegir una primera prioridad'):isService?'Capítulo siguiente':'Área siguiente');
   $('#nextDetail').title=$('#nextDetail').getAttribute('aria-label');
-  $('#nextDetail').textContent=activeIndex===total-1?'✓':'→';
+  $('#nextDetail').textContent='→';
 }
 function showDialog(){
   if(!dialog.open)dialog.showModal();
@@ -336,6 +336,7 @@ function renderChapterCanvas(index){
  pane.querySelector('[data-film]')?.addEventListener('click',e=>openReference(c.ref,e.currentTarget));
 }
 function openService(index,trigger){
+  $('#journeyDecision')?.remove();
   stopAreaMusic();
   activeType='service';activeIndex=Math.max(0,Math.min(services.length-1,index));
   if(trigger)lastTrigger=trigger;
@@ -359,6 +360,7 @@ function openService(index,trigger){
   setPhoto(s.image);renderChapterCanvas(activeIndex);showDialog();setMedia(s);requestAnimationFrame(fitInteractives);
 }
 function openTheme(index,trigger){
+  $('#journeyDecision')?.remove();
   stopClosingFrames();
   stopBrandLoop();dialog.classList.remove('has-brand-loop','is-closing');$('#chapterCanvas').hidden=true;
   activeType='theme';activeIndex=Math.max(0,Math.min(themes.length-1,index));
@@ -375,10 +377,43 @@ function openTheme(index,trigger){
   $('#detailVisual').hidden=true;$('#detailVisual').replaceChildren();$('#serviceFacts').hidden=true;
   updatePager();setPhoto(story.image);showDialog();syncAreaMusic();
 }
+function openJourneyDecision(){
+  stopAreaMusic();
+  activeType='decision';
+  $('#detailKicker').textContent='DURANGO / SIGUIENTE PASO';
+  $('#detailServiceName').textContent='Durango × Top of Mind';
+  $('#detailTitle').textContent='¿Qué historia de Durango contamos primero?';
+  $('#detailLead').textContent='Elijan un área para empezar. En una sesión con Top of Mind, podemos definir juntos la primera pieza, los materiales y la fecha de entrega.';
+  $('#themeSupport').hidden=true;
+  const decision=document.createElement('div');
+  decision.id='journeyDecision';
+  decision.innerHTML='<label>Primera prioridad <select></select></label><a class="areas-cta">Proponer sesión con TOM por correo ↗</a>';
+  $('#themeSupport').after(decision);
+  const select=decision.querySelector('select');
+  select.add(new Option('Elegir un área…',''));
+  themes.forEach(theme=>select.add(new Option(theme.name,theme.name)));
+  const link=decision.querySelector('a');
+  link.hidden=true;
+  select.onchange=()=>{
+    link.hidden=!select.value;
+    const body='Hola, equipo TOM.\n\nQueremos explorar '+select.value+' como primera prioridad de la campaña de cierre de año de Durango. ¿Qué fecha les funciona para definir juntos la primera pieza, los materiales y el calendario?';
+    link.href='mailto:?subject='+encodeURIComponent('Durango × TOM | Primera sesión de campaña')+'&body='+encodeURIComponent(body);
+  };
+  $('#journeyLabel').textContent='SIGUIENTE PASO';
+  $('#pagerText').textContent='CIERRE';
+  $('#prevDetail').setAttribute('aria-label','Volver a la última área');
+  $('#nextDetail').setAttribute('aria-label','Volver al orbital');
+  $('#nextDetail').title='Volver al orbital';
+  $('#nextDetail').textContent='✓';
+  showDialog();
+  select.focus();
+}
 function navigate(step){
+  if(activeType==='decision'){if(step<0)openTheme(themes.length-1);else close();return;}
+  if(activeType==='theme' && step>0 && activeIndex===themes.length-1){openJourneyDecision();return;}
   const total=activeType==='service'?services.length:themes.length;
   if(activeIndex+step<0)return;
-  if(activeIndex+step>=total){close();return;}
+  if(activeIndex+step>=total){openTheme(0);return;}
   if(activeType==='service')openService(activeIndex+step,null);
   else openTheme(activeIndex+step,null);
 }
