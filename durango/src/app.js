@@ -310,6 +310,7 @@ function renderChapterCanvas(index){
  pane.querySelector('[data-film]')?.addEventListener('click',e=>openReference(c.ref,e.currentTarget));
 }
 function openService(index,trigger){
+  stopAreaMusic();
   activeType='service';activeIndex=Math.max(0,Math.min(services.length-1,index));
   if(trigger)lastTrigger=trigger;
   const s=services[activeIndex],e=experiences[s.id];selectedStep=0;
@@ -344,7 +345,7 @@ function openTheme(index,trigger){
   $('#detailLead').hidden=false;$('#detailLead').textContent=story.intro;
   $('#themeSupport').textContent=story.support;$('#themeSupport').hidden=false;
   $('#detailVisual').hidden=true;$('#detailVisual').replaceChildren();$('#serviceFacts').hidden=true;
-  updatePager();setPhoto(story.image);showDialog();
+  updatePager();setPhoto(story.image);showDialog();syncAreaMusic();
 }
 function navigate(step){
   const total=activeType==='service'?services.length:themes.length;
@@ -353,7 +354,7 @@ function navigate(step){
   if(activeType==='service')openService(activeIndex+step,null);
   else openTheme(activeIndex+step,null);
 }
-function close(){if(dialog.open)dialog.close();}
+function close(){stopAreaMusic();if(dialog.open)dialog.close();}
 function setPaused(next){
   manualPause=next;document.body.classList.toggle('is-paused',next);
   if(next)stopClock();else startClock();
@@ -375,6 +376,7 @@ $('#prevDetail').addEventListener('click',()=>navigate(-1));
 $('#nextDetail').addEventListener('click',()=>navigate(1));
 dialog.addEventListener('click',event=>{if(event.target===dialog)close();});
 dialog.addEventListener('close',()=>{
+  stopAreaMusic();
   stopBrandLoop();
   clearVideo();
   document.body.classList.remove('modal-open');
@@ -399,10 +401,22 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopClock(
 let soundEnabled=false,lastIncident=0,activeIncident=null;
 const soundIcon='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 18V5l11-2v13M9 8l11-2" fill="none" stroke="currentColor" stroke-width="1.7"/><ellipse cx="6" cy="18" rx="3" ry="2" fill="currentColor"/><ellipse cx="17" cy="16" rx="3" ry="2" fill="currentColor"/></svg>';
 const incidents=Object.fromEntries(['select','open','close'].map(name=>{const a=new Audio('./assets/audio/'+name+'.mp3');a.preload='auto';a.volume=.45;return[name,a];}));
+const areaMusic=document.createElement('audio');
+areaMusic.id='areaMusic';areaMusic.src='./assets/audio/el-revolcadero.mp3';areaMusic.loop=true;areaMusic.preload='metadata';areaMusic.volume=.2;
+areaMusic.setAttribute('aria-label','El Revolcadero — Los Montañeces del Álamo');document.body.append(areaMusic);
+function syncAreaMusic(){
+ const withinAreas=dialog.open&&activeType==='theme';
+ areaMusic.muted=!soundEnabled;
+ if(withinAreas&&soundEnabled&&!document.hidden){if(areaMusic.paused)areaMusic.play().catch(()=>{});}
+ else areaMusic.pause();
+}
+function stopAreaMusic(){areaMusic.pause();areaMusic.currentTime=0;}
+document.addEventListener('visibilitychange',syncAreaMusic);
 function setSoundEnabled(enabled){
  soundEnabled=enabled;
  if(!enabled&&activeIncident){activeIncident.pause();activeIncident.currentTime=0;}
  const v=$('#brandLoop');if(v)v.muted=!enabled;
+ syncAreaMusic();
  document.querySelectorAll('[data-sound-toggle]').forEach(b=>{b.innerHTML=soundIcon;b.setAttribute('aria-pressed',String(enabled));b.setAttribute('aria-label',enabled?'Silenciar música y efectos':'Activar música y efectos');b.title=enabled?'Silenciar':'Activar sonido';});
  const b=$('#brandSound');if(b){b.innerHTML=soundIcon+(enabled?' Music on':' Sync with music');b.setAttribute('aria-pressed',String(enabled));b.setAttribute('aria-label',enabled?'Silenciar música y efectos':'Activar música y efectos');}
 }

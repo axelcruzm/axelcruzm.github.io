@@ -406,3 +406,5 @@
  .sound-toggle[aria-pressed="false"] svg,#brandSound[aria-pressed="false"] svg{animation:sound-invitation 2.4s ease-in-out infinite;transform-origin:center}
  @keyframes sound-invitation{0%,100%{opacity:.42;transform:scale(.94);filter:drop-shadow(0 0 0 transparent)}50%{opacity:1;transform:scale(1.12);filter:drop-shadow(0 0 5px currentColor)}}
 }
+
+.theme-music-credit{display:none}.detail-dialog.is-theme .theme-music-credit{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:11px;line-height:1.5;text-align:center;color:white;letter-spacing:.04em;pointer-events:none}.theme-music-credit span{display:block;font-size:9px;opacity:.75}@media(max-width:640px){.detail-dialog.is-theme .theme-music-credit{font-size:9px;max-width:40%;left:45%}.theme-music-credit span{font-size:8px}}
