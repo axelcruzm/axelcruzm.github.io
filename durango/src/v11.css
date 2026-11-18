@@ -326,7 +326,7 @@
 @media(prefers-reduced-motion:no-preference){.campaign-tabs button{animation:objective-enter .45s both}.campaign-tabs button:nth-child(2){animation-delay:.08s}.campaign-tabs button:nth-child(3){animation-delay:.16s}@keyframes objective-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}}
 @media(max-width:640px){.campaign-pyramid .campaign-tabs{padding:0;gap:12px}.campaign-pyramid .campaign-tabs button{font-size:14px;min-height:94px}.campaign-tabs button{font-size:12px;padding:10px;min-height:76px}.detail-dialog .dialog-footer .animal-gallery{left:38%;width:65px}.detail-dialog .dialog-footer .animal-gallery img:not([hidden]){width:60px;height:48px}.detail-dialog[data-art="1"] #detailTitle{font-size:25px}}
 /* V26 — restrained footer and a single-screen opening. */
-@media(min-width:941px){.v04-main .command-guidance{left:calc(clamp(25px,3vw,58px) + 12px - max(0px,(100vw - 1690px)/2));justify-items:start;width:280px;max-width:280px;gap:6px}.v04-main .guidance-mark{margin-left:0}}
+@media(min-width:941px){.v04-main .command-guidance{left:clamp(25px,3vw,58px);justify-items:start;width:280px;max-width:280px;gap:6px}.v04-main .guidance-mark{margin-left:0}}
 .detail-dialog:not(.is-theme) .dialog-copy-pane{grid-template-rows:52px minmax(0,1fr) 62px}
 .detail-dialog .dialog-footer{min-height:0;padding:8px 24px}
 .detail-dialog .dialog-footer>span{font-size:8px;letter-spacing:.12em}
@@ -408,3 +408,9 @@
 }
 
 .theme-music-credit{display:none}.detail-dialog.is-theme .theme-music-credit{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:11px;line-height:1.5;text-align:center;color:white;letter-spacing:.04em;pointer-events:none}.theme-music-credit span{display:block;font-size:9px;opacity:.75}@media(max-width:640px){.detail-dialog.is-theme .theme-music-credit{font-size:9px;max-width:40%;left:45%}.theme-music-credit span{font-size:8px}}
+
+@media (min-width: 1690px) {
+  .proposal-heading > span { font-size: clamp(11px, .65vw, 13px); }
+  .proposal-heading strong { font-size: clamp(20px, 1.2vw, 26px); }
+  .proposal-heading small { font-size: clamp(13px, .8vw, 16px); }
+}
