@@ -399,3 +399,10 @@
 .campaign-tabs button{display:flex;flex-direction:column;justify-content:center}
 .campaign-pyramid .campaign-tabs button{align-items:center}
 @media(min-width:641px) and (min-height:800px){.campaign-tabs button{font-size:16px}.campaign-pyramid .campaign-tabs button{font-size:17px}}
+
+/* A gentle invitation to opt into sound; stops immediately when enabled. */
+.sound-toggle[aria-pressed="false"]{opacity:1}
+@media(prefers-reduced-motion:no-preference){
+ .sound-toggle[aria-pressed="false"] svg,#brandSound[aria-pressed="false"] svg{animation:sound-invitation 2.4s ease-in-out infinite;transform-origin:center}
+ @keyframes sound-invitation{0%,100%{opacity:.42;transform:scale(.94);filter:drop-shadow(0 0 0 transparent)}50%{opacity:1;transform:scale(1.12);filter:drop-shadow(0 0 5px currentColor)}}
+}
