@@ -147,3 +147,12 @@ main{display:flex;flex-direction:column;min-width:0}.eyebrow{margin:15px 0 2px -
 @media(max-width:1120px){
   .ink-bottle.webgl-ready .select-ink{bottom:11%}
 }
+
+/* Respect original VOX team imagery and editorial service chapter treatment. */
+.service-illustration{overflow:hidden;position:relative;border-color:#c8d9e5}
+.service-illustration #service-portrait{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%;z-index:3;display:none}
+.service-illustration.has-portrait #service-portrait{display:block}
+.service-illustration.has-portrait .detail-glyph,.service-illustration.has-portrait .seal-ring{visibility:hidden}
+.service-modal .service-words h2{color:#2f6ea2}
+.service-modal .service-words p{color:#1e3a4c}
+.service-modal .dialog-kicker{letter-spacing:.22em}
