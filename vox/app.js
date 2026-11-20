@@ -80,6 +80,8 @@
     colors[state.gender][state.lang].forEach((tone,i)=>{
       const id=sampleId(i),wrap=document.createElement('div');
       wrap.className='ink-bottle'+(state.selected&&state.selected.id===id?' is-selected':'');
+      wrap.dataset.tone=tone;
+      wrap.dataset.voiceId=id;
       wrap.innerHTML=bottleSVG(tone,id)+
         '<button type="button" class="play-ink" aria-label="Play voice sample '+(i+1)+'" title="Listen to sample">▶</button>'+
         '<button type="button" class="select-ink" aria-label="Select voice '+(i+1)+'" aria-pressed="'+String(state.selected?.id===id)+'" title="Select voice">♢</button>';
@@ -106,6 +108,7 @@
       });
       root.appendChild(wrap);
     });
+    window.dispatchEvent(new Event('vox:bottles-render'));
   }
   function updateSelection(){
     const b=$('#selected-voice'),choice=$('#request-choice'),item=state.selected;
@@ -180,7 +183,21 @@
   const v=$('#feather-video'),stage=$('.feather-stage');
   v.addEventListener('loadeddata',()=>{stage.classList.add('has-video');v.play().catch(()=>{});});
   v.addEventListener('error',()=>stage.classList.remove('has-video'));
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches)v.pause();
+  // Forty-five original pencil frames, 3 seconds, transparent VP9.
+  (async function loadOriginalQuill(){
+    try{
+      const response=await fetch('assets/vox-feather-video.base64',{cache:'force-cache'});
+      if(!response.ok)throw new Error('Media unavailable');
+      const encoded=(await response.text()).trim();
+      const data=Uint8Array.from(atob(encoded),char=>char.charCodeAt(0));
+      if(data.length!==6580)throw new Error('Invalid animation size');
+      v.src=URL.createObjectURL(new Blob([data],{type:'video/webm'}));
+      v.load();
+    }catch(error){stage.classList.remove('has-video');}
+  })();
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    v.addEventListener('loadeddata',()=>{v.pause();v.currentTime=0;},{once:true});
+  }
   window.addEventListener('resize',()=>requestAnimationFrame(alignTitle),{passive:true});
   document.fonts?.ready?.then(()=>requestAnimationFrame(alignTitle));
   renderBottles();updateSelection();requestAnimationFrame(alignTitle);
