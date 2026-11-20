@@ -111,3 +111,6 @@ main{display:flex;flex-direction:column;min-width:0}.eyebrow{margin:15px 0 2px -
  70%{transform:translate(-3px,-9px) rotate(-4deg)}
  86%,100%{transform:translate(0,0) rotate(0)}
 }
+
+.scene .voice-note{position:absolute;left:50%;bottom:0;transform:translateX(-50%);margin:0;font:italic 11px Georgia,serif;color:#60798a;white-space:nowrap;z-index:6}
+@media(max-width:760px){.scene .voice-note{position:relative;left:auto;bottom:auto;transform:none;text-align:center;margin:8px 0;font-size:10px}}
