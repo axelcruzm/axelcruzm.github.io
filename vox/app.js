@@ -135,6 +135,8 @@
     state.service=index;const s=services[index];
     $('#service-title').textContent=s.title;$('#service-description').textContent=s.description;
     $('#service-glyph').textContent=s.glyph;$('#service-count').textContent='0'+(index+1)+' / 04';
+    const portrait=$('#service-portrait');
+    $('#service-illustration').classList.toggle('has-portrait',index===3 && portrait?.complete && portrait.naturalWidth>0);
     $('#service-next').textContent=index===3?'↗':'→';
     $('#service-next').setAttribute('aria-label',index===3?'Request a meeting':'Next service');
     if(!$('#service-modal').open)$('#service-modal').showModal();
@@ -180,6 +182,22 @@
     try{await navigator.clipboard.writeText(text);$('#form-status').textContent='Request copied. It has not been sent to VOX.';}
     catch(err){$('#form-status').textContent='Copy unavailable here. Please copy your brief manually.';}
   });
+  // VOX-authorized portrait appears only in the Audio Production chapter, never in Let's Talk.
+  (async function loadProductionPortrait(){
+    try{
+      const res=await fetch('assets/jhoana-portrait.base64',{cache:'force-cache'});
+      if(!res.ok)throw new Error('VOX portrait unavailable');
+      const bytes=Uint8Array.from(atob((await res.text()).trim()),c=>c.charCodeAt(0));
+      if(bytes.length!==5042)throw new Error('Image mismatch');
+      const img=$('#service-portrait');
+      img.onload=()=>{
+        if(state.service===3 && $('#service-modal').open)
+          $('#service-illustration').classList.add('has-portrait');
+      };
+      img.src=URL.createObjectURL(new Blob([bytes],{type:'image/webp'}));
+      img.hidden=false;
+    }catch(error){/* original brand illustration remains visible */}
+  })();
   const v=$('#feather-video'),stage=$('.feather-stage');
   v.addEventListener('loadeddata',()=>{stage.classList.add('has-video');v.play().catch(()=>{});});
   v.addEventListener('error',()=>stage.classList.remove('has-video'));
