@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 165" role="img" aria-labelledby="t d">
+<title id="t">VOX ET VERITAS</title><desc id="d">VOX wordmark and circular sound-wave-and-feather symbol</desc>
+<circle cx="75" cy="74" r="55" fill="#fff" stroke="#1e3a4c" stroke-width="5"/>
+<rect x="42" y="69" width="7" height="29" rx="3.5" fill="#1e3a4c"/><rect x="57" y="57" width="7" height="55" rx="3.5" fill="#1e3a4c"/><rect x="72" y="39" width="8" height="88" rx="4" fill="#1e3a4c"/>
+<path d="M87 116C90 92 87 72 103 50C112 38 122 28 130 20C136 47 132 66 119 81C107 94 102 99 92 106L87 116Z" fill="#2f6ea2"/>
+<path d="M82 132C97 94 115 61 130 25" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+<path d="M101 91L96 69M108 78L115 58M114 70L126 50" stroke="#fff" stroke-width="2" fill="none"/>
+<text x="147" y="112" fill="#1e3a4c" font-family="Arial,Helvetica,sans-serif" font-size="116" font-weight="900" letter-spacing="-10">VOX</text>
+<text x="317" y="144" fill="#1e3a4c" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="900" letter-spacing="-1">ET VERITAS</text>
+</svg>
