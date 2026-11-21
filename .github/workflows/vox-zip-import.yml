@@ -1,0 +1,107 @@
+name: Import captured VOX Studio ZIP
+on:
+  push:
+    paths:
+      - 'vox/*.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore original assets from user capture
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import hashlib,re,json
+          out=Path('vox')
+          archives=sorted(out.glob('VOX_Site_Original_Capture_*.zip'))
+          if not archives:
+            print('No new ZIP; upload VOX_Site_Original_Capture_2026-11-21.zip into vox/')
+            raise SystemExit(0)
+          package=archives[-1]
+          source_files={
+            'recovery/original-response.html':'index.html',
+            'site/studio/studio.css_query_61757353':'studio.css',
+            'site/studio/voices.js':'voices.js',
+            'site/studio/inkwell.js':'inkwell.js',
+            'site/studio/studio.js_query_61757353':'studio.js',
+            'site/studio/services.js_query_61757350':'services.js',
+            'site/studio/paper.svg':'paper.svg',
+            'site/assets/vox-navy.png':'assets/vox-navy.png',
+            'site/studio/quill/vox-pluma.webm':'quill/vox-pluma.webm',
+            'site/studio/quill/vox-pluma.webp':'quill/vox-pluma.webp',
+            'site/studio/quill/vox-pluma-poster.webp':'quill/vox-pluma-poster.webp',
+          }
+          expected={
+            'site/studio/studio.css_query_61757353':'424e0b0cca96d96bcd276f63cffa796a24d56b40df1d7708f6e2b829952e68a8',
+            'site/studio/voices.js':'15652578a11df332b931424e93bdf3667038bb3eb2814f6edb57790b1c236b15',
+            'site/studio/inkwell.js':'30ab40b10da5d2fef936d5cf410a3e83794ec7878ce70c481f438f405da2374c',
+            'site/studio/studio.js_query_61757353':'d2a2bc444efa2852e5b9fa4101abd2627d46da333d49456d5213b4227c3f95c7',
+            'site/studio/services.js_query_61757350':'1f0c12897db2c50a1d3b743d085e863f869a2fbef4eb38c89176ec078979cd41',
+            'site/studio/paper.svg':'411ce1ce3822dfec12b211c3b69d5b278994d27c2db18e80a64a3564c82a27ec',
+            'site/assets/vox-navy.png':'529eac9ac984a6f2710e1bbab053ad73ff3710c2014795a0d743ffd6782398a2',
+            'site/studio/quill/vox-pluma.webm':'99e03eec12c692084a1d121bb00729ed684c5cc0c3407f2e8d3e27a7f0ce13e6',
+            'site/studio/quill/vox-pluma.webp':'9538420d7fd9cd2876e160343d33d6743e5f1823f631aaeae672572e79671c91',
+            'site/studio/quill/vox-pluma-poster.webp':'f477f669246968600716d2c8345e070f49aceb77bc98412a9889007cb1befe6b'
+          }
+          with ZipFile(package) as z:
+            for src in source_files:
+              if src not in z.namelist():
+                raise RuntimeError('Missing captured original file: '+src)
+            html=z.read('recovery/original-response.html').decode('utf-8')
+            head=html.split('</noscript>')[0]+'</noscript>'
+            if hashlib.sha256(head.encode()).hexdigest()!='e8199d44599784f59ea11801e5d7c0702d6a20054d18f62e3948e283def20abf':
+              raise RuntimeError('Uploaded capture HTML does not match approved VOX reference')
+            for src,dest in source_files.items():
+              blob=z.read(src)
+              if src in expected and hashlib.sha256(blob).hexdigest()!=expected[src]:
+                raise RuntimeError('Captured resource integrity mismatch: '+src)
+              if src=='recovery/original-response.html':
+                clean=head+'\n</body>\n</html>\n'
+                clean=clean.replace('../assets/vox-navy.png','assets/vox-navy.png')
+                blob=clean.encode('utf-8')
+              if dest=='services.js':
+                blob=blob.replace(b'../assets/vox-mark.png',b'assets/vox-mark.png')
+              target=out/dest;target.parent.mkdir(parents=True,exist_ok=True)
+              target.write_bytes(blob)
+              print('Restored original:',dest,len(blob))
+            # Preserve only source files needed by the webpage: the internal ChatGPT widget is not part of VOX.
+            # Original font files are needed in place for matching text metrics in the user's own website.
+            for src in ['site/studio/fonts/Raleway-Variable.ttf','site/studio/fonts/Lora-Italic.ttf']:
+              if src in z.namelist():
+                target=out/src.split('site/studio/',1)[1];target.parent.mkdir(parents=True,exist_ok=True)
+                target.write_bytes(z.read(src))
+            state={'source':'User-authorized VOX browser capture (2026-11-21)',
+              'matches_snapshot':True,'missing_optional_service_media':[
+              'services-media/writing.png','services-media/editing.png',
+              'services-media/translation.png','services-media/jhoana-nichols.jpg','assets/vox-mark.png']}
+            (out/'ORIGINAL_CAPTURE_STATUS.json').write_text(json.dumps(state,indent=2)+'\n')
+          # Remove outdated synthetic mockup assets only from this VOX subtree, never from the user's home.
+          for name in ['app.js','styles.css','ink3d.js','assets/logo.svg','assets/vox-feather-video.base64','assets/jhoana-portrait.base64']:
+            old=out/name
+            if old.is_file():old.unlink()
+          # The source upload is only an ingestion artifact; do not publish a duplicate ZIP.
+          package.unlink()
+          PY
+      - name: Commit verified original in VOX path
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- vox
+          if git diff --cached --quiet; then
+            echo "No changes to VOX."
+          else
+            git commit -m "restore(vox): verified original Canvas inkwells and transparent quill"
+            git push
+          fi
