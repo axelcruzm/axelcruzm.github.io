@@ -1,0 +1,11 @@
+{
+  "source": "User-authorized VOX browser capture (2026-11-21)",
+  "matches_snapshot": true,
+  "missing_optional_service_media": [
+    "services-media/writing.png",
+    "services-media/editing.png",
+    "services-media/translation.png",
+    "services-media/jhoana-nichols.jpg",
+    "assets/vox-mark.png"
+  ]
+}

@@ -1,104 +1,145 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#f5f9fd"/>
-  <meta name="description" content="VOX ET VERITAS — Premium Spanish & English voiceover, writing, editing, translation and audio production."/>
-  <title>VOX ET VERITAS | Premium Spanish & English Audio</title>
-  <link rel="icon" type="image/svg+xml" href="assets/logo.svg"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="styles.css"/>
-  <script src="app.js" defer></script>
-  <script type="module" src="ink3d.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f2f0ea">
+<meta name="robots" content="noindex,nofollow">
+<title>VOX ET VERITAS · Voiceover production house</title>
+<meta name="description" content="Explore English and Spanish voice samples and request a production quote from VOX ET VERITAS.">
+<link rel="preload" as="image" href="quill/vox-pluma-poster.webp">
+<link rel="stylesheet" href="studio.css?v=14">
+<script src="voices.js" defer></script>
+<script src="inkwell.js" defer></script>
+<script src="studio.js?v=14" defer></script>
+<script src="services.js?v=11" defer></script>
 </head>
 <body>
-  <div class="paper-surface">
-    <div class="site-shell">
-      <header class="site-header">
-        <a class="brand" href="./" aria-label="VOX ET VERITAS home"><img src="assets/logo.svg" alt="VOX ET VERITAS" width="163" height="60"/></a>
-        <span class="studio-mark"><svg viewBox="0 0 34 28" width="26" height="24" aria-hidden="true"><path d="M4 13v3M10 8v12M16 3v22M22 11v6M28 13v2" stroke="#2f6ea2" stroke-width="2" stroke-linecap="round"/></svg> VOICE STUDIO</span>
-      </header>
-      <main>
-        <div class="eyebrow"><svg viewBox="0 0 34 28" width="26" height="24" aria-hidden="true"><path d="M4 13v3M10 8v12M16 3v22M22 11v6M28 13v2" stroke="#2f6ea2" stroke-width="2" stroke-linecap="round"/></svg><span class="dash" aria-hidden="true"></span><em>Premium Spanish &amp; English</em></div>
-        <h1 id="hero-title" class="hero-title" aria-label="Audio Voiceover Production House">
-          <span class="title-row title-top"><span class="ink-navy">AUDIO</span> <span class="ink-cobalt" data-vox-word="voiceover">VOICEOVER</span></span>
-          <span class="title-row title-bottom"><span class="ink-cobalt" data-vox-word="production">PRODUCTION</span> <span class="ink-navy">HOUSE</span></span>
-        </h1>
-        <section class="discovery" aria-label="Discover a VOX voice">
-          <div class="filters" aria-label="Voice filters">
-            <div class="voice-filter" role="group" aria-label="Choose voice type">
-              <button class="feather-choice" id="women-choice" type="button" aria-label="Women's voices" aria-pressed="true" data-gender="women"><svg viewBox="0 0 46 70" aria-hidden="true"><path d="M8 57C13 47 11 31 23 15C28 10 34 6 40 3C42 17 40 30 32 38C26 44 21 45 13 49L8 57Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 63C15 43 27 28 39 6M20 43L17 27M25 36L31 22" stroke="currentColor" stroke-width="1.15" fill="none"/></svg></button>
-              <button class="feather-choice" id="men-choice" type="button" aria-label="Men's voices" aria-pressed="false" data-gender="men"><svg viewBox="0 0 46 70" aria-hidden="true"><path d="M6 61C10 43 11 29 23 16C31 8 37 4 43 2C44 22 42 34 33 42C25 48 18 52 8 57Z" fill="currentColor" fill-opacity=".13" stroke="currentColor" stroke-width="1.8"/><path d="M7 65C17 43 31 22 42 4M13 52L13 32M19 42L21 23M28 29L36 15" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
-            </div>
-            <div class="language-filter" role="group" aria-label="Choose language">
-              <button type="button" data-lang="en" aria-pressed="false"><em>Eng.</em></button><span aria-hidden="true">·</span><button type="button" data-lang="es" aria-pressed="true"><em>Esp.</em></button>
-            </div>
-          </div>
-          <div class="scene">
-            <aside class="editorial-copy">
-              <h2>We are VOX ET<br/><span>VERITAS.</span></h2>
-              <p>We bring stories to life<br/>with the right voice, in<br/>Spanish and English.</p>
-              <p>From the first line to the<br/>final mix, we make sure<br/>your message sounds<br/>like you.</p>
-            </aside>
-            <div class="ink-lab">
-              <div class="orbital" aria-hidden="true"></div>
-              <div id="bottles" class="bottles" aria-label="Three available voice samples"></div>
-            </div>
-            <div class="feather-stage" aria-hidden="true">
-              <svg class="feather-fallback" viewBox="0 0 590 350" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <g class="feather-motion">
-                  <path d="M494 194 C500 161 494 125 514 85 Q538 46 578 19 Q585 75 577 118 Q562 162 521 183 Z" fill="#a5c4d6" fill-opacity=".07" stroke="#435d6e" stroke-opacity=".22" stroke-width="1.1"/>
-                  <path d="M492 201 Q510 152 541 98 T581 22" fill="none" stroke="#3a5567" stroke-opacity=".42" stroke-width="1.35"/>
-                  <path d="M506 164L505 126 M517 143L518 108 M529 126L533 87 M542 109L554 68 M554 88L569 48 M510 163L544 151 M526 143L556 131 M541 125L574 113" fill="none" stroke="#496576" stroke-opacity=".22" stroke-width=".9"/>
-                  <path d="M490 192L483 206L498 200Z" fill="#1c3342" fill-opacity=".76"/>
-                </g>
-                <path class="ink-draw" d="M154 227 C203 239 216 250 261 251 C331 249 369 204 426 180 C468 165 479 142 514 129" fill="none" stroke="#17232e" stroke-width="4.2" stroke-linecap="round"/>
-              </svg>
-              <video id="feather-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
-            </div>
+<svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M9 5.2a1 1 0 0 0-1.5.9v11.8a1 1 0 0 0 1.5.9l9.2-5.9a1.1 1.1 0 0 0 0-1.8Z" fill="currentColor"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 6v12m6-12v12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 6v12m-6-6h12" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4 10-10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m7 7 10 10m0-10L7 17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="i-wave" viewBox="0 0 46 28"><path d="M2 12v4m6-8v12m6-18v24m6-20v12m6-9v6m6-12v22m6-18v14m6-9v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-woman" viewBox="0 0 32 32"><g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" fill-opacity=".11" stroke-width="1.15" d="M9 24c-.4-4.6 1.5-8.2 4.4-11.1l.7 1.8 1-3.4c3.6-3.9 8.3-6.6 12.6-8.6-.9 5.9-3.4 10.2-6.5 13.3l-3.1 1 1.4.7c-3 2.9-6.7 5.3-10.5 6.3Z"/><path fill="none" stroke-width="1.22" d="M4.4 29.4C9 23.9 16.2 15.4 24.5 6.8"/><path fill="none" stroke-width=".85" d="m11.1 21.6.6-3.4m2.1.2 5.5-2.5m-2.2-1.2.9-3.2m1.9.2 3.3-1.5"/></g></symbol>
+<symbol id="i-man" viewBox="0 0 32 32"><path fill="currentColor" fill-opacity=".23" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" d="M6.2 27.2c2.2-4.2 4.9-9.7 8.2-13.8 3.7-4.7 7.7-7.9 13.1-9.5-.1 4.6-1.2 8.4-3.8 11.7l-4.2 1.1 2.1 1c-2.2 2.8-6.8 4.9-11.7 5.5Z"/><path fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" d="M5.2 28.5c5.5-6 10.1-11.1 17.8-18.6m-5 7.3 4.8-2m-9 5.9 5.2-1.3m-3.4-.7.1-2.8"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 4c-1.4 2.7-5.1 6.5-5.1 10a5.1 5.1 0 0 0 10.2 0c0-3.5-3.7-7.3-5.1-10Z" fill="none" stroke="currentColor" stroke-width="1.45"/><path d="M9.4 14a2.7 2.7 0 0 0 1.4 2.4" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6m-6-6h12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6m6-6H4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
 
-          </div>
-        </section>
-      </main>
-      <footer class="site-footer">
-        <div class="service-links" aria-label="Explore services">
-          <div class="service-nav">
-            <button type="button" data-service="0">Writing</button><span>·</span>
-            <button type="button" data-service="1">Editing</button><span>·</span>
-            <button type="button" data-service="2">Translation</button><span>·</span>
-            <button type="button" data-service="3">Audio Production</button>
-          </div>
-          <p>A comprehensive solution for content that really connects.</p>
-        </div>
-        <div class="quote-dock"><button type="button" id="selected-voice" class="chosen-voice" aria-label="Selected voice; select a bottle to fill" title="Selected voice"><span>+</span></button><button type="button" id="quote-open" class="primary-cta">Request a Quote</button></div>
-      </footer>
-    </div>
+<main class="studio-main" aria-label="VOX voiceover studio">
+<div class="page">
+<header class="masthead">
+ <a class="logo" href="./" aria-label="Vox et Veritas studio home"><img src="assets/vox-navy.png" alt="VOX ET VERITAS" width="2048" height="603"></a>
+ <div class="studio-tag"><svg aria-hidden="true"><use href="#i-wave"></use></svg><span>VOICE STUDIO</span></div>
+</header>
+
+<section class="headline" aria-labelledby="title">
+ <h1 id="title"><span class="headline-line">Audio <span class="headline-accent">Voiceover</span></span> <span class="headline-line"><span class="headline-accent">Production</span> House</span></h1>
+ <h2 class="headline-deck">
+  <svg class="headline-mark" viewBox="0 0 50 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M2 7v2m5-4v6m5-8v10m5-11v12" stroke-width="1.85"/><path d="M24 8h25" stroke-width=".85"/></svg>
+  <span>Premium Spanish &amp; English</span>
+ </h2>
+</section>
+
+<section class="listening" aria-labelledby="listen-title">
+ <h2 id="listen-title" class="sr">Listen to voice samples</h2>
+ <div class="controls">
+  <fieldset class="filter" id="voice-filter"><legend class="sr">Voice</legend><div class="segments feathers">
+   <label><input type="radio" name="gender" value="women" aria-label="Women" checked><span aria-hidden="true"><svg><use href="#i-woman"></use></svg></span></label>
+   <label><input type="radio" name="gender" value="men" aria-label="Men"><span aria-hidden="true"><svg><use href="#i-man"></use></svg></span></label>
+  </div></fieldset>
+  <fieldset class="filter" id="language-filter"><legend class="sr">Language</legend><div class="segments languages">
+   <label><input type="radio" name="language" value="en" aria-label="English"><span aria-hidden="true">Eng.</span></label>
+   <i class="language-separator" aria-hidden="true">·</i>
+   <label><input type="radio" name="language" value="es" aria-label="Spanish" checked><span aria-hidden="true" lang="es">Esp.</span></label>
+  </div></fieldset>
+ </div>
+ <div class="stage" aria-label="Available voices">
+  <div class="stage-lines" aria-hidden="true"></div>
+  <div id="spheres" class="inkwells" data-tone="women-es">
+   <canvas id="ink-scene" aria-hidden="true"></canvas>
+   <div id="ink-controls" class="ink-controls"></div>
+  </div> </div>
+ <p id="sample-note" class="sample-note">Prototype audio · Not VOX talent</p>
+ <p id="audio-status" class="sr" aria-live="polite" role="status"></p>
+ <audio id="audio" preload="none"></audio>
+</section>
+
+<footer class="footer">
+ <div class="footer-services">
+  <nav class="service-signature" aria-label="VOX services">
+   <button type="button" data-service="0">Writing</button><b aria-hidden="true"></b>
+   <button type="button" data-service="1">Editing</button><b aria-hidden="true"></b>
+   <button type="button" data-service="2">Translation</button><b aria-hidden="true"></b>
+   <button type="button" data-service="3">Audio Production</button>
+  </nav>
+  <p class="service-line">A comprehensive solution for content that really connects.</p>
+ </div>
+ <div class="dock" aria-label="Quote console">
+  <div class="dock-reference" id="dock-reference">
+   <span id="dock-text" class="sr" aria-live="polite"></span>
+   <button type="button" class="ink-swatch" id="clear-voice" aria-label="Remove selected voice" disabled>
+    <span class="ink-fill" aria-hidden="true"></span><svg aria-hidden="true"><use href="#i-close"></use></svg>
+   </button>
   </div>
-  <dialog id="service-modal" class="dialog service-modal" aria-labelledby="service-title">
-    <button class="close-dialog" type="button" data-close aria-label="Close">×</button>
-    <div class="dialog-kicker">VOX / CAPABILITIES <span id="service-count">01 / 04</span></div>
-    <div class="service-detail">
-      <div class="service-illustration" id="service-illustration" aria-hidden="true"><span class="detail-glyph" id="service-glyph">✒</span><div class="seal-ring"></div><img id="service-portrait" alt="" hidden decoding="async"/></div>
-      <div class="service-words"><h2 id="service-title">Writing</h2><p id="service-description"></p></div>
-    </div>
-    <div class="service-bottom"><div class="journey-controls"><button type="button" id="service-prev" aria-label="Previous service">←</button><button type="button" id="service-next" aria-label="Next service">→</button></div><button type="button" class="text-cta" id="meeting-open">Request a Virtual Meeting <span aria-hidden="true">↗</span></button></div>
-  </dialog>
-  <dialog id="request-modal" class="dialog request-modal" aria-labelledby="request-heading">
-    <button class="close-dialog" type="button" data-close aria-label="Close">×</button>
-    <div class="dialog-kicker" id="request-kicker">VOX ET VERITAS / NEW PROJECT</div>
-    <h2 id="request-heading">What You have in mind</h2>
-    <div id="request-choice" class="request-choice" hidden><span class="choice-ink"></span><span id="request-choice-copy">Selected voice</span><button type="button" id="clear-choice" aria-label="Remove selected voice">×</button></div>
-    <form id="request-form">
-      <div class="form-pair"><label>Your name<input name="name" autocomplete="name" required/></label><label>Email<input name="email" type="email" autocomplete="email" required/></label></div>
-      <div class="form-pair"><label>Company<input name="company" autocomplete="organization"/></label><label>Project type<select name="type"><option>Voiceover</option><option>Audiobook</option><option>Writing</option><option>Editing</option><option>Translation</option><option>Audio Production</option><option>Other</option></select></label></div>
-      <label>What You have in mind<textarea name="brief" rows="4" placeholder="Tell us a little about your project"></textarea></label>
-      <button type="submit" class="primary-cta" id="copy-request">Copy request <span aria-hidden="true">↗</span></button>
-      <p class="form-note" role="status" id="form-status" aria-live="polite"></p>
-    </form>
-  </dialog>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <button type="button" class="cta" id="quote-button">Request a Quote</button>
+ </div>
+</footer>
+</div>
+<section class="studio-aside" aria-labelledby="studio-intro-title">
+ <div class="studio-intro">
+  <h2 id="studio-intro-title">We are VOX ET VERITAS.</h2>
+  <p>We bring stories to life with the right voice, in Spanish and English.</p>
+  <p>From the first line to the final mix, we make sure your message sounds like you.</p>
+ </div>
+ <div class="studio-quill-wrap" aria-hidden="true">
+  <video class="studio-quill" id="studio-quill" width="840" height="486"
+   autoplay muted loop playsinline preload="auto" poster="quill/vox-pluma-poster.webp">
+   <source src="quill/vox-pluma.webm" type="video/webm">
+   <img src="quill/vox-pluma.webp" width="840" height="486" alt="">
+  </video>
+ </div>
+</section>
+</main>
+
+<dialog id="quote-dialog" aria-labelledby="quote-title">
+ <form id="quote-form" class="quote-form">
+  <div class="dialog-top"><img src="assets/vox-navy.png" alt="VOX ET VERITAS" width="2048" height="603"><button type="button" id="close-quote" class="remove" aria-label="Close quote form"><svg aria-hidden="true"><use href="#i-close"></use></svg></button></div>
+  <h2 id="quote-title">Request a Quote</h2>
+  <p id="quote-reference" class="quote-reference" hidden></p>
+  <label for="project">What You have in mind</label>
+  <textarea id="project" rows="3" required maxlength="1800" placeholder="Project type, audience, and where the content will be used"></textarea>
+  <div class="quote-fields"><div><label for="quote-language">Project language</label><select id="quote-language"><option value="Spanish">Spanish</option><option value="English">English</option><option value="Spanish &amp; English">Spanish &amp; English</option><option value="To be decided">Not sure yet</option></select></div><div><label for="deadline">Target delivery <span>Optional</span></label><input type="text" id="deadline" maxlength="80" placeholder="e.g. December 12"></div></div>
+  <div class="quote-actions"><button type="submit" class="cta" id="prepare-brief">Prepare Quote Brief</button></div>
+  <div id="brief-result" hidden><label for="prepared-brief">Your brief</label><textarea id="prepared-brief" readonly rows="4"></textarea><div class="quote-actions"><a class="cta email-draft" id="email-draft">Open email draft</a><button type="button" class="copy" id="copy-brief">Copy brief</button></div></div>
+  <p id="quote-status" class="quote-status" role="status" aria-live="polite"></p>
+ </form>
+</dialog>
+<dialog class="services-dialog" id="services-dialog" aria-labelledby="service-title">
+ <div class="service-sheet">
+  <figure class="service-photo" id="service-photo" data-media="art">
+   <img id="service-image" alt="" decoding="async">
+   <figcaption id="service-caption" hidden><strong>Jhoana Nichols</strong><span>Founder · VOX ET VERITAS</span></figcaption>
+  </figure>
+  <div class="service-panel">
+   <div class="service-top"><span class="service-index" id="service-index"></span><button type="button" class="remove" id="close-services" aria-label="Close services"><svg aria-hidden="true"><use href="#i-close"></use></svg></button></div>
+   <div class="service-story" id="service-story">
+    <h2 id="service-title" tabindex="-1"></h2>
+    <p class="service-summary" id="service-summary"></p>
+    <dl class="service-data" id="service-data"></dl>
+    <button id="service-book" class="cta" type="button" hidden>Request a Virtual Meeting</button>
+   </div>
+   <div class="service-controls">
+    <button type="button" class="service-arrow" id="service-prev" aria-label="Previous service"><svg aria-hidden="true"><use href="#i-left"></use></svg></button>
+    <span id="service-progress" aria-live="polite"></span>
+    <button type="button" class="service-arrow" id="service-next" aria-label="Next service"><svg aria-hidden="true"><use href="#i-right"></use></svg></button>
+   </div>
+  </div>
+ </div>
+</dialog>
+<noscript><p><a href="https://voxetveritas.com/contact-us/">Request a quote from VOX.</a></p></noscript>
 </body>
 </html>
