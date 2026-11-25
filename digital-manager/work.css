@@ -6,3 +6,13 @@
 @media(max-width:780px){.work-intro .work-inner{grid-template-columns:1fr;gap:1rem}.contact{flex-direction:row;gap:1rem}.filter-list{gap:.4rem}.filter-list button{font-size:.8rem}.result{padding:.8rem}.results{grid-template-columns:repeat(2,minmax(0,1fr))}.result{border-bottom:1px solid #adb2a9}.result:nth-child(even){border-right:0}.result:last-child{grid-column:1/-1}.result strong{font-size:2.8rem}.project-rail{grid-template-columns:repeat(2,minmax(0,1fr))}.employer{grid-template-columns:70px 1fr;gap:.1rem .85rem}.company-logo{grid-row:span 2}.employer time{grid-column:2;margin-top:.35rem}.job small{display:block}}
 @media(max-width:450px){.work-intro h1{font-size:2.65rem}.project-rail{grid-template-columns:1fr}.employer{grid-template-columns:50px 1fr}.company-logo{height:47px}.employer .job h3{font-size:1.3rem}.keyword-lines{font-size:.82rem}.result .picto{width:40px;height:40px}}
 .how .deep-link{margin-left:1.2rem}.result strong{letter-spacing:-.055em}
+
+.work-intro h1 {
+  font-family: "Mural Caps", Archivo, sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 4.35vw, 5.4rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+.work-intro .work-rank{display:block;font:700 .38em/1.4 Archivo,sans-serif;letter-spacing:.19em;margin-bottom:.2em}
