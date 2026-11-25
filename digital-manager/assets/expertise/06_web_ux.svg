@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="white" role="img" aria-label="Web &amp; UX">
+<title>Web &amp; UX</title>
+<desc>Original monochrome geometric white icon. Transparent background. Scalable vector.</desc>
+
+<!-- Stylized human mind / cerebral hemispheres built on hard geometric strokes -->
+<path d="M64 29L56 24L43 23L34 29L29 39L22 42L18 52L20 61L16 70L23 80L29 82L31 92L41 98L54 94L64 100L74 94L87 98L97 92L99 82L105 80L112 70L108 61L110 52L106 42L99 39L94 29L85 23L72 24Z" fill="none" stroke="white" stroke-width="5" stroke-linejoin="miter"/>
+<!-- Center divide and folded cerebral pathways -->
+<path d="M64 29V97 M39 36L49 39L53 49L44 55L45 66L35 72 M25 56L36 59L41 69 M39 83L50 78L55 86L53 94 M89 36L79 39L75 49L84 55L83 66L93 72 M103 56L92 59L87 69 M89 83L78 78L73 86L75 94" fill="none" stroke="white" stroke-width="4.5" stroke-linejoin="miter"/>
+<!-- Intentional circuitry nodes -->
+<path d="M29 69H34V74H29Z M94 69H99V74H94Z M51 45H56V50H51Z M72 45H77V50H72Z"/>
+<!-- Crisp bottom accent -->
+<path d="M55 107H73V111H55Z M59 114H69V117H59Z"/>
+
+</svg>

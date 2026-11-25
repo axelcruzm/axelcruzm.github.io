@@ -1,7 +1,7 @@
-const pages = [['Home','index.html'],['My Work','work.html'],['My Game','game.html'],['My Webs','webs.html']];
+const pages = [['Home','index.html'],['My Work','work.html'],['My Webs','webs.html'],['My Game','game.html']];
 const filename = location.pathname.split('/').pop() || 'index.html';
 function mastMarkup(){
-  return '<a class="skip" href="#main">Skip to content</a><div class="nav-inner"><a class="brand" href="./" aria-label="Axel Cruz, home"><img src="assets/fentec.svg" alt="" width="33" height="34"><span>Axel Cruz</span></a><nav aria-label="Main navigation">' + pages.map(([name,path]) => '<a href="'+path+'"'+(filename===path?' aria-current="page"':'')+'>'+name+'</a>').join('')+'</nav></div>';
+  return '<a class="skip" href="#main">Skip to content</a><div class="nav-inner"><a class="brand" href="./" aria-label="Axel Cruz, home"><span>Axel Cruz</span></a><nav aria-label="Main navigation">' + pages.map(([name,path]) => '<a href="'+path+'"'+(filename===path?' aria-current="page"':'')+'>'+name+'</a>').join('')+'</nav></div>';
 }
 const mast = document.getElementById('mast');
 if(mast && !mast.querySelector('nav')) mast.innerHTML = mastMarkup();

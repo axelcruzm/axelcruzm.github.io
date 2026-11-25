@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="white" role="img" aria-label="Training &amp; Enablement">
+<title>Training &amp; Enablement</title>
+<desc>Original monochrome geometric white icon. Transparent background. Scalable vector.</desc>
+
+<!-- Three substantial reference books, one set at an angle -->
+<path fill-rule="evenodd" d="M22 40L27 35H45V99H22ZM28 45V91H39V41H30Z"/>
+<path d="M29 49H39V53H29Z M29 81H39V86H29Z"/>
+<path fill-rule="evenodd" d="M49 25H75V99H49ZM56 35V89H68V35Z"/>
+<path d="M59 40H65V44H59Z M59 50H65V76H59Z M59 81H65V85H59Z"/>
+<!-- Angled volume with clear spine and top/bottom page edges -->
+<path fill-rule="evenodd" d="M81 34L102 40L92 99L71 93ZM85 42L77 89L87 92L95 45Z"/>
+<path d="M82 51L94 54L93 58L81 55Z M77 79L89 82L88 86L76 83Z"/>
+<!-- Grounding shelf / page edges -->
+<path d="M18 104H106V109H18Z M22 112H43V115H22Z M84 112H102V115H84Z"/>
+
+</svg>

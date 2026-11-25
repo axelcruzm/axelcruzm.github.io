@@ -1,4 +1,5 @@
 const soundButton=document.getElementById('sound');
+document.querySelector('.footer-inner > div').append(soundButton);
 let audioContext;
 let enabled=false;
 let lastNote=0;

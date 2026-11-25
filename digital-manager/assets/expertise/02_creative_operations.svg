@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="white" role="img" aria-label="Creative Operations">
+<title>Creative Operations</title>
+<desc>Original monochrome geometric white icon. Transparent background. Scalable vector.</desc>
+
+<!-- Camera body: angular frame, hollow interior -->
+<path fill-rule="evenodd" d="M28 41H38L45 31H71L78 41H96L106 51V85L97 94H28L19 85V51ZM30 52V83H95V52Z"/>
+<path d="M48 27H68V31H48Z M31 35H40V39H31Z M81 35H91V39H81Z"/>
+<!-- Lens as rings against transparent space -->
+<circle cx="62" cy="68" r="20" fill="none" stroke="white" stroke-width="5"/>
+<circle cx="62" cy="68" r="12" fill="none" stroke="white" stroke-width="3.5"/>
+<path d="M57 63L64 59L71 65L68 73L61 77L54 70Z" fill="none" stroke="white" stroke-width="2.5"/>
+<path d="M82 55H91V60H82Z M84 64H90V68H84Z M33 56H42V60H33Z M34 76H41V80H34Z"/>
+<!-- External latches -->
+<path d="M14 55H19V67H14Z M106 56H112V68H106Z"/>
+
+</svg>
