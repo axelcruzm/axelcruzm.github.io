@@ -9,6 +9,4 @@
  document.querySelector('#close-game').addEventListener('click',()=>dialog.close());
  dialog.addEventListener('close',()=>{document.body.classList.remove('game-open');launch.setAttribute('aria-expanded','false');if(typeof setSelected==='function')setSelected(false);});
  window.addEventListener('command-route',e=>{if(e.detail.page!=='home'&&dialog.open)dialog.close();});
- if(location.hash==='#pm-simulator')openGame();
- window.addEventListener('hashchange',()=>{if(location.hash==='#pm-simulator')openGame();});
 })();

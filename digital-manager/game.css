@@ -1,1 +1,1 @@
-body{background:var(--deep)}.game-stage iframe{border:0;width:100%;height:calc(100svh - 63px);display:block}.visually-hidden{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}@media(max-width:640px){.game-stage iframe{height:calc(100svh - 58px)}}
+body{background:#0b131b}.game-stage iframe{border:0;width:100%;height:calc(100svh - max(44px,var(--quarter)));display:block}.visually-hidden{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}@media(max-width:700px){.game-stage iframe{height:calc(100svh - 48px)}}

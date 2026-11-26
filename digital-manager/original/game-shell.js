@@ -21,6 +21,3 @@ document.addEventListener('click', event => {
   workPage.hash = chapter === 'client' && target ? 'projects' : 'how';
   window.top.location.href = workPage.href;
 });
-if (!document.querySelector('#game-dialog').open) {
-  document.querySelector('#launch-game').click();
-}
