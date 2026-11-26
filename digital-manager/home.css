@@ -119,3 +119,23 @@
   .paths {margin-top:10px;}
   .first-screen {padding-bottom:10px;}
 }
+/* The face and bevel share the original Fentec silhouette. */
+.isotype {aspect-ratio:280/286;filter:none;perspective:650px;}
+.isotype i,.isotype i::before {display:block;position:absolute;inset:0;}
+.isotype i {transform:rotateY(-12deg) rotateX(5deg);filter:drop-shadow(2px 2px 0 #43464d) drop-shadow(1px 2px 0 #16171b);}
+.isotype i::before {content:"";mask:url(assets/fentec.svg) center/contain no-repeat;background:linear-gradient(133deg,#090a0c 18%,#50545d 37%,#191b1f 42%,#08090a 59%,#373a40 77%,#101114);background-size:140% 140%;}
+@media (prefers-reduced-motion:no-preference) {
+  .isotype i {animation:metal-turn 7s ease-in-out infinite alternate;}
+  .isotype i::before {animation:metal-light 7s ease-in-out infinite alternate;}
+  @keyframes metal-turn {to{transform:rotateY(9deg) rotateX(-3deg);}}
+  @keyframes metal-light {to{background-position:90% 65%;}}
+}
+@media(min-width:701px) {
+  .tile {font-size:calc(28 * var(--u));letter-spacing:.14em;}
+  .paths {border-left-width:calc(var(--quarter) / 2);margin-left:calc(var(--quarter) / 2);}
+  .path:not(:first-child) {background:white;color:black;box-shadow:inset var(--dot) 0 var(--accent);}
+  .path:not(:first-child):is(:hover,:focus-visible) {background:var(--accent);color:black;}
+  .path:nth-child(2):is(:hover,:focus-visible) {color:white;}
+  .path:first-child {color:black;}
+  .path:first-child:is(:hover,:focus-visible) {color:var(--amber);}
+}
