@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light"><meta name="description" content="Search Axel Cruz’s professional experience and project case files, explore the sources and generate a grounded answer on your device.">
+  <title>Case files · Axel Cruz</title>
+  <link rel="stylesheet" href="./lab.css">
+</head>
+<body>
+  <header class="nav"><a class="home" href="../webs.html"><img class="portfolio-mark" src="../assets/fentec.svg" width="27" height="28" alt=""><span data-t="portfolio">Portfolio</span></a>
+    <div class="languages" aria-label="Language / Idioma"><button lang="en" data-lang="en" aria-pressed="true">EN</button><button lang="es" data-lang="es" aria-pressed="false">ES</button></div>
+  </header>
+  <main>
+    <div class="intro"><div><p class="eyebrow">RAG LAB</p><h1 data-t="title">Ask the case files.</h1></div><p class="intro-copy" data-t="intro">Explore Axel’s projects, roles and skills. Each answer links back to a passage from his professional record.</p></div>
+    <div class="workspace">
+      <div class="main-column">
+        <section class="search-panel" aria-labelledby="ask-label">
+          <h2 id="ask-label" data-t="ask">Ask a question</h2>
+          <form id="question-form"><label class="sr" for="question" data-t="ask">Ask a question</label><input id="question" type="search" maxlength="220" autocomplete="off" required placeholder="What happened with Hino?" data-ph="placeholder"><button class="primary" type="submit" data-t="search">Search</button></form>
+          <div id="examples" class="examples" aria-label="Example questions"></div>
+        </section>
+        <section id="result-area" class="results" aria-labelledby="results-title" hidden>
+          <div class="section-header"><h2 id="results-title" data-t="matches">Source passages</h2><span id="result-count" class="count"></span></div>
+          <p id="result-status" class="status" aria-live="polite" role="status"></p><div id="results"></div>
+          <div id="generator" class="generator" hidden>
+            <h3 data-t="localAnswer">Local AI answer</h3>
+            <p class="small" id="model-info" data-t="modelInfo">Optional. First use downloads about 95 MB of model weights, plus the runtime. Documents are processed on this device.</p>
+            <div class="actions"><button type="button" id="generate" class="secondary" data-t="generate">Load model &amp; answer</button><button type="button" id="cancel" class="plain" data-t="cancel" hidden>Cancel</button></div>
+            <div id="model-status" role="status" aria-live="polite" class="status"></div>
+            <div id="answer" class="answer" hidden></div><div id="answer-cites" class="cites"></div>
+          </div>
+        </section>
+      </div>
+      <aside class="sources" aria-labelledby="sources-title">
+        <div class="section-header"><h2 id="sources-title" data-t="sources">Sources</h2><span id="source-count" class="count"></span></div>
+        <div id="source-list" class="source-list"></div>
+        <div class="upload"><label for="file" class="file-label"><span aria-hidden="true">＋</span> <span data-t="choose">Add a document</span></label><input id="file" type="file" accept=".txt,.md,text/plain,text/markdown"><button class="plain" id="remove" type="button" hidden data-t="remove">Remove</button><p class="small" data-t="fileHint">TXT or MD, up to 100 KB. Stays in this tab.</p><p class="status" id="file-status" aria-live="polite"></p></div>
+        <section id="source-view" class="source-view" hidden tabindex="-1" aria-labelledby="view-title">
+          <div class="section-header"><h3 id="view-title"></h3><button id="close-source" type="button" aria-label="Close source">×</button></div>
+          <div class="source-meta"><span id="passage-id" class="pill"></span><span id="passage-pos"></span></div>
+          <p id="passage-text" class="passage-full"></p>
+          <div class="source-controls"><button id="previous" type="button" class="plain" data-t="previous">Previous</button><button id="next" type="button" class="plain" data-t="next">Next</button></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <noscript>Enable JavaScript to search the case files. Activa JavaScript para consultar las fuentes.</noscript>
+  <script type="module" src="./lab.mjs"></script>
+</body>
+</html>

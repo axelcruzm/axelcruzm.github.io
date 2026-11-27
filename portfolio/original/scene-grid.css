@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Axel Scene";
+  src: url(../assets/fonts/axel-scene.woff) format("woff");
+  font-weight: 400;
+  font-display: swap;
+}
+#home #home-title, #home #home-title > * {
+  font-family: "Axel Scene", Arial, sans-serif;
+  font-weight:400; font-style:normal;
+  letter-spacing:.08em; line-height:.91; text-shadow:none;
+}
+#home #home-title > span {color:#4d2ae8;}
+#home #home-title > em {color:#f2573f;}

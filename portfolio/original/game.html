@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="original.css"><link rel="stylesheet" href="quick-teams.css"><title>Project Manager Game Simulator · Axel Cruz</title>
+<style>body{margin:0;padding:0;background:#0b131b}#home .home-stage{min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr);place-items:center}#home .play-home{width:100%;max-width:none;display:grid;place-items:center;min-height:100svh}#home .game-launch{width:min(400px,90%)}</style>
+<script src="game-helpers.js" defer></script>
+<script src="energy.js" defer></script>
+<script src="game.js" defer></script>
+<script src="editor.js" defer></script>
+<script src="game-launch.js" defer></script>
+<script src="game-shell.js" defer></script>
+</head>
+<body><main id="home"><div class="home-stage"><section class="play-home wrap" aria-labelledby="simulator-heading"><button type="button" id="launch-game" class="game-launch" aria-haspopup="dialog" aria-controls="game-dialog" aria-expanded="false" aria-labelledby="simulator-heading launch-action-label"><span class="launch-top" aria-hidden="true"><span class="panel-status-light"></span><span class="panel-vents"><i></i><i></i><i></i></span></span><h2 id="simulator-heading">Project Manager<span>Game Simulator</span></h2><span class="launch-channels" aria-hidden="true"></span><span class="launch-orbit" aria-hidden="true"><i></i><b>▶</b><i></i></span><span class="launch-action" id="launch-action-label">PLAY MY GAME</span></button><dialog id="game-dialog" aria-labelledby="game-dialog-title"><div class="game-dialog-bar"><h2 id="game-dialog-title">Project Manager <span>Game Simulator</span></h2><button type="button" id="close-game" aria-label="Close game">×</button></div>
+    <section class="command-app" id="pm-simulator" aria-label="Project Manager Game Simulator">
+      <div class="console-chrome"><div><span class="console-lights" aria-hidden="true"><i></i><i></i><i></i></span><b>ASSIGN · CONNECT · DELIVER</b></div><div class="console-utilities"><button type="button" id="motion-toggle" aria-pressed="false">REDUCE MOTION</button></div></div>
+      <div class="task-workbench">
+        <div class="task-invitation"><h2 id="task-instruction">Find its team.<br><span>Tap or drag.</span></h2><div class="task-origin"><div class="task-editor" data-editor-theme="deep-sea">
+          <div class="editor-toolbar"><span class="editor-file">Task <b id="task-count">01</b>.js</span><div class="editor-themes" role="group" aria-label="Task editor color theme"><button type="button" data-code-theme="deep-sea" aria-label="Color theme 1" aria-pressed="true" title="Theme 1"><i></i></button><button type="button" data-code-theme="midnight" aria-label="Color theme 2" aria-pressed="false" title="Theme 2"><i></i></button><button type="button" data-code-theme="neon" aria-label="Color theme 3" aria-pressed="false" title="Theme 3"><i></i></button></div></div>
+          <button type="button" class="task-card" id="task-card" aria-describedby="task-access" aria-pressed="false" aria-label="Select task: Run the acceptance tests on the new Android build.">
+            <span class="code-line code-task-line"><span class="task-grip" aria-hidden="true">⠿</span><span class="token-string" id="task-text">Run the acceptance tests on the new Android build.</span><span class="task-drag-mark" aria-hidden="true">↘</span></span>
+          </button><div class="editor-status" aria-hidden="true"><span><i></i> <span id="editor-state">ready to assign</span></span></div>
+          </div><p id="task-access" class="task-access">Tap a team below, or drag the task to its matching box.</p><fieldset id="quick-teams" aria-label="Assign the current task to a team"></fieldset></div></div>
+        <div class="specialties-label"><p>Eight areas of expertise.<br class="expertise-break"><strong>I manage teams across them to make things happen.</strong></p><span>CLICK A BOX TO EXPLORE ↗</span></div>
+        <div id="task-teams" class="task-teams" role="group" aria-label="Explore a specialty, or assign a selected task"></div>
+        <div class="game-status-row"><p id="task-feedback" role="status" aria-live="polite">Choose the team responsible for this task.</p><div class="game-status-actions"><a id="game-continue" href="#team" hidden>CONTINUE TO TEAM ↗</a><button type="button" class="next-task" id="next-task">NEXT TASK ↻</button></div></div>
+        <div class="game-bottom" hidden><div class="game-ai-row"><span id="game-mode" hidden></span><button type="button" id="ai-task" hidden>MAKE AN ON-DEVICE AI TASK ✦</button></div></div>
+        <div class="round-score"><div class="round-correct"><span id="connection-count">0 / 10</span><div id="correct-blocks" class="score-blocks" aria-label="0 of 10 correct connections"></div></div><div class="round-errors"><span id="error-count">0 / 3</span><div id="error-blocks" class="score-blocks" aria-label="0 of 3 errors"></div></div><button type="button" id="earned-reminder" class="earned-reminder" aria-haspopup="dialog" aria-controls="reward-modal" aria-label="Open your TEAM reminder" hidden><img src="assets/rewards/team-energy-preview.webp" width="32" height="32" alt=""><span>TEAM ↗</span></button></div>
+        <p class="round-rule">10 correct to win. 3 errors to regroup.</p>
+      </div>
+    </section></dialog>
+</section></div></main>
+<section class="play-handoff" hidden><p id="handoff-eyebrow"></p><h2 id="handoff-title"></h2></section>
+<dialog id="specialty-modal" class="specialty-modal" aria-labelledby="specialty-title"><canvas id="specialty-energy" aria-hidden="true"></canvas><div class="specialty-shell"><div class="specialty-toolbar"><span id="specialty-code">SPECIALTY / 01</span><button type="button" id="close-specialty" aria-label="Close specialty">×</button></div><div class="specialty-body"><div class="specialty-art"><div id="energy-slot"></div><span class="fine">DIFFERENT DISCIPLINES. ONE SHARED DIRECTION.</span></div><div id="specialty-copy" class="specialty-copy"></div></div><div class="specialty-bottom"><button type="button" id="specialty-return">← BACK TO THE CONSOLE</button><span>YOUR TASK PROGRESS STAYS HERE.</span></div></div></dialog><dialog id="reward-modal" class="reward-scene" aria-labelledby="reward-title" aria-describedby="reward-tip">
+  <button type="button" id="close-reward" class="reward-dismiss" aria-label="Close reminder">×</button>
+  <div class="reward-layout">
+    <div class="reward-art" aria-hidden="true"><img class="reward-bird" src="assets/rewards/axel-bird.webp" width="441" height="1357" alt="" decoding="async"></div>
+    <div class="reward-copy">
+      <p class="reward-kicker">10 / 10 CONNECTED</p>
+      <h2 id="reward-title">Well played.</h2>
+      <p class="reward-tip" id="reward-tip">Don’t forget what matters most:<strong>TEAM.</strong></p>
+      <a class="reward-keepsake" href="assets/rewards/team-energy-reminder.png" download="TEAM_A_Reminder_by_Axel_Cruz.png" aria-label="Download the TEAM energy artwork as a transparent PNG"><img src="assets/rewards/team-energy-preview.webp" width="1369" height="1149" alt="A frosted glass sphere engraved with: Don’t forget what matters most: TEAM" decoding="async"><span>Keep the reminder.<small>DOWNLOAD PNG ↓</small></span></a>
+      <a id="reward-next" class="reward-next" href="#team">KEEP KNOWING AXEL <span>01 / TEAM ↗</span></a>
+      <button type="button" id="reward-replay" class="reward-replay">Play again ↻</button>
+    </div>
+  </div>
+</dialog>
+<dialog id="support-modal" class="support-scene" aria-labelledby="support-title" aria-describedby="support-copy">
+  <button type="button" id="close-support" class="reward-dismiss" aria-label="Close and try again">×</button>
+  <p class="support-kicker">LET’S REGROUP</p>
+  <h2 id="support-title">A little<br><em>PM backup?</em></h2>
+  <p class="support-copy" id="support-copy">Try again. Or let’s talk through a real project.</p>
+  <div class="support-actions"><button type="button" id="support-retry">TRY AGAIN ↻</button><a id="support-contact" href="mailto:axelcruzmachado@gmail.com?subject=Let%E2%80%99s%20talk%20about%20a%20project">LET’S TALK ↗</a></div>
+  <p class="support-note">Open to a no-obligation conversation.</p>
+</dialog>
+<div id="screen-reaction" class="screen-reaction" aria-hidden="true"><i></i></div>
+</body></html>

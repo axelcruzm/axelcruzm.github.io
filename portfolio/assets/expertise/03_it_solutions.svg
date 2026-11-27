@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="white" role="img" aria-label="IT Solutions">
+<title>IT Solutions</title>
+<desc>Original monochrome geometric white icon. Transparent background. Scalable vector.</desc>
+
+<!-- Communications antenna with facet mounts -->
+<path d="M60 16H68V24H60Z M62 24H66V34H62Z M56 15L60 11H68L72 15L68 20H60Z"/>
+<path d="M42 27L48 21H54L49 28Z M79 21H85L91 27H84Z"/>
+<!-- Head frame, deeply inset faceplate -->
+<path fill-rule="evenodd" d="M33 33H95L104 42V84L95 94H33L24 84V42ZM37 45V81H91V45Z"/>
+<path d="M18 51H24V75H18L13 70V56Z M104 51H110L115 56V70L110 75H104Z"/>
+<path d="M14 60H23V65H14Z M105 60H114V65H105Z"/>
+<!-- Angled eyes and ventilated mouth -->
+<path d="M42 55H58L62 59L58 66H46L42 62Z M70 59L74 55H90V62L86 66H74Z"/>
+<path d="M47 73H81V77H47Z M52 79H56V83H52Z M60 79H64V83H60Z M68 79H72V83H68Z M76 79H80V83H76Z"/>
+<!-- Neck and minimal shoulders -->
+<path d="M55 95H73V101H55Z M38 104H90L97 111H31Z"/>
+
+
+</svg>

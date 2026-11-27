@@ -1,0 +1,14 @@
+.command-decisions {max-width:68rem;margin:auto;padding:.75rem var(--pad) 2rem;color:#fff;font:1rem/1.5 Manrope,Arial,sans-serif;}
+.command-decisions summary {cursor:pointer;width:fit-content;padding:.45rem 0;font-weight:650;}
+.command-decisions div {margin:.7rem 0;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.command-decisions strong {display:block;color:var(--amber);}
+.command-decisions a {display:inline-block;text-underline-offset:3px;}
+
+.case-shortcuts {display:flex;flex-wrap:wrap;gap:.65rem;padding-block:1rem 0;}
+.case-shortcuts button {display:inline-flex;align-items:center;gap:.66rem;padding:.6rem .85rem;min-height:44px;border:1px solid #d7d9de;border-radius:6px;background:#fff;color:#17191d;font:650 .94rem/1.2 var(--display);}
+.case-shortcuts button i {width:.48rem;height:.48rem;background:var(--red);}
+.case-shortcuts button:nth-child(2) i {background:var(--cobalt);}
+.case-shortcuts small {font:normal .87rem var(--display);color:#535861;}
+.case-shortcuts b {font-size:.96rem;color:#535861;}
+.case-shortcuts button:hover,.case-shortcuts button:focus-visible {background:#f6f6f8;border-color:#7a7e86;}
+@media(max-width:700px){.command-decisions div{grid-template-columns:1fr;}}

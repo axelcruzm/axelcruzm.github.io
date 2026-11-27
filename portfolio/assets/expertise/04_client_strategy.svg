@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="white" role="img" aria-label="Client Strategy">
+<title>Client Strategy</title>
+<desc>Original monochrome geometric white icon. Transparent background. Scalable vector.</desc>
+
+<!-- Target rings, bold and optical-scale balanced -->
+<circle cx="59" cy="70" r="37" fill="none" stroke="white" stroke-width="5"/>
+<circle cx="59" cy="70" r="26" fill="none" stroke="white" stroke-width="4"/>
+<circle cx="59" cy="70" r="14" fill="none" stroke="white" stroke-width="4"/>
+<circle cx="59" cy="70" r="4.5"/>
+<!-- Arrow: tail to bullseye, diagonally aligned -->
+<path d="M65 62L104 23L110 29L71 68Z"/>
+<path d="M56 74L64 55L77 68Z"/>
+<!-- Split fletchings -->
+<path d="M103 23L102 13L108 19L111 23L119 25L113 31Z"/>
+<path d="M110 27L118 23L115 33L108 35Z"/>
+<!-- Micro marks inspired by angular reference family -->
+<path d="M18 65H22V75H18Z M55 23H63V27H55Z M55 112H63V116H55Z"/>
+
+</svg>

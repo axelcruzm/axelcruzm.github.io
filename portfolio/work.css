@@ -1,0 +1,83 @@
+.work-inner {
+  width:min(100%, 100rem); padding-inline:clamp(1rem,5vw,6rem); margin:auto;
+  --space:clamp(2.5rem,var(--quarter),5.7rem);
+}
+.work-inner:is(.achievements,.projects,.qualification),.experience .work-inner,.how .work-inner {padding-block:var(--space);}
+.work-intro .work-inner {display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(1.5rem,5vw,6rem);align-items:end;padding-block:var(--space);border-bottom:2px solid black;}
+.work-intro h1 img {display:block;height:auto;width:min(85%,32rem);}
+.work-intro h1 img:first-of-type {width:min(64%,24rem);margin-bottom:.23rem;}
+.work-rank,.contact .pdf {background:black;color:var(--amber);text-transform:uppercase;font:700 1rem/1.2 "Axel Signal",var(--grid-type);letter-spacing:.08em;}
+.work-rank {display:table;padding:.18em .35em;margin-bottom:.65rem;}
+.subtitle {margin-top:1rem;font-size:clamp(1rem,1.7vw,1.45rem);}
+.work-meta {max-width:54ch;}
+.keyword-lines {line-height:1.65;}
+.contact {display:flex;gap:1.4rem;align-items:center;margin-top:1.2rem;}
+.contact a,.how-list a,.how-list button {text-underline-offset:.23em;}
+.contact .pdf {padding:.9em 1em;text-decoration:none;font-size:.82rem;}
+.contact .pdf:hover {background:var(--cobalt);color:white;}
+.work-inner h2,.web-heading h1 {text-transform:uppercase;font-family:var(--grid-type);font-weight:400;letter-spacing:0;}
+.work-inner h2 {font-size:clamp(1.5rem,3.4vw,3.8rem);overflow-wrap:anywhere;}
+.work-section-head h2::after,.projects>h2::after {display:inline-block;content:"";margin-left:.38em;vertical-align:top;width:var(--dot);height:var(--dot);background:var(--blue);}
+.projects>h2::after {background:var(--red);}
+.filter-list {display:flex;flex-wrap:wrap;gap:var(--dot);margin:1.5rem 0;}
+.filter-list button {background:white;border:1px solid #aaa;padding:.55em .86em;font-weight:650;}
+.filter-list button[aria-pressed=true],.filter-list button:hover {background:black;border-color:black;color:var(--amber);}
+.results {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-block:1px solid black;}
+.result {position:relative;text-align:left;border:0;border-right:1px solid #ccc;background:white;color:black;padding:1.15rem;display:flex;flex-direction:column;align-items:flex-start;transition:background .2s;}
+.result:last-child {border-right:0;}
+.result:hover,.result:focus-visible {background:#f0f1f2;}
+.result .picto {width:34px;height:34px;color:black;--icon-accent:var(--cobalt);}
+.result strong,.case-text strong {font:780 clamp(2.5rem,4.35vw,5rem)/1 Archivo,Arial,sans-serif;letter-spacing:-.065em;margin:.75rem 0 .35rem;}
+.result span {font-weight:750;line-height:1.2;}
+.result p,.job p,.job small,.employer time,.qualification p {font-size:.93rem;line-height:1.5;}
+.result p {margin-top:.35rem;color:#333;}
+.results.change {animation:reveal .2s ease-out;}
+@keyframes reveal {from{opacity:.6;transform:translateY(2px);}to{opacity:1;transform:none;}}
+.experience {background:black;color:white;}
+.jobs,.project-rail,.how-list {margin-top:1.55rem;}
+.employer {display:grid;grid-template-columns:clamp(66px,9vw,138px) 1fr auto;align-items:center;gap:clamp(.8rem,2.3vw,2.5rem);padding:1.1rem 0;border-top:1px solid #666;}
+.company-logo {height:clamp(49px,5vw,82px);display:grid;place-items:center;}
+.company-logo img {width:90%;height:100%;object-fit:contain;}
+.employer:nth-child(2) img {width:50%;}
+.job h3 {font:700 clamp(1.15rem,2vw,1.85rem)/1.1 Archivo,sans-serif;letter-spacing:-.035em;}
+.job strong {color:var(--amber);}
+.job small,.employer time {color:#c8c8c8;}
+.employer time {align-self:start;}
+.project-rail {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--dot) 1rem;}
+.project-link {display:flex;align-items:center;gap:.8rem;border:0;border-top:1px solid #bbb;background:white;text-align:left;padding:.65rem 0;font:700 1rem/1.2 Archivo,sans-serif;}
+.project-link img {width:clamp(52px,6vw,90px);aspect-ratio:1.6;object-fit:cover;}
+.project-link b {margin-left:auto;color:var(--cobalt);}
+.project-link:hover,.how-list button:hover,.how-list a:hover {color:var(--cobalt);}
+.how {border-block:1px solid black;}
+.how details {border-top:1px solid #aaa;}
+.how summary {cursor:pointer;display:flex;justify-content:space-between;list-style:none;padding:.85rem 0;text-transform:uppercase;font:400 clamp(1.1rem,2vw,2rem)/1.25 var(--grid-type);}
+.how summary::-webkit-details-marker {display:none;}
+.how summary::after {content:"+";color:var(--cobalt);}
+.how [open] summary::after {content:"−";}
+.how details>div {max-width:68ch;padding:0 0 1.4rem;}
+.how details p {margin:.4rem 0 .65rem;}
+.how details button {cursor:pointer;border:0;background:none;padding:0;text-decoration:underline;margin-right:1em;}
+.how .art-frame {width:100%;height:min(60svh,620px);border:0;}
+.qualification {display:flex;align-items:start;flex-wrap:wrap;gap:2rem;}
+.visually-hidden {position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);}
+@media(max-width:800px) {
+  .work-intro .work-inner {grid-template-columns:1fr;}
+  .results {grid-template-columns:repeat(2,minmax(0,1fr));}
+  .result {border-bottom:1px solid #ccc;}
+  .result:nth-child(even) {border-right:0;}
+  .result:last-child {grid-column:1/-1;border:0;}
+  .project-rail {grid-template-columns:repeat(2,minmax(0,1fr));}
+  .employer {grid-template-columns:64px 1fr;gap:.35rem .75rem;}
+  .company-logo {grid-row:span 2;}
+  .employer time {grid-column:2;}
+}
+@media(max-width:480px) {
+  .work-inner h2 {font-size:clamp(1.15rem,5vw,1.55rem);}
+  .work-intro h1 img {width:90%;}
+  .work-intro h1 img:first-of-type {width:67.5%;}
+  .project-rail {grid-template-columns:1fr;}
+}
+.work-intro .keyword-lines {font:400 clamp(.96rem,1.05vw,1.04rem)/1.6 Manrope,Arial,sans-serif;color:#444953;}
+.work-intro .keyword-lines p + p {margin-top:.22rem;}
+.case-dialog {border:1px solid #d7d9de;border-radius:10px;}
+.case-text .story {max-width:60ch;line-height:1.55;}

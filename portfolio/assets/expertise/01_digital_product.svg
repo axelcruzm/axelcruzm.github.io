@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" fill="white" role="img" aria-label="Digital Product">
+<title>Digital Product</title>
+<desc>Original monochrome geometric white icon. Transparent background. Scalable vector.</desc>
+
+<!-- Angular display frame with punched-out screen -->
+<path fill-rule="evenodd" d="M29 23H99L106 30V81H22V30ZM33 34V72H95V34Z"/>
+<path d="M59 27H69V30H59Z M19 86H109L117 95L110 101H18L11 95Z"/>
+<path fill-rule="evenodd" d="M18 89H110L113 94H15ZM48 94H80L77 97H51Z"/>
+<!-- On-screen panels: a visual dashboard -->
+<path d="M38 40H53V44H38Z M38 47H53V51H38Z M38 54H49V64H38Z M53 57H57V64H53Z"/>
+<path d="M64 41H88V45H64Z M64 50H71V62H64Z M75 54H81V62H75Z M85 48H90V62H85Z"/>
+<path d="M32 78H38V80H32Z M91 78H97V80H91Z"/>
+<path d="M22 23H26V27H22Z M102 23H106V27H102Z"/>
+
+</svg>
